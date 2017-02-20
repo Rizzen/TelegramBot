@@ -10,6 +10,7 @@ namespace TelegramBot
     {
         static void Main(string[] args)
         {
+            Console.Write("тестю разочек");
         }
     }
 }
