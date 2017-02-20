@@ -48,14 +48,25 @@
   <ItemGroup>
     <Compile Include="API Classes\Animation.cs" />
     <Compile Include="API Classes\Audio.cs" />
+    <Compile Include="API Classes\CallbackGame.cs" />
+    <Compile Include="API Classes\CallbackQuery.cs" />
     <Compile Include="API Classes\Chat.cs" />
+    <Compile Include="API Classes\ChatMember.cs" />
     <Compile Include="API Classes\Contact.cs" />
     <Compile Include="API Classes\Document.cs" />
+    <Compile Include="API Classes\File.cs" />
+    <Compile Include="API Classes\ForceReply.cs" />
     <Compile Include="API Classes\Game.cs" />
+    <Compile Include="API Classes\InlineKeyboardButton.cs" />
+    <Compile Include="API Classes\InlineKeyboardMarkup.cs" />
+    <Compile Include="API Classes\KeyboardButton.cs" />
     <Compile Include="API Classes\Location.cs" />
     <Compile Include="API Classes\Message.cs" />
     <Compile Include="API Classes\MessageEntity.cs" />
     <Compile Include="API Classes\PhotoSize.cs" />
+    <Compile Include="API Classes\ReplyKeyboardMarkup.cs" />
+    <Compile Include="API Classes\ReplyKeyboardRemove.cs" />
+    <Compile Include="API Classes\ResponseParameters.cs" />
     <Compile Include="API Classes\Sticker.cs" />
     <Compile Include="API Classes\User.cs" />
     <Compile Include="API Classes\UserProfilePhotos.cs" />
