@@ -4,6 +4,6 @@ D:\CSharpProjects\hello World\hello World\bin\Debug\hello World.pdb
 D:\CSharpProjects\hello World\hello World\obj\Debug\hello World.csprojResolveAssemblyReference.cache
 D:\CSharpProjects\hello World\hello World\obj\Debug\hello World.exe
 D:\CSharpProjects\hello World\hello World\obj\Debug\hello World.pdb
-D:\Users\Kiroku\Source\Repos\SharpBot\test hello World\hello World\bin\Debug\hello World.exe.config
-D:\Users\Kiroku\Source\Repos\SharpBot\test hello World\hello World\obj\Debug\hello World.exe
-D:\Users\Kiroku\Source\Repos\SharpBot\test hello World\hello World\obj\Debug\hello World.pdb
+D:\CSharpProjects\test hello World\hello World\bin\Debug\hello World.exe.config
+D:\CSharpProjects\test hello World\hello World\obj\Debug\hello World.exe
+D:\CSharpProjects\test hello World\hello World\obj\Debug\hello World.pdb
