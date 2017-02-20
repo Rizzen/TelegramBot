@@ -1,4 +1,6 @@
-﻿namespace TelegramBot
+﻿using System.Net;
+
+namespace TelegramBot
 {
     class SimpleBot
     {
@@ -6,7 +8,12 @@
 
         void GetUpdates()
         {
-
+            HttpWebRequest requestToApi = (HttpWebRequest)WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates()");
+            HttpWebResponse responseAtApi = (HttpWebResponse)requestToApi.GetResponse();
+            System.IO.StreamReader reader = new System.IO.StreamReader(responseAtApi.GetResponseStream());
+            System.Console.WriteLine(reader.ReadToEnd());
+            System.Console.ReadLine();
         }
+
     }
 }
