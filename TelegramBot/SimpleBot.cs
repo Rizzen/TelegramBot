@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.IO;
 
 namespace TelegramBot
 {
@@ -10,8 +11,11 @@ namespace TelegramBot
         {
             HttpWebRequest requestToApi = (HttpWebRequest)WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates");
             HttpWebResponse responseAtApi = (HttpWebResponse)requestToApi.GetResponse();
-            System.IO.StreamReader reader = new System.IO.StreamReader(responseAtApi.GetResponseStream());
-            System.Console.WriteLine(reader.ReadToEnd());
+            using (StreamReader sreader = new StreamReader(responseAtApi.GetResponseStream()))
+            {
+                System.Console.WriteLine(sreader.ReadToEnd());
+            }
+
             System.Console.ReadLine();
         }
 
