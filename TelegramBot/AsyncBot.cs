@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,19 +22,25 @@ namespace TelegramBot
 
         private async void GetUpdates()
         {
-            var webReq = (HttpWebRequest)WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates");
+            var webReq = WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates");
             var webResp = await webReq.GetResponseAsync();
-            ParseRequest(webResp);
+            SendResponse(await ParseRequest(webResp));
         }
 
-        private void ParseRequest(WebResponse webResp)
+        private async Task<string> ParseRequest(WebResponse webResp)
+        {
+            using (var stream = webResp.GetResponseStream())
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+        }
+
+        private void SendResponse(string response)
         {
             ;
-        }
-
-        private void SendResponse(string request)
-        {
-
         }
     }
 }
