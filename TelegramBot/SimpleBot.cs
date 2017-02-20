@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace TelegramBot
 {
-    class Program
+    class SimpleBot
     {
-        static void Main(string[] args)
-        {
-        }
+
     }
 }
