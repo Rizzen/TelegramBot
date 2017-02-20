@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using Newtonsoft.Json;
 
 namespace TelegramBot
 {
@@ -12,7 +11,7 @@ namespace TelegramBot
         public SimpleBot()
         {
             GetUpdates();
-            var currentUpdate = JsonConvert.DeserializeObject<Update>(responsedJson);
+            //var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update>(responsedJson); Откупорить по созданию нужного класса
 
         }
 
@@ -25,7 +24,7 @@ namespace TelegramBot
             using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
                 string responsedJson = sReader.ReadToEnd();
-                //Console.WriteLine(readed);
+                Console.WriteLine(readed);
                 sReader.Close();
             }
 
