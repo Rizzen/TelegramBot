@@ -24,7 +24,7 @@ namespace TelegramBot
             using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
                 string responsedJson = sReader.ReadToEnd();
-                Console.WriteLine(readed);
+                Console.WriteLine(responsedJson);
                 sReader.Close();
             }
 
