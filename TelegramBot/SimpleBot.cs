@@ -11,6 +11,7 @@ namespace TelegramBot
         public SimpleBot()
         {
             GetUpdates();
+         
         }
 
         void GetUpdates()
@@ -21,7 +22,8 @@ namespace TelegramBot
 
             using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
-                Console.WriteLine(sReader.ReadToEnd());
+                string readed = sReader.ReadToEnd();
+                Console.WriteLine(readed);
                 sReader.Close();
             }
 
