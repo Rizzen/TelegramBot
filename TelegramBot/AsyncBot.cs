@@ -24,7 +24,8 @@ namespace TelegramBot
         {
             var webReq = WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates");
             var webResp = await webReq.GetResponseAsync();
-            SendResponse(await ParseRequest(webResp));
+            await ParseRequest(webResp);
+            SendMessage("309426750", "mur-mur-mur-mur");
         }
 
         private async Task<string> ParseRequest(WebResponse webResp)
@@ -38,7 +39,7 @@ namespace TelegramBot
             }
         }
 
-        private void SendResponse(string response)
+        private void SendMessage(string chat, string text)
         {
             ;
         }
