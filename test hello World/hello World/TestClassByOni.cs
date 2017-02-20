@@ -9,5 +9,6 @@ namespace hello_World
     class TestClassByOni
     {
         string i = "am";
+        Console.ReadKey();
     }
 }
