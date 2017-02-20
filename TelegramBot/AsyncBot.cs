@@ -10,7 +10,10 @@ namespace TelegramBot
 {
     public class AsyncBot
     {
-        const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
+        const string URI = @"https://api.telegram.org/bot";
+        const string TOKEN = @"338653456:AAG1qOkwffo7YGkYdNNlF5d2MH-U09Wqoro";
+        const string GET_UPDATES = @"/getUpdates";
+        const string SEND_MESSAGE = @"/sendMessage";
 
         private int _offset;
 
@@ -22,9 +25,10 @@ namespace TelegramBot
 
         private async void GetUpdates()
         {
-            var webReq = WebRequest.Create("https://api.telegram.org/bot" + TOKEN + "/getUpdates");
+            var webReq = WebRequest.Create(URI + TOKEN + GET_UPDATES);
             var webResp = await webReq.GetResponseAsync();
-            SendResponse(await ParseRequest(webResp));
+            await ParseRequest(webResp);
+            SendMessage("309426750", "mur-mur-mur-mur");
         }
 
         private async Task<string> ParseRequest(WebResponse webResp)
@@ -38,8 +42,11 @@ namespace TelegramBot
             }
         }
 
-        private void SendResponse(string response)
+        private void SendMessage(string chat, string text)
         {
+            var webReq = WebRequest.Create($"{URI}{TOKEN}{SEND_MESSAGE}?chat_id={chat}&text={text}");
+            webReq.Method = "POST";
+            var webResp = webReq.GetResponse();
             ;
         }
     }
