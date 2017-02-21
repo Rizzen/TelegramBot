@@ -1,14 +1,34 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
+    /// <summary>
+    /// This object represents one size of a photo or a file / sticker thumbnail.
+    /// </summary>
     internal class PhotoSize
     {
-        //Unique identifier for this file
+        /// <summary>
+        /// Unique identifier for this file
+        /// </summary>
+        [JsonProperty("file_id")]
         internal string FileId { get; set; }
-        //Photo width
+
+        /// <summary>
+        /// Photo width
+        /// </summary>
+        [JsonProperty("width")]
         internal int Width { get; set; }
-        //Photo height
+
+        /// <summary>
+        /// Photo height
+        /// </summary>
+        [JsonProperty("height")]
         internal int Height { get; set; }
-        //Optional. File size
+
+        /// <summary>
+        /// Optional. File size
+        /// </summary>
+        [JsonProperty("file_size")]
         internal int FileSize { get; set; }
     }
 }

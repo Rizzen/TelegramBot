@@ -1,11 +1,22 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
+    /// <summary>
+    /// This object represent a user's profile pictures.
+    /// </summary>
     internal class UserProfilePhotos
     {
-        //Total number of profile pictures the target user has
+        /// <summary>
+        /// Total number of profile pictures the target user has
+        /// </summary>
+        [JsonProperty("total_count")]
         internal int TotalCount { get; set; }
-        //Requested profile pictures (in up to 4 sizes each)
-        internal PhotoSize[][] Photos { get; set; }
 
+        /// <summary>
+        /// Requested profile pictures (in up to 4 sizes each)
+        /// </summary>
+        [JsonProperty("photos")]
+        internal PhotoSize[][] Photos { get; set; }
     }
 }

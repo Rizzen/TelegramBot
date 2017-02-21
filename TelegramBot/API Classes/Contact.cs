@@ -1,14 +1,34 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
+    /// <summary>
+    /// This object contains information about one member of the chat.
+    /// </summary>
     internal class Contact
     {
-        //Contact's phone number
+        /// <summary>
+        /// Contact's phone number
+        /// </summary>
+        [JsonProperty("phone_number")]
         internal string PhoneNumber { get; set; }
-        //Contact's first name
+
+        /// <summary>
+        /// Contact's first name
+        /// </summary>
+        [JsonProperty("first_name")]
         internal string FirstName { get; set; }
-        //Optional. Contact's last name
+
+        /// <summary>
+        /// Optional. Contact's last name
+        /// </summary>
+        [JsonProperty("last_name")]
         internal string LastName { get; set; }
-        //Optional. Contact's user identifier in Telegram
+
+        /// <summary>
+        /// Optional. Contact's user identifier in Telegram
+        /// </summary>
+        [JsonProperty("user_id")]
         internal int UserId { get; set; }
     }
 }

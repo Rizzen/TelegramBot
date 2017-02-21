@@ -1,10 +1,22 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
+    /// <summary>
+    /// This object contains information about one member of the chat.
+    /// </summary>
     internal class ChatMember
     {
-        //Information about the user
+        /// <summary>
+        /// Information about the user
+        /// </summary>
+        [JsonProperty("user")]
         internal User User { get; set; }
-        //The member's status in the chat. Can be “creator”, “administrator”, “member”, “left” or “kicked”
+
+        /// <summary>
+        /// The member's status in the chat. Can be “creator”, “administrator”, “member”, “left” or “kicked”
+        /// </summary>
+        [JsonProperty("status")]
         internal string Status { get; set; }
     }
 }
