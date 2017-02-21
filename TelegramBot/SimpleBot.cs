@@ -29,14 +29,22 @@ namespace TelegramBot
                 {
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
-                    var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
 
-                    foreach (var update in currentUpdate.Updates)
+                    try
                     {
-                        Console.WriteLine(update.UpdateId);
-                        // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
-                        // здесь будем обрабатывать или класть в очередь
+                        var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
+                        foreach (var update in currentUpdate.Updates)
+                        {
+                            Console.WriteLine(update.Message.Text);
+                            // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
+                            // здесь будем обрабатывать или класть в очередь
+                        }
                     }
+                    catch
+                    {
+                        Console.WriteLine("Fail");
+                    }
+
                 }
             }
 

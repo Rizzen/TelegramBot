@@ -14,7 +14,7 @@ namespace TelegramBot.API_Classes
         /// But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
         /// </summary>
         [JsonProperty("migrate_to_chat_id")]
-        internal int MigrateToChatId { get; set; }
+        internal long MigrateToChatId { get; set; }
 
         /// <summary>
         /// Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be repeated
