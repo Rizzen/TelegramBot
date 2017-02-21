@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API_Classes.Inline_mode.InputMessageContents
 {
-    public class InputTextMessageContent: InputMessageContent
+    internal class InputTextMessageContent: InputMessageContent
     {
         //Represents the content of a text message to be sent as the result of an inline query.
         [JsonProperty("message_text")]
