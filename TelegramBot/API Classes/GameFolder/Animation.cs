@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TelegramBot.API_Classes
+namespace TelegramBot.API_Classes.GameFolder
 {
     /// <summary>
     /// You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example). 

@@ -1,14 +1,14 @@
 ﻿namespace TelegramBot.API_Classes
 {
-    class Venue
+    internal class Venue
     {
         //Venue location
-        public Location Location { get; set; }
+        internal Location Location { get; set; }
         //Name of the venue
-        public string Title { get; set; }
+        internal string Title { get; set; }
         //Address of the venue
-        public string Address { get; set; }
+        internal string Address { get; set; }
         //Optional. Foursquare identifier of the venue
-        public string FoursquareId { get; set; }
+        internal string FoursquareId { get; set; }
     }
 }

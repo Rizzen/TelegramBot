@@ -1,14 +1,14 @@
 ﻿namespace TelegramBot.API_Classes
 {
-    class PhotoSize
+    internal class PhotoSize
     {
         //Unique identifier for this file
-        public string FileId { get; set; }
+        internal string FileId { get; set; }
         //Photo width
-        public int Width { get; set; }
+        internal int Width { get; set; }
         //Photo height
-        public int Height { get; set; }
+        internal int Height { get; set; }
         //Optional. File size
-        public int FileSize { get; set; }
+        internal int FileSize { get; set; }
     }
 }

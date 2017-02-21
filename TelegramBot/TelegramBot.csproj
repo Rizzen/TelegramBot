@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API Classes\Game\Animation.cs" />
+    <Compile Include="API Classes\GameFolder\Animation.cs" />
     <Compile Include="API Classes\Audio.cs" />
-    <Compile Include="API Classes\Game\CallbackGame.cs" />
+    <Compile Include="API Classes\GameFolder\CallbackGame.cs" />
     <Compile Include="API Classes\CallbackQuery.cs" />
     <Compile Include="API Classes\Chat.cs" />
     <Compile Include="API Classes\ChatMember.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="API Classes\Document.cs" />
     <Compile Include="API Classes\File.cs" />
     <Compile Include="API Classes\ForceReply.cs" />
-    <Compile Include="API Classes\Game\Game.cs" />
+    <Compile Include="API Classes\GameFolder\Game.cs" />
     <Compile Include="API Classes\Inline mode\ChosenInlineResult.cs" />
     <Compile Include="API Classes\Inline mode\InlineQuery.cs" />
     <Compile Include="API Classes\InlineKeyboardButton.cs" />

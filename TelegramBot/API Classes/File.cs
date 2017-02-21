@@ -1,6 +1,6 @@
 ﻿namespace TelegramBot.API_Classes
 {
-    class File
+    internal class File
     {
         /*
          * This object represents a file ready to be downloaded. 
@@ -9,11 +9,11 @@
          * When the link expires, a new one can be requested by calling getFile.
          */
         //Unique identifier for this file
-        public string FileId { get; set; }
+        internal string FileId { get; set; }
         //Optional. File size, if known
-        public int FileSize { get; set; }
+        internal int FileSize { get; set; }
         //Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
-        public string FilePath { get; set; }
+        internal string FilePath { get; set; }
 
     }
 }

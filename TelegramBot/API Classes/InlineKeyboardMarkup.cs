@@ -1,8 +1,8 @@
 ﻿namespace TelegramBot.API_Classes
 {
-    class InlineKeyboardMarkup
+    internal class InlineKeyboardMarkup
     {
-        public InlineKeyboardButton InlineKeyboard { get; set; }
+        internal InlineKeyboardButton InlineKeyboard { get; set; }
 
     }
 }

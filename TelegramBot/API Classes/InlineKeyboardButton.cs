@@ -1,12 +1,14 @@
-﻿namespace TelegramBot.API_Classes
+﻿using TelegramBot.API_Classes.GameFolder;
+
+namespace TelegramBot.API_Classes
 {
-    class InlineKeyboardButton
+    internal class InlineKeyboardButton
     {
-        public string Text { get; set; }
-        public string Url { get; set; }
-        public string CallbackData { get; set; }
-        public string SwitchInlineQuery { get; set; }
-        public string SwitchInlineQueryCurrentChat { get; set; }
-        public CallbackGame CallbackGame { get; set; }
+        internal string Text { get; set; }
+        internal string Url { get; set; }
+        internal string CallbackData { get; set; }
+        internal string SwitchInlineQuery { get; set; }
+        internal string SwitchInlineQueryCurrentChat { get; set; }
+        internal CallbackGame CallbackGame { get; set; }
     }
 }
