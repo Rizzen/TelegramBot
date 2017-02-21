@@ -54,6 +54,13 @@ namespace TelegramBot
 
                 foreach (var update in response.Updates)
                 {
+                    if (_offset == 0)
+                    {
+                        // первый апдейт из списка остался после конца прошлой сессии
+                        _offset = update.UpdateId + 1;
+                        continue;
+                    }
+
                     _offset = update.UpdateId + 1;
                     var chatId = update.Message?.Chat?.Id;
 
