@@ -32,7 +32,7 @@ namespace TelegramBot
             {
                 string responsedJson = sReader.ReadToEnd();
                 var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update>(responsedJson);
-                Console.Write(currentUpdate.Message);
+                //Console.Write(currentUpdate.Message);
                 sReader.Close();
             }
 
