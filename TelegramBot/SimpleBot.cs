@@ -32,14 +32,14 @@ namespace TelegramBot
             using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
                 string responsedJson = sReader.ReadToEnd();
+                sReader.Close();
                 Console.WriteLine(responsedJson);
-
+                
                 // List<MyStok> myDeserializedObjList = (List<MyStok>)Newtonsoft.Json.JsonConvert.DeserializeObject(sc), typeof(List<MyStok>));
 
                 //Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);//эксепшн
                 // List<Update> currentUpdate = (List<Update>)Newtonsoft.Json.JsonConvert.DeserializeObject<List<Update>>(responsedJson);
                 Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);
-                sReader.Close();
                 Console.WriteLine(currentUpdate[0].UpdateId);
                 Console.ReadLine();
                 
