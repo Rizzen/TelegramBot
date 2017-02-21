@@ -1,10 +1,22 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
-    class Location
+    /// <summary>
+    /// This object represents a point on the map
+    /// </summary>
+    internal class Location
     {
-        //Longitude as defined by sender
-        public float Longitude { get; set; }
-        //Latitude as defined by sender
-        public float Latitude { get; set; }
+        /// <summary>
+        /// Longitude as defined by sender
+        /// </summary>
+        [JsonProperty("longitude")]
+        internal float Longitude { get; set; }
+
+        /// <summary>
+        /// Latitude as defined by sender
+        /// </summary>
+        [JsonProperty("latitude")]
+        internal float Latitude { get; set; }
     }
 }

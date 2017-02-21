@@ -1,18 +1,46 @@
-﻿namespace TelegramBot.API_Classes
+﻿using Newtonsoft.Json;
+
+namespace TelegramBot.API_Classes
 {
-    class Sticker
+    /// <summary>
+    /// This object represents a sticker.
+    /// </summary>
+    internal class Sticker
     {
-        //Unique identifier for this file
-        public string FileId { get; set; }
-        //Sticker width
-        public int Width { get; set; }
-        //Sticker height
-        public int Height { get; set; }
-        //Optional. Sticker thumbnail in .webp or .jpg format
-        public PhotoSize Thumb { get; set; }
-        //Optional. Emoji associated with the sticker
-        public string Emoji { get; set; }
-        //Optional. File size
-        public int FileSize { get; set; }
+        /// <summary>
+        /// Unique identifier for this file
+        /// </summary>
+        [JsonProperty("file_id")]
+        internal string FileId { get; set; }
+
+        /// <summary>
+        /// Sticker width
+        /// </summary>
+        [JsonProperty("width")]
+        internal int Width { get; set; }
+
+        /// <summary>
+        /// Sticker height
+        /// </summary>
+        [JsonProperty("height")]
+        internal int Height { get; set; }
+
+        /// <summary>
+        /// Optional. Sticker thumbnail in .webp or .jpg format
+        /// </summary>
+        [JsonProperty("thumb")]
+        internal PhotoSize Thumb { get; set; }
+
+        /// <summary>
+        /// Optional. Emoji associated with the sticker
+        /// </summary>
+        [JsonProperty("emoji")]
+        internal string Emoji { get; set; }
+
+        /// <summary>
+        /// Optional. File size
+        /// </summary>
+        [JsonProperty("file_size")]
+        internal int FileSize { get; set; }
     }
 }

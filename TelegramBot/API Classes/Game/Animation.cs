@@ -3,33 +3,28 @@
 namespace TelegramBot.API_Classes
 {
     /// <summary>
-    /// This object represents an audio file to be treated as music by the Telegram clients.
+    /// You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example). 
+    /// This object represents an animation file to be displayed in the message containing a game.
     /// </summary>
-    internal class Audio
+    internal class Animation
     {
         /// <summary>
-        /// Unique identifier for this file
+        /// Unique file identifier
         /// </summary>
         [JsonProperty("file_id")]
         internal string FileId { get; set; }
 
         /// <summary>
-        /// Duration of the audio in seconds as defined by sender
+        /// Optional. Animation thumbnail as defined by sender
         /// </summary>
-        [JsonProperty("duration")]
-        internal int Duration { get; set; }
+        [JsonProperty("thumb")]
+        internal PhotoSize Thumb { get; set; }
 
         /// <summary>
-        /// Optional. Performer of the audio as defined by sender or by audio tags
+        /// Optional. Original animation filename as defined by sender
         /// </summary>
-        [JsonProperty("performer")]
-        internal string Performer { get; set; }
-
-        /// <summary>
-        /// Optional. Title of the audio as defined by sender or by audio tags
-        /// </summary>
-        [JsonProperty("title")]
-        internal string Title { get; set; }
+        [JsonProperty("file_name")]
+        internal string FileName { get; set; }
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
