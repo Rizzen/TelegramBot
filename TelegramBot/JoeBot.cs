@@ -36,6 +36,7 @@ namespace TelegramBot
                 Thread.Sleep(1000);
             }
 
+            ClearLastUpdate();
             Console.WriteLine("Bot stopped");
             Console.Read();
         }
@@ -44,6 +45,7 @@ namespace TelegramBot
         {
             var reqParams = _offset > 0 ? $"?timeout=1&offset={_offset}" : "?timeout=1";
             var webReq = WebRequest.Create($"{URI}{TOKEN}{GET_UPDATES}{reqParams}");
+            webReq.Timeout = 3000;
             Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
             var webResp = webReq.GetResponse();
             var response = ParseRequest(webResp);
@@ -54,28 +56,21 @@ namespace TelegramBot
 
                 foreach (var update in response.Updates)
                 {
-                    if (_offset == 0)
-                    {
-                        // первый апдейт из списка остался после конца прошлой сессии
-                        _offset = update.UpdateId + 1;
-                        continue;
-                    }
-
                     _offset = update.UpdateId + 1;
-                    var chatId = update.Message?.Chat?.Id;
+                    var chat = update.Message?.Chat;
 
-                    if (chatId != null && chatId != 0 && update.Message != null && update.Message.Text != null)
+                    if (chat != null && chat.Id != 0 && update.Message.Text != null)
                     {
                         var text = update.Message.Text;
 
                         if (text.ToLowerInvariant() == "stop")
                         {
-                            SendMessage((long)chatId, "Hammertime!");
+                            SendMessage(chat.Id, "Hammertime!");
                             _started = false;
                         }
                         else if (text.ToLowerInvariant().Contains("sup bot"))
                         {
-                            SendMessage((long)chatId, "mur-mur-mur-mur");
+                            SendMessage(chat.Id, "mur-mur-mur-mur");
                         }
                     }
                 }
@@ -89,6 +84,23 @@ namespace TelegramBot
                 else if (response.Updates.Length == 0)
                 {
                     Console.WriteLine("No updates");
+                }
+            }
+        }
+
+        private void ClearLastUpdate()
+        {
+            if (_offset > 0)
+            {
+                var reqParams = _offset > 0 ? $"?timeout=1&offset={_offset}" : "?timeout=1";
+                var webReq = WebRequest.Create($"{URI}{TOKEN}{GET_UPDATES}{reqParams}");
+                Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
+                var webResp = webReq.GetResponse();
+                var response = ParseRequest(webResp);
+
+                if (!response.Success)
+                {
+                    ClearLastUpdate();
                 }
             }
         }
@@ -125,10 +137,23 @@ namespace TelegramBot
 
         private void SendMessage(long chat, string text)
         {
-            var webReq = WebRequest.Create($"{URI}{TOKEN}{SEND_MESSAGE}?chat_id={chat}&text={text}");
-            webReq.Method = "POST";
-            var webResp = webReq.GetResponse();
-            ;
+            SendMessage(chat.ToString(), text);
+        }
+
+        private void SendMessage(string chat, string text)
+        {
+            try
+            {
+                var webReq = WebRequest.Create($"{URI}{TOKEN}{SEND_MESSAGE}?chat_id={chat}&text={text}");
+                webReq.Timeout = 3000;
+                webReq.Method = "POST";
+                Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
+                var webResp = webReq.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error when sending request: {ex.Message}");
+            }
         }
     }
 }
