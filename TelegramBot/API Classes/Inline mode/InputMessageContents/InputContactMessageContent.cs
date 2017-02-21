@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API_Classes.Inline_mode.InputMessageContents
 {
-    public class InputContactMessageContent: InputMessageContent
+    internal class InputContactMessageContent: InputMessageContent
     {
         //Contact's phone number
         [JsonProperty("phone_number")]

@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API_Classes.Inline_mode.InputMessageContents
 {
-    public class InputVenueMessageContent: InputMessageContent
+    internal class InputVenueMessageContent: InputMessageContent
     {
         //Latitude of the venue in degrees
         [JsonProperty("latitude")]
