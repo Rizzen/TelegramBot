@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using TelegramBot.API_Classes;
-using System.Threading;
 
 namespace TelegramBot
 {
@@ -11,42 +10,37 @@ namespace TelegramBot
     {
         const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
         const string URI = @"https://api.telegram.org/bot";
-        //static int UpdateID = 0; 
+
+        private int _updateID = 0;
 
         public SimpleBot()
         {
-            while (true)
-            {
-                GetUpdates();
-                //Thread.Sleep(1000);
-            }
+            GetUpdates();
         }
 
         void GetUpdates()
         {
             var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates");
-            //Console.WriteLine("{0}", UpdateID + 1);
             var resp = (HttpWebResponse)req.GetResponse();
 
-
-            using (var sReader = new StreamReader(resp.GetResponseStream()))
+            using (var stream = resp.GetResponseStream())
             {
-                string responsedJson = sReader.ReadToEnd();
-                sReader.Close();
-                Console.WriteLine(responsedJson);
-                
-                // List<MyStok> myDeserializedObjList = (List<MyStok>)Newtonsoft.Json.JsonConvert.DeserializeObject(sc), typeof(List<MyStok>));
+                using (var sReader = new StreamReader(stream))
+                {
+                    string responsedJson = sReader.ReadToEnd();
+                    sReader.Close();
+                    var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
 
-                //Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);//эксепшн
-                // List<Update> currentUpdate = (List<Update>)Newtonsoft.Json.JsonConvert.DeserializeObject<List<Update>>(responsedJson);
-                Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);
-                Console.WriteLine(currentUpdate[0].UpdateId);
-                Console.ReadLine();
-                
+                    foreach (var update in currentUpdate.Updates)
+                    {
+                        Console.WriteLine(update.UpdateId);
+                        // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
+                        // здесь будем обрабатывать или класть в очередь
+                    }
+                }
             }
 
-
-            //Console.ReadLine();
+            Console.ReadLine();
         }
 
         //void MakeRequest(string method)

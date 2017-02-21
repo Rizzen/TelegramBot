@@ -13,7 +13,7 @@ namespace TelegramBot.API_Classes
         /// But it smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
         /// </summary>
         [JsonProperty("id")]
-        internal int Id { get; set; }
+        internal long Id { get; set; }
 
         /// <summary>
         /// Type of chat, can be either “private”, “group”, “supergroup” or “channel”

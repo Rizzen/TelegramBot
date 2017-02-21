@@ -73,6 +73,7 @@
     <Compile Include="API Classes\PhotoSize.cs" />
     <Compile Include="API Classes\ReplyKeyboardMarkup.cs" />
     <Compile Include="API Classes\ReplyKeyboardRemove.cs" />
+    <Compile Include="API Classes\Response.cs" />
     <Compile Include="API Classes\ResponseParameters.cs" />
     <Compile Include="API Classes\Sticker.cs" />
     <Compile Include="API Classes\Update.cs" />
