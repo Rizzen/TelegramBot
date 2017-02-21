@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using TelegramBot.API_Classes;
@@ -17,7 +18,7 @@ namespace TelegramBot
             while (true)
             {
                 GetUpdates();
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
             }
         }
 
@@ -31,10 +32,19 @@ namespace TelegramBot
             using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
                 string responsedJson = sReader.ReadToEnd();
-                var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update>(responsedJson);
-                Console.Write(currentUpdate.Message);
+                Console.WriteLine(responsedJson);
+
+                // List<MyStok> myDeserializedObjList = (List<MyStok>)Newtonsoft.Json.JsonConvert.DeserializeObject(sc), typeof(List<MyStok>));
+
+                //Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);//эксепшн
+                // List<Update> currentUpdate = (List<Update>)Newtonsoft.Json.JsonConvert.DeserializeObject<List<Update>>(responsedJson);
+                Update[] currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Update[]>(responsedJson);
                 sReader.Close();
+                Console.WriteLine(currentUpdate[0].UpdateId);
+                Console.ReadLine();
+                
             }
+
 
             //Console.ReadLine();
         }
