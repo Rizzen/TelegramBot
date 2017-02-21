@@ -59,6 +59,11 @@
     <Compile Include="API Classes\GameFolder\Game.cs" />
     <Compile Include="API Classes\Inline mode\ChosenInlineResult.cs" />
     <Compile Include="API Classes\Inline mode\InlineQuery.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputContactMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputLocationMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputTextMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputVenueMessageContent.cs" />
     <Compile Include="API Classes\InlineKeyboardButton.cs" />
     <Compile Include="API Classes\InlineKeyboardMarkup.cs" />
     <Compile Include="API Classes\KeyboardButton.cs" />
