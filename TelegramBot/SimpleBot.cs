@@ -84,6 +84,7 @@ namespace TelegramBot
                                 Console.WriteLine($"Format{format} of the message {update.Message.Text}");
                                 var wClient = new WebClient();
                                 wClient.DownloadFile(update.Message.Text, $"File_{i}{format}");
+                                Console.WriteLine($"Downloaded File_{i}{format}");
                                 i++; // Если случится ошибка, то здесь номер не увеличится, ибо ничего не скачается
                             }
                         }
