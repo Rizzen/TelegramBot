@@ -54,7 +54,6 @@ namespace TelegramBot
             int i = 0;
             foreach (var update in botResponcse.Updates)
             {
-
                 Console.WriteLine(update.Message.Text);
                 try
                 {
@@ -65,9 +64,7 @@ namespace TelegramBot
                         Console.WriteLine("Format: " + format);
                         var wClient = new WebClient();
                         wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
-
                     }
-
                 }
                 catch
                 {
