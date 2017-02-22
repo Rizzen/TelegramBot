@@ -22,7 +22,7 @@ namespace TelegramBot
         void GetUpdates()
         {
             Console.WriteLine($"Обновление: {_updateID}");
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset=" + (_updateID));
+            var req = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}/getUpdates?offset={_updateID}");
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -35,6 +35,7 @@ namespace TelegramBot
                     // Пытаемся загрузить все, что ему прислали
                     try
                     {
+                        
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
                         DownloadAll(currentUpdate);
                         Console.WriteLine("--------------Downloads Complete------------");
@@ -66,9 +67,9 @@ namespace TelegramBot
                     using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
                     {
                         string format = Path.GetExtension(update.Message.Text);
-                        Console.WriteLine("Format: " + format);
+                        Console.WriteLine($"Format: {format}");
                         var wClient = new WebClient();
-                        wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
+                        wClient.DownloadFile(update.Message.Text,$"File {i}.{format}");
                     }
                 }
                 catch
