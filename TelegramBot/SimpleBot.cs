@@ -63,7 +63,10 @@ namespace TelegramBot
 
             }
         }
-
+        /// <summary>
+        /// Download all files, that send to bot as uri
+        /// </summary>
+        /// <param name="Updates">Deserialized massive of object Response</param>
         void DownloadAll(Update[] Updates)
         {
             int i = 0;
@@ -71,7 +74,7 @@ namespace TelegramBot
             {
                 try
                 {
-                    if (update.Message.Text.Contains("https")) //Простая проверка - является ли сообщение сайтом
+                    if (update.Message.Text.Contains("http")) //Простая проверка - является ли сообщение сайтом
                     {
                         using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
                         {
