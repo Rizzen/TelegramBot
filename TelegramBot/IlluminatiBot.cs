@@ -35,7 +35,6 @@ namespace TelegramBot
                     // Пытаемся загрузить все, что ему прислали
                     try
                     {
-                        
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
                         DownloadAll(currentUpdate);
                         Console.WriteLine("--------------Downloads Complete------------");
@@ -69,7 +68,7 @@ namespace TelegramBot
                         string format = Path.GetExtension(update.Message.Text);
                         Console.WriteLine($"Format: {format}");
                         var wClient = new WebClient();
-                        wClient.DownloadFile(update.Message.Text,$"File {i}.{format}");
+                        wClient.DownloadFile(update.Message.Text,$"File {i}{format}");
                     }
                 }
                 catch

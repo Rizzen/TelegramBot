@@ -91,7 +91,7 @@ namespace TelegramBot
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("DownloadFailed||Exception:{0}", e);
+                    Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
                 }
                 
             }
