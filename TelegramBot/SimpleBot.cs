@@ -35,9 +35,10 @@ namespace TelegramBot
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
+                        int i = 0;
                         foreach (var update in currentUpdate.Updates)
                         {
-                            int i = 0;
+                            
                             Console.WriteLine(update.Message.Text);
                             try
                             {
@@ -47,7 +48,7 @@ namespace TelegramBot
                                     Console.WriteLine("Format: " + format);
                                     var wClient = new WebClient();
                                     wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
-                                    i++;
+                                    
                                 }
                                     
                             }
@@ -55,7 +56,7 @@ namespace TelegramBot
                             {
                                 Console.WriteLine("DownloadFailed");
                             }
-
+                            i++;
                             ////
                             // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
                             // здесь будем обрабатывать или класть в очередь
