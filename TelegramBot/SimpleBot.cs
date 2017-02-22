@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using TelegramBot.API_Classes;
+using System.Threading;
 
 namespace TelegramBot
 {
@@ -16,12 +15,17 @@ namespace TelegramBot
 
         public SimpleBot()
         {
-            GetUpdates();
+            while (true)
+            {
+                GetUpdates();
+                Thread.Sleep(1000);
+            }
         }
 
         void GetUpdates()
         {
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates");
+            Console.WriteLine("Обновление: {0}", _updateID);
+            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset="+ (_updateID + 1));
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -54,6 +58,7 @@ namespace TelegramBot
             int i = 0;
             foreach (var update in botResponcse.Updates)
             {
+                _updateID = update.UpdateId;
                 Console.WriteLine(update.Message.Text);
                 try
                 {
