@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using TelegramBot.API_Classes;
 
@@ -29,13 +30,32 @@ namespace TelegramBot
                 {
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
-
+                    // Пытаемся загрузить все, что ему прислали
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
                         foreach (var update in currentUpdate.Updates)
                         {
+                            int i = 0;
                             Console.WriteLine(update.Message.Text);
+                            try
+                            {
+                                using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
+                                {
+                                    string format = responce.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
+                                    Console.WriteLine("Format: " + format);
+                                    var wClient = new WebClient();
+                                    wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
+
+                                }
+                                    
+                            }
+                            catch
+                            {
+                                Console.WriteLine("DownloadFailed");
+                            }
+
+                            ////
                             // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
                             // здесь будем обрабатывать или класть в очередь
                         }
