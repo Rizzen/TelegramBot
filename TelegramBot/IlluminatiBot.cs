@@ -22,7 +22,7 @@ namespace TelegramBot
         void GetUpdates()
         {
             Console.WriteLine($"Обновление: {_updateID}");
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset=" + (_updateID + 1));
+            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset=" + (_updateID));
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -37,6 +37,7 @@ namespace TelegramBot
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
                         DownloadAll(currentUpdate);
+                        Console.WriteLine("--------------Downloads Complete------------");
                         ////
                         // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
                         // здесь будем обрабатывать или класть в очередь
@@ -64,7 +65,6 @@ namespace TelegramBot
                 {
                     using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
                     {
-                        // string format = responce.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
                         string format = Path.GetExtension(update.Message.Text);
                         Console.WriteLine("Format: " + format);
                         var wClient = new WebClient();
