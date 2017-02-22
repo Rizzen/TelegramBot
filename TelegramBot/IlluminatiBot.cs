@@ -16,7 +16,11 @@ namespace TelegramBot
 
         public IlluminatiBot()
         {
-            GetUpdates(); 
+            while (true)
+            {
+                GetUpdates();
+                Thread.Sleep(1000);
+            }
         }
 
         void GetUpdates()
