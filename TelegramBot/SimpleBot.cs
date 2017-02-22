@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using TelegramBot.API_Classes;
-using System.Threading;
 
 namespace TelegramBot
 {
@@ -18,7 +17,7 @@ namespace TelegramBot
             while (true)
             {
                 GetUpdates();
-                Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
             }
         }
 
@@ -35,7 +34,6 @@ namespace TelegramBot
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
 
-                    // Пытаемся загрузить все, что ему прислали
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
@@ -63,6 +61,7 @@ namespace TelegramBot
 
             }
         }
+
         /// <summary>
         /// Download all files, that send to bot as uri
         /// </summary>
@@ -76,17 +75,17 @@ namespace TelegramBot
                 {
                     continue;
                 }
+                string format;
+                if ((format = Path.GetExtension(update.Message.Text)) == null)
+                {
+                    continue;
+                }
                 try
                 {
                     using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
                     {
-                        string format = Path.GetExtension(update.Message.Text);
-                        if (format == null)
-                        {
-                            continue;
-                        }
                         string nameOfFile = Path.GetFileName(update.Message.Text);
-                        Console.WriteLine($"Downloaded {nameOfFile}. \nFormat{format} of the message {update.Message.Text}\n");
+                        Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {update.Message.Text}\n");
                         wClient.DownloadFile(update.Message.Text, nameOfFile);
                     }
                 }
