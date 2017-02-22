@@ -39,14 +39,15 @@ namespace TelegramBot
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                        DownloadAll(currentUpdate);
-                        ////
-                        // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
-                        // здесь будем обрабатывать или класть в очередь
+                        foreach (var current in currentUpdate.Updates)
+                        {
+                            _updateId = current.UpdateId;
+                        }
+                        DownloadAll(currentUpdate.Updates);
                     }
-                    catch
+                    catch(Exception e)
                     {
-                        Console.WriteLine("Fail");
+                        Console.WriteLine($"Fail||{e}");
                     }
 
                 }
@@ -55,28 +56,38 @@ namespace TelegramBot
             Console.ReadLine();
         }
 
+        void GetMessages(Update[] Updates)
+        {
+            foreach(var current in Updates)
+            {
 
-        void DownloadAll(Response botResponcse)
+            }
+        }
+
+        void DownloadAll(Update[] Updates)
         {
             int i = 0;
-            foreach (var update in botResponcse.Updates)
+            foreach (var update in Updates)
             {
-                _updateId = update.UpdateId;
-                Console.WriteLine(update.Message.Text);
                 try
                 {
-                    using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
+                    if (update.Message.Text.Contains("https")) //Простая проверка - является ли сообщение сайтом
                     {
-                        // string format = responce.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
-                        string format = Path.GetExtension(update.Message.Text);
-                        Console.WriteLine("Format: " + format);
-                        var wClient = new WebClient();
-                        wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
+                        using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
+                        {
+                            string format = Path.GetExtension(update.Message.Text);
+                            if (format != null)
+                            {
+                                Console.WriteLine($"Format{format} of the message {update.Message.Text}");
+                                var wClient = new WebClient();
+                                wClient.DownloadFile(update.Message.Text, $"File_{i}{format}");
+                            }
+                        }
                     }
                 }
-                catch
+                catch (Exception e)
                 {
-                    Console.WriteLine("DownloadFailed");
+                    Console.WriteLine("DownloadFailed||Exception:{0}", e);
                 }
                 i++;
                 
