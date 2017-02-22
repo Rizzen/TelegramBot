@@ -82,6 +82,7 @@
     <Compile Include="API Classes\Venue.cs" />
     <Compile Include="API Classes\Video.cs" />
     <Compile Include="API Classes\Voice.cs" />
+    <Compile Include="IlluminatiBot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />
