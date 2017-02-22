@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using TelegramBot.API_Classes;
 using System.Threading;
 
@@ -82,9 +83,11 @@ namespace TelegramBot
                             if (format != null)
                             {
                                 Console.WriteLine($"Format{format} of the message {update.Message.Text}");
+                                //format = response.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
+                                string filename = update.Message.Text.Split(new char[] { '/' }).Last().Split(new char[] { '.' }).First();
                                 var wClient = new WebClient();
-                                wClient.DownloadFile(update.Message.Text, $"File_{i}{format}");
-                                Console.WriteLine($"Downloaded File_{i}{format}");
+                                wClient.DownloadFile(update.Message.Text, $"{filename}_{i}{format}");
+                                Console.WriteLine($"Downloaded {filename}_{i}{format}");
                                 i++; // Если случится ошибка, то здесь номер не увеличится, ибо ничего не скачается
                             }
                         }
