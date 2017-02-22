@@ -30,6 +30,7 @@ namespace TelegramBot
                 {
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
+
                     // Пытаемся загрузить все, что ему прислали
                     try
                     {
@@ -46,7 +47,7 @@ namespace TelegramBot
                                     Console.WriteLine("Format: " + format);
                                     var wClient = new WebClient();
                                     wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
-
+                                    i++;
                                 }
                                     
                             }
