@@ -11,7 +11,7 @@ namespace TelegramBot
         const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
         const string URI = @"https://api.telegram.org/bot";
 
-        private int _updateID = 0;
+        private int _updateId = 0;
 
         public SimpleBot()
         {
@@ -24,8 +24,8 @@ namespace TelegramBot
 
         void GetUpdates()
         {
-            Console.WriteLine("Обновление: {0}", _updateID);
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset="+ (_updateID + 1));
+            Console.WriteLine("Обновление: {0}", _updateId);
+            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset="+ (_updateId + 1));
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -61,7 +61,7 @@ namespace TelegramBot
             int i = 0;
             foreach (var update in botResponcse.Updates)
             {
-                _updateID = update.UpdateId;
+                _updateId = update.UpdateId;
                 Console.WriteLine(update.Message.Text);
                 try
                 {
