@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Linq;
 using TelegramBot.API_Classes;
 using System.Threading;
 
@@ -26,7 +25,7 @@ namespace TelegramBot
         void GetUpdates()
         {
             Console.WriteLine("Обновление: {0}", _updateId);
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset="+ (_updateId + 1));
+            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset=" + (_updateId + 1));
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -35,7 +34,7 @@ namespace TelegramBot
                 {
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
-                   
+
                     // Пытаемся загрузить все, что ему прислали
                     try
                     {
@@ -46,7 +45,7 @@ namespace TelegramBot
                         }
                         DownloadAll(currentUpdate.Updates);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine($"Fail||{e}");
                     }
@@ -59,7 +58,7 @@ namespace TelegramBot
 
         void GetMessages(Update[] Updates)
         {
-            foreach(var current in Updates)
+            foreach (var current in Updates)
             {
 
             }
@@ -70,34 +69,32 @@ namespace TelegramBot
         /// <param name="Updates">Deserialized massive of object Response</param>
         void DownloadAll(Update[] Updates)
         {
-            int i = 0;
+            var wClient = new WebClient();
             foreach (var update in Updates)
             {
+                if (!update.Message.Text.StartsWith("http")) //Простая проверка - является ли сообщение сайтом
+                {
+                    continue;
+                }
                 try
                 {
-                    if (update.Message.Text.Contains("http")) //Простая проверка - является ли сообщение сайтом
+                    using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
                     {
-                        using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
+                        string format = Path.GetExtension(update.Message.Text);
+                        if (format == null)
                         {
-                            string format = Path.GetExtension(update.Message.Text);
-                            if (format != null)
-                            {
-                                Console.WriteLine($"Format{format} of the message {update.Message.Text}");
-                                //format = response.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
-                                string filename = update.Message.Text.Split(new char[] { '/' }).Last().Split(new char[] { '.' }).First();
-                                var wClient = new WebClient();
-                                wClient.DownloadFile(update.Message.Text, $"{filename}_{i}{format}");
-                                Console.WriteLine($"Downloaded {filename}_{i}{format}");
-                                i++; // Если случится ошибка, то здесь номер не увеличится, ибо ничего не скачается
-                            }
+                            continue;
                         }
+                        string nameOfFile = Path.GetFileName(update.Message.Text);
+                        Console.WriteLine($"Downloaded {nameOfFile}. \nFormat{format} of the message {update.Message.Text}\n");
+                        wClient.DownloadFile(update.Message.Text, nameOfFile);
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
                 }
-                
+
             }
         }
     }
