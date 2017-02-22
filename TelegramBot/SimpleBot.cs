@@ -30,37 +30,12 @@ namespace TelegramBot
                 {
                     string responsedJson = sReader.ReadToEnd();
                     sReader.Close();
-
+                   
                     // Пытаемся загрузить все, что ему прислали
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                        int i = 0;
-                        foreach (var update in currentUpdate.Updates)
-                        {
-                            
-                            Console.WriteLine(update.Message.Text);
-                            try
-                            {
-                                using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
-                                {
-                                    string format = responce.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
-                                    Console.WriteLine("Format: " + format);
-                                    var wClient = new WebClient();
-                                    wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
-                                    
-                                }
-                                    
-                            }
-                            catch
-                            {
-                                Console.WriteLine("DownloadFailed");
-                            }
-                            i++;
-                            ////
-                            // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
-                            // здесь будем обрабатывать или класть в очередь
-                        }
+                        DownloadAll(currentUpdate);
                     }
                     catch
                     {
@@ -72,6 +47,39 @@ namespace TelegramBot
 
             Console.ReadLine();
         }
+
+
+        void DownloadAll(Response botResponcse)
+        {
+            int i = 0;
+            foreach (var update in botResponcse.Updates)
+            {
+
+                Console.WriteLine(update.Message.Text);
+                try
+                {
+                    using (WebResponse responce = WebRequest.Create(update.Message.Text).GetResponse())
+                    {
+                        // string format = responce.Headers.GetValues("Content-Type")[0].Split(new char[] { '/' }).Last();
+                        string format = Path.GetExtension(update.Message.Text);
+                        Console.WriteLine("Format: " + format);
+                        var wClient = new WebClient();
+                        wClient.DownloadFile(update.Message.Text, "File" + i + "." + format);
+
+                    }
+
+                }
+                catch
+                {
+                    Console.WriteLine("DownloadFailed");
+                }
+                i++;
+                ////
+                // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
+                // здесь будем обрабатывать или класть в очередь
+            }
+        }
+
 
         //void MakeRequest(string method)
         //{
