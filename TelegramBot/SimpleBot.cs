@@ -40,6 +40,9 @@ namespace TelegramBot
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
                         DownloadAll(currentUpdate);
+                        ////
+                        // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
+                        // здесь будем обрабатывать или класть в очередь
                     }
                     catch
                     {
@@ -76,9 +79,7 @@ namespace TelegramBot
                     Console.WriteLine("DownloadFailed");
                 }
                 i++;
-                ////
-                // _updateID = update.UpdateId + 1; — пока пусть будет закоменчено, чтобы не очищать эвенты
-                // здесь будем обрабатывать или класть в очередь
+                
             }
         }
     }
