@@ -47,16 +47,7 @@ namespace TelegramBot
 
                 }
             }
-
             Console.ReadLine();
         }
-
-        //void MakeRequest(string method)
-        //{
-        //    var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + method);
-        //    var resp = (HttpWebResponse)req.GetResponse();
-
-
-        //}
     }
 }
