@@ -12,7 +12,7 @@ namespace TelegramBot
 
         private int _updateId = 0;
 
-        public SimpleBot()
+        public void StartBot()
         {
             while (true)
             {
@@ -37,14 +37,11 @@ namespace TelegramBot
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                        string messageText = null;
+                        string messageText = "hail";
                         foreach (var current in currentUpdate.Updates)
                         {
                             _updateId = current.UpdateId;
                             messageText = current.Message.Text;
-                        }
-                        if (updateMessage != null)
-                        {
                             updateMessage(messageText); // Our sexy delegate
                         }
                     }
@@ -56,7 +53,7 @@ namespace TelegramBot
                 }
             }
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
         public event ControlMessages updateMessage;

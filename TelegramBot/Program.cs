@@ -11,6 +11,7 @@ namespace TelegramBot
         {
             SimpleBot maBot = new SimpleBot();
             maBot.updateMessage += MaBot_updateMessage;
+            maBot.StartBot();
         }
         private static void MaBot_updateMessage(string message)
         {
@@ -25,10 +26,9 @@ namespace TelegramBot
         }
         private static void DownloadFilesOnUri(string message)
         {
-            var wClient = new WebClient();
             try
             {
-                using (WebResponse response = WebRequest.Create(message).GetResponse())
+                using (var wClient = new WebClient())
                 {
                     string nameOfFile = Path.GetFileName(message);
                     Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {message}\n");
