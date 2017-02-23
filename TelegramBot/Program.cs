@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+//using TelegramBot.NyaBot;
 
 namespace TelegramBot
 {
@@ -13,7 +14,28 @@ namespace TelegramBot
             maBot.StartBot();
         }
 
-        private static void MaBot_updateMessage(string message)
+		// Не трогайте, пожалуйста
+		//static void Bot_OnMessage(NyaBot.TelegramMessageEventArgs args)
+		//{
+		//	if (args.Message.Text == null)
+		//	{
+		//		return;
+		//	}
+
+		//	string text = args.Message.Text;
+		//	Console.WriteLine(text);
+
+		//	if (text.StartsWith("/time", StringComparison.Ordinal))
+		//	{
+		//		bot.SendMessage(args.Message.Chat.Id, DateTime.Now.ToString());
+		//	}
+		//	else if (text.StartsWith("/penis", StringComparison.Ordinal))
+		//	{
+		//		bot.SendMessage(args.Message.Chat.Id, "))))");
+		//	}
+		//}
+
+		private static void MaBot_updateMessage(string message)
         {
             Console.Write("Message received\n");
             if (message.StartsWith("http"))

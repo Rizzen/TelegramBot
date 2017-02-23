@@ -199,14 +199,14 @@ namespace TelegramBot.API_Classes
         /// But it smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
         /// </summary>
         [JsonProperty("migrate_to_chat_id")]
-        internal int MigrateToChatId { get; set; }
+		internal long MigrateToChatId { get; set; }
 
         /// <summary>
         /// Optional. The supergroup has been migrated from a group with the specified identifier. 
         /// This number may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
         /// </summary>
         [JsonProperty("migrate_from_chat_id")]
-        internal int MigrateFromChatId { get; set; }
+        internal long MigrateFromChatId { get; set; }
 
         /// <summary>
         /// Optional. Specified message was pinned. 
