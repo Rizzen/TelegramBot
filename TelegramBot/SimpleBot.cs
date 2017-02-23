@@ -9,6 +9,7 @@ namespace TelegramBot
     {
         const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
         const string URI = @"https://api.telegram.org/bot";
+        const string GETUPDATES = @"/getUpdates";
 
         private int _updateId = 0;
 
@@ -23,8 +24,8 @@ namespace TelegramBot
 
         void GetUpdates()
         {
-            Console.WriteLine("Обновление: {0}", _updateId);
-            var req = (HttpWebRequest)WebRequest.Create(URI + TOKEN + "/getUpdates" + "?offset=" + (_updateId + 1));
+            Console.WriteLine($"Обновление: {_updateId}");
+            var req = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={(_updateId + 1)}");
             var resp = (HttpWebResponse)req.GetResponse();
 
             using (var stream = resp.GetResponseStream())
@@ -37,7 +38,7 @@ namespace TelegramBot
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                        string messageText = "hail";
+                        string messageText = null;
                         foreach (var current in currentUpdate.Updates)
                         {
                             _updateId = current.UpdateId;
@@ -47,13 +48,11 @@ namespace TelegramBot
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Fail||{e}");
+                        Console.WriteLine($"Fail||{e.Message}");
                     }
 
                 }
             }
-
-            //Console.ReadLine();
         }
 
         public event ControlMessages updateMessage;

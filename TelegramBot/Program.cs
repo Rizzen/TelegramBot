@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using TelegramBot.API_Classes;
 
 namespace TelegramBot
 {
@@ -13,8 +12,10 @@ namespace TelegramBot
             maBot.updateMessage += MaBot_updateMessage;
             maBot.StartBot();
         }
+
         private static void MaBot_updateMessage(string message)
         {
+            Console.Write("Message received\n");
             if (message.StartsWith("http"))
             {
                 string format;
@@ -24,21 +25,23 @@ namespace TelegramBot
                 }
             }
         }
+
         private static void DownloadFilesOnUri(string message)
         {
-            try
+            using (var wClient = new WebClient())
             {
-                using (var wClient = new WebClient())
+                try
                 {
                     string nameOfFile = Path.GetFileName(message);
                     Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {message}\n");
                     wClient.DownloadFile(message, nameOfFile);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
+                catch (Exception e)
+                {
+                    Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
+                }
             }
         }
+
     }
 }
