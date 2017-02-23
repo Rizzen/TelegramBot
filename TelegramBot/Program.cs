@@ -36,7 +36,7 @@ namespace TelegramBot
 			{
 				if (IsCommandAllowed(args.From.Id, args.Message.Date))
 				{
-					bot.SendMessage(args.From.Id, random.Next(100).ToString(), args.Message.MessageId);
+					bot.SendMessage(args.Message.Chat.Id, random.Next(100).ToString(), args.Message.MessageId);
 				}
 			}
 
@@ -44,7 +44,7 @@ namespace TelegramBot
 			{
 				if (IsCommandAllowed(args.From.Id, args.Message.Date))
 				{
-					bot.SendPhoto(args.From.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
+					bot.SendPhoto(args.Message.Chat.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
 				}
 			}
 		}
