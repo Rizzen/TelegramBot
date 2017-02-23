@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Collections.Generic;
 using TelegramBot.NyaBot;
 
 namespace TelegramBot
@@ -9,6 +10,7 @@ namespace TelegramBot
     {
 		static NyanBot bot = new NyanBot("373376906:AAHSwXddpbP1M0RdEHaUp64_hOAEZf5sIHI");
 		static Random random = new Random();
+		static Dictionary<int, int> lastMessageTimeDb = new Dictionary<int, int>();
 
         static void Main(string[] args)
         {
@@ -30,53 +32,69 @@ namespace TelegramBot
 			string text = args.Message.Text;
 			Console.WriteLine(text);
 
-			if (text == "/roll")
+			if (text == "/roll" || text == "/ролл" || text == "ролл" || text == "roll")
 			{
-				bot.SendPhoto(args.Message.Chat.Id, GetRandomLink(), "", args.Message.MessageId);
+				if (IsCommandAllowed(args.From.Id, args.Message.Date))
+				{
+					bot.SendMessage(args.From.Id, random.Next(100).ToString(), args.Message.MessageId);
+				}
+			}
+
+			if (text == "рулетка" || text == "/рулетка")
+			{
+				if (IsCommandAllowed(args.From.Id, args.Message.Date))
+				{
+					bot.SendPhoto(args.From.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
+				}
 			}
 		}
 
-		static string GetRandomLink()
+		static bool IsCommandAllowed(int userId, int timestamp)
 		{
-			var links = new[]
-			{ "http://www.9355.ru/lessons/author/lot/lot5/lot5_img/068.png",
-				"https://pp.vk.me/c836331/v836331354/1a767/ZThUwlLlzS8.jpg",
-				"https://www.look.com.ua/large/201306/69608.jpg",
-				"http://lurkmore.so/images/thumb/2/2b/%D0%97%D0%B0_%D0%B5%D0%B4%D1%83.jpg/180px-%D0%97%D0%B0_%D0%B5%D0%B4%D1%83.jpg"
-			};
+			if (!lastMessageTimeDb.ContainsKey(userId))
+			{
+				lastMessageTimeDb.Add(userId, timestamp);
+				return true;
+			}
 
-			return links[random.Next(links.Length)];
+			if ((timestamp - lastMessageTimeDb[userId]) < 10)
+			{
+				return false;
+			}
+
+			lastMessageTimeDb[userId] = timestamp;
+			return true;
 		}
 
-		private static void MaBot_updateMessage(string message)
-        {
-            Console.Write("Message received\n");
-            if (message.StartsWith("http"))
-            {
-                string format;
-                if ((format = Path.GetExtension(message)) != null)
-                {
-                    DownloadFilesOnUri(message);
-                }
-            }
-        }
+		//private static void MaBot_updateMessage(string message)
+  //      {
+  //          Console.Write("Message received\n");
+  //          if (message.StartsWith("http"))
+  //          {
+  //              string format;
+  //              if ((format = Path.GetExtension(message)) != null)
+  //              {
+  //                  DownloadFilesOnUri(message);
+  //              }
+  //          }
+  //      }
 
-        private static void DownloadFilesOnUri(string message)
-        {
-            using (var wClient = new WebClient())
-            {
-                try
-                {
-                    string nameOfFile = Path.GetFileName(message);
-                    Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {message}\n");
-                    wClient.DownloadFile(message, nameOfFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
-                }
-            }
-        }
+  //      private static void DownloadFilesOnUri(string message)
+  //      {
+  //          using (var wClient = new WebClient())
+  //          {
+  //              try
+  //              {
+  //                  string nameOfFile = Path.GetFileName(message);
+  //                  Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {message}\n");
+  //                  wClient.DownloadFile(message, nameOfFile);
+  //              }
+  //              catch (Exception e)
+  //              {
+  //                  Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
+  //              }
+  //          }
+  //      }
 
     }
 }

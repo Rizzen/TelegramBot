@@ -38,7 +38,7 @@ namespace TelegramBot.NyaBot
 
 		public bool IsRun => isRun;
 
-		public void SendMessage(long chatId, string text)
+		public void SendMessage(long chatId, string text, int replayToMessageId = 0)
 		{
 			if (text.Length < 1)
 			{
@@ -47,7 +47,7 @@ namespace TelegramBot.NyaBot
 
 			try
 			{
-				client.DownloadString($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}");
+				client.DownloadString($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}&reply_to_message_id={replayToMessageId}");
 			}
 			catch (WebException e)
 			{
