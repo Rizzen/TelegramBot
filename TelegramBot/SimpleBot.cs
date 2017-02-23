@@ -71,15 +71,18 @@ namespace TelegramBot
             var wClient = new WebClient();
             foreach (var update in Updates)
             {
+
                 if (!update.Message.Text.StartsWith("http")) //Простая проверка - является ли сообщение сайтом
                 {
                     continue;
                 }
+
                 string format;
                 if ((format = Path.GetExtension(update.Message.Text)) == null)
                 {
                     continue;
                 }
+
                 try
                 {
                     using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
