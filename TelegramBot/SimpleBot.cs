@@ -37,11 +37,16 @@ namespace TelegramBot
                     try
                     {
                         var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
+                        string messageText = null;
                         foreach (var current in currentUpdate.Updates)
                         {
                             _updateId = current.UpdateId;
+                            messageText = current.Message.Text;
                         }
-                        DownloadAll(currentUpdate.Updates);
+                        if (updateMessage != null)
+                        {
+                            updateMessage(messageText); // Our sexy delegate
+                        }
                     }
                     catch (Exception e)
                     {
@@ -54,50 +59,7 @@ namespace TelegramBot
             Console.ReadLine();
         }
 
-        void GetMessages(Update[] Updates)
-        {
-            foreach (var current in Updates)
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// Download all files, that send to bot as uri
-        /// </summary>
-        /// <param name="Updates">Deserialized massive of object Response</param>
-        void DownloadAll(Update[] Updates)
-        {
-            var wClient = new WebClient();
-            foreach (var update in Updates)
-            {
-
-                if (!update.Message.Text.StartsWith("http")) //Простая проверка - является ли сообщение сайтом
-                {
-                    continue;
-                }
-
-                string format;
-                if ((format = Path.GetExtension(update.Message.Text)) == null)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    using (WebResponse response = WebRequest.Create(update.Message.Text).GetResponse())
-                    {
-                        string nameOfFile = Path.GetFileName(update.Message.Text);
-                        Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {update.Message.Text}\n");
-                        wClient.DownloadFile(update.Message.Text, nameOfFile);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
-                }
-
-            }
-        }
+        public event ControlMessages updateMessage;
     }
+    internal delegate void ControlMessages(string message );
 }
