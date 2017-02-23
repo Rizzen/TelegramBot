@@ -47,6 +47,15 @@ namespace TelegramBot
 					bot.SendPhoto(args.Message.Chat.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
 				}
 			}
+
+			if (text == "o_o" || text == "o.o")
+			{
+				//CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI
+				if (IsCommandAllowed(args.From.Id, args.Message.Date))
+				{
+					bot.SendSticker(args.Message.Chat.Id, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", args.Message.MessageId);
+				}
+			}
 		}
 
 		static bool IsCommandAllowed(int userId, int timestamp)

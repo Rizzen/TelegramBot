@@ -67,6 +67,18 @@ namespace TelegramBot.NyaBot
 			}
 		}
 
+		public void SendSticker(long chatId, string sticker, int replayToMessageId = 0)
+		{
+			try
+			{
+				client.DownloadString($"{BASE_API_ADDRESS}{token}/sendSticker?chat_id={chatId}&sticker={sticker}&reply_to_message_id={replayToMessageId}");
+			}
+			catch (WebException e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
 		private void UpdatesThread()
 		{
 			while (isRun)
