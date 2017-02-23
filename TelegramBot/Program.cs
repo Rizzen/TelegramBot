@@ -1,39 +1,52 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-//using TelegramBot.NyaBot;
+using TelegramBot.NyaBot;
 
 namespace TelegramBot
 {
     class Program
     {
+		static NyanBot bot = new NyanBot("373376906:AAHSwXddpbP1M0RdEHaUp64_hOAEZf5sIHI");
+		static Random random = new Random();
+
         static void Main(string[] args)
         {
-            SimpleBot maBot = new SimpleBot();
-            maBot.updateMessage += MaBot_updateMessage;
-            maBot.StartBot();
+			bot.OnMessage += Bot_OnMessage;
+			bot.Start();
+
+            //SimpleBot maBot = new SimpleBot();
+            //maBot.updateMessage += MaBot_updateMessage;
+            //maBot.StartBot();
         }
 
-		// Не трогайте, пожалуйста
-		//static void Bot_OnMessage(NyaBot.TelegramMessageEventArgs args)
-		//{
-		//	if (args.Message.Text == null)
-		//	{
-		//		return;
-		//	}
+		static void Bot_OnMessage(NyaBot.TelegramMessageEventArgs args)
+		{
+			if (args.Message.Text == null)
+			{
+				return;
+			}
 
-		//	string text = args.Message.Text;
-		//	Console.WriteLine(text);
+			string text = args.Message.Text;
+			Console.WriteLine(text);
 
-		//	if (text.StartsWith("/time", StringComparison.Ordinal))
-		//	{
-		//		bot.SendMessage(args.Message.Chat.Id, DateTime.Now.ToString());
-		//	}
-		//	else if (text.StartsWith("/penis", StringComparison.Ordinal))
-		//	{
-		//		bot.SendMessage(args.Message.Chat.Id, "))))");
-		//	}
-		//}
+			if (text == "/roll")
+			{
+				bot.SendPhoto(args.Message.Chat.Id, GetRandomLink(), "", args.Message.MessageId);
+			}
+		}
+
+		static string GetRandomLink()
+		{
+			var links = new[]
+			{ "http://www.9355.ru/lessons/author/lot/lot5/lot5_img/068.png",
+				"https://pp.vk.me/c836331/v836331354/1a767/ZThUwlLlzS8.jpg",
+				"https://www.look.com.ua/large/201306/69608.jpg",
+				"http://lurkmore.so/images/thumb/2/2b/%D0%97%D0%B0_%D0%B5%D0%B4%D1%83.jpg/180px-%D0%97%D0%B0_%D0%B5%D0%B4%D1%83.jpg"
+			};
+
+			return links[random.Next(links.Length)];
+		}
 
 		private static void MaBot_updateMessage(string message)
         {

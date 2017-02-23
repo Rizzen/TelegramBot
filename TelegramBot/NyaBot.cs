@@ -15,6 +15,7 @@ namespace TelegramBot.NyaBot
 	{
 		private const string BASE_API_ADDRESS = @"https://api.telegram.org/bot";
 
+		WebClient client = new WebClient();
 		private string token = String.Empty;
 		private bool isRun = false;
 		private int updateOffset = 0;
@@ -39,28 +40,35 @@ namespace TelegramBot.NyaBot
 
 		public void SendMessage(long chatId, string text)
 		{
-			if (chatId < 1 || text.Length < 1)
+			if (text.Length < 1)
 			{
 				return;
 			}
 
-			using (WebClient client = new WebClient())
+			try
 			{
-				try
-				{
-					client.DownloadString($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}");
-				}
-				catch (WebException e)
-				{
-					Console.WriteLine(e);
-				}
+				client.DownloadString($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}");
+			}
+			catch (WebException e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		public void SendPhoto(long chatId, string url, string caption = "", int replayToMessageId = 0)
+		{
+			try
+			{
+				client.DownloadString($"{BASE_API_ADDRESS}{token}/sendPhoto?chat_id={chatId}&photo={url}&caption={caption}&reply_to_message_id={replayToMessageId}");
+			}
+			catch (WebException e)
+			{
+				Console.WriteLine(e);
 			}
 		}
 
 		private void UpdatesThread()
 		{
-			var client = new WebClient();
-
 			while (isRun)
 			{
 				string jsonText = null;
