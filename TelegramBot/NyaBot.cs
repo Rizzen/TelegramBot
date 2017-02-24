@@ -92,6 +92,11 @@ namespace TelegramBot.NyaBot
 				{
 					Console.WriteLine(e);
 				}
+				if (jsonText == null)
+				{
+					continue;
+				}
+
 
 				Response response = null;
 				try
