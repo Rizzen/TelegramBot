@@ -28,29 +28,24 @@ namespace TelegramBot
             var req = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={(_updateId + 1)}");
             var resp = (HttpWebResponse)req.GetResponse();
 
-            using (var stream = resp.GetResponseStream())
+            using (var sReader = new StreamReader(resp.GetResponseStream()))
             {
-                using (var sReader = new StreamReader(stream))
+                string responsedJson = sReader.ReadToEnd();
+
+                try
                 {
-                    string responsedJson = sReader.ReadToEnd();
-                    sReader.Close();
-
-                    try
+                    var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
+                    string messageText = null;
+                    foreach (var current in currentUpdate.Updates)
                     {
-                        var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                        string messageText = null;
-                        foreach (var current in currentUpdate.Updates)
-                        {
-                            _updateId = current.UpdateId;
-                            messageText = current.Message.Text;
-                            updateMessage(messageText); // Our sexy delegate
-                        }
+                        _updateId = current.UpdateId;
+                        messageText = current.Message.Text;
+                        updateMessage(messageText); // Our sexy delegate
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine($"Fail||{e.Message}");
-                    }
-
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Fail||{e.Message}");
                 }
             }
         }
