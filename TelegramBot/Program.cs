@@ -10,15 +10,17 @@ namespace TelegramBot
         static NyanBot bot = new NyanBot("373376906:AAGXeTC9z33E6tH6-cRv2Sml0DnaviY67So");
         static Random random = new Random();
         static readonly Dictionary<int, int> lastMessageTimeDb = new Dictionary<int, int>();
+        static DateTime startTime;
 
         static void Main(string[] args)
         {
-            //bot.OnMessage += Bot_OnMessage;
-            //bot.Start();
+            bot.OnMessage += Bot_OnMessage;
+            startTime = DateTime.Now;
+            bot.Start();
 
-            SimpleBot maBot = new SimpleBot();
-            maBot.updateMessage += MaBot_updateMessage;
-            maBot.StartBot();
+            //SimpleBot maBot = new SimpleBot();
+            //maBot.updateMessage += MaBot_updateMessage;
+            //maBot.StartBot();
         }
 
         static void Bot_OnMessage(TelegramMessageEventArgs args)
@@ -31,7 +33,7 @@ namespace TelegramBot
             string text = args.Message.Text;
             Console.WriteLine(text);
 
-            if (text == "/roll" || text == "/ролл" || text == "ролл" || text == "roll")
+            if (CheckCommand(text, "/roll", "ролл", "roll"))
             {
                 if (IsCommandAllowed(args.From.Id, args.Message.Date))
                 {
@@ -39,7 +41,7 @@ namespace TelegramBot
                 }
             }
 
-            if (text == "рулетка" || text == "/рулетка")
+            if (CheckCommand(text, "рулетка"))
             {
                 if (IsCommandAllowed(args.From.Id, args.Message.Date))
                 {
@@ -47,14 +49,40 @@ namespace TelegramBot
                 }
             }
 
-            if (text == "o_o" || text == "o.o" || text == "о_о")
+            if (CheckCommand(text, "o_o", "o.o", "о_о"))
             {
-                //CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI
                 if (IsCommandAllowed(args.From.Id, args.Message.Date))
                 {
                     bot.SendSticker(args.Message.Chat.Id, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", args.Message.MessageId);
                 }
             }
+
+            if (CheckCommand(text, "аптайм", "/uptime", "uptime"))
+            {
+                if (IsCommandAllowed(args.From.Id, args.Message.Date))
+                {
+                    var uptime = DateTime.Now - startTime;
+
+                    bot.SendMessage(args.Message.Chat.Id, uptime.ToString("g"));
+                }
+            }
+
+            if (FileDownloader.IsFileLink(text))
+            {
+                FileDownloader.DownloadFile(text.Trim());
+            }
+        }
+
+        static bool CheckCommand(string text, params string[] args)
+        {
+            foreach (var s in args)
+            {
+                if (s.StartsWith(text, StringComparison.Ordinal))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         static bool IsCommandAllowed(int userId, int timestamp)
