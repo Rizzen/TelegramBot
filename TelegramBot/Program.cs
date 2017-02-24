@@ -22,8 +22,8 @@ namespace TelegramBot
             //maBot.StartBot();
         }
 
-		static void Bot_OnMessage(TelegramMessageEventArgs args)
-		{
+        static void Bot_OnMessage(TelegramMessageEventArgs args)
+        {
             if (args.Message.Text == null)
             {
                 return;
