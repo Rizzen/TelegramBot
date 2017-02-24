@@ -102,6 +102,46 @@ namespace TelegramBot
             return true;
         }
 
+        // TODO: вынести в отдельный файл и испрвить проверку ссылок
+        class FileDownloader
+        {
+            public static bool IsFileLink(string link)
+            {
+                if (link.StartsWith("http", StringComparison.Ordinal))
+                {
+                    try
+                    {
+                        var uri = new Uri(link);
+                        if (uri.IsFile)
+                        {
+                            return true;
+                        }
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            public static void DownloadFile(string link)
+            {
+                using (WebClient client = new WebClient())
+                {
+                    try
+                    {
+                        client.DownloadFile(link, Path.GetFileName(link));
+                        Console.WriteLine($"Файл загружен: {Path.GetFileName(link)}");
+                    }
+                    catch (WebException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+        }
+
 		private static void MaBot_updateMessage(string message)
         {
             SimpleBotFunctional functionalMaBot = new SimpleBotFunctional();
