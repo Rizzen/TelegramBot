@@ -48,7 +48,7 @@ namespace TelegramBot
 				}
 			}
 
-			if (text == "o_o" || text == "o.o")
+			if (text == "o_o" || text == "o.o" || text == "о_о")
 			{
 				//CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI
 				if (IsCommandAllowed(args.From.Id, args.Message.Date))
