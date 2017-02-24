@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Collections.Generic;
 using TelegramBot.NyaBot;
 
@@ -14,12 +13,12 @@ namespace TelegramBot
 
         static void Main(string[] args)
         {
-            bot.OnMessage += Bot_OnMessage;
-            bot.Start();
+            //bot.OnMessage += Bot_OnMessage;
+            //bot.Start();
 
-            //SimpleBot maBot = new SimpleBot();
-            //maBot.updateMessage += MaBot_updateMessage;
-            //maBot.StartBot();
+            SimpleBot maBot = new SimpleBot();
+            maBot.updateMessage += MaBot_updateMessage;
+            maBot.StartBot();
         }
 
         static void Bot_OnMessage(TelegramMessageEventArgs args)
@@ -77,33 +76,16 @@ namespace TelegramBot
 
 		private static void MaBot_updateMessage(string message)
         {
+            SimpleBotFunctional functionalMaBot = new SimpleBotFunctional();
             Console.Write("Message received\n");
             if (message.StartsWith("http"))
             {
                 string format;
                 if ((format = Path.GetExtension(message)) != null)
                 {
-                    DownloadFilesOnUri(message);
+                   functionalMaBot.DownloadFilesOnUri(message);
                 }
             }
         }
-
-        private static void DownloadFilesOnUri(string message)
-        {
-            using (var wClient = new WebClient())
-            {
-                try
-                {
-                    string nameOfFile = Path.GetFileName(message);
-                    Console.WriteLine($"Downloaded {nameOfFile}. \nOf the message {message}\n");
-                    wClient.DownloadFile(message, nameOfFile);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"DownloadFailed||Exception:{e.Message}");
-                }
-            }
-        }
-
     }
 }
