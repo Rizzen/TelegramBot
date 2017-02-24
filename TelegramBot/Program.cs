@@ -14,13 +14,13 @@ namespace TelegramBot
 
         static void Main(string[] args)
         {
-            bot.OnMessage += Bot_OnMessage;
-            startTime = DateTime.Now;
-            bot.Start();
+            //bot.OnMessage += Bot_OnMessage;
+            //startTime = DateTime.Now;
+            //bot.Start();
 
-            //SimpleBot maBot = new SimpleBot();
-            //maBot.updateMessage += MaBot_updateMessage;
-            //maBot.StartBot();
+            SimpleBot maBot = new SimpleBot();
+            maBot.updateMessage += MaBot_updateMessage;
+            maBot.StartBot();
         }
 
         static void Bot_OnMessage(TelegramMessageEventArgs args)
@@ -67,10 +67,10 @@ namespace TelegramBot
                 }
             }
 
-            if (FileDownloader.IsFileLink(text))
-            {
-                FileDownloader.DownloadFile(text.Trim());
-            }
+            //if (FileDownloader.IsFileLink(text))
+            //{
+            //    FileDownloader.DownloadFile(text.Trim());
+            //}
         }
 
         static bool CheckCommand(string text, params string[] args)
@@ -102,57 +102,14 @@ namespace TelegramBot
             return true;
         }
 
-        // TODO: вынести в отдельный файл и испрвить проверку ссылок
-        class FileDownloader
-        {
-            public static bool IsFileLink(string link)
-            {
-                if (link.StartsWith("http", StringComparison.Ordinal))
-                {
-                    try
-                    {
-                        var uri = new Uri(link);
-                        if (uri.IsFile)
-                        {
-                            return true;
-                        }
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                }
-                return false;
-            }
-
-            public static void DownloadFile(string link)
-            {
-                using (WebClient client = new WebClient())
-                {
-                    try
-                    {
-                        client.DownloadFile(link, Path.GetFileName(link));
-                        Console.WriteLine($"Файл загружен: {Path.GetFileName(link)}");
-                    }
-                    catch (WebException e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-            }
-        }
-
 		private static void MaBot_updateMessage(string message)
         {
-            SimpleBotFunctional functionalMaBot = new SimpleBotFunctional();
             Console.Write("Message received\n");
-            if (message.StartsWith("http"))
+
+            FileDownloader downloaderMaBot = new FileDownloader();
+            if(downloaderMaBot.IsFileLink(message))
             {
-                string format;
-                if ((format = Path.GetExtension(message)) != null)
-                {
-                   functionalMaBot.DownloadFilesOnUri(message);
-                }
+                downloaderMaBot.DownloadFile(message);
             }
         }
     }

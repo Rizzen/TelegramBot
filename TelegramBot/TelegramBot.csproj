@@ -82,13 +82,13 @@
     <Compile Include="API Classes\Venue.cs" />
     <Compile Include="API Classes\Video.cs" />
     <Compile Include="API Classes\Voice.cs" />
+    <Compile Include="FileDownloader.cs" />
     <Compile Include="IlluminatiBot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />
     <Compile Include="JoeBot.cs" />
     <Compile Include="NyaBot.cs" />
-    <Compile Include="SimpleBotFunctional.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
