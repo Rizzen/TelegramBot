@@ -23,7 +23,8 @@ namespace TelegramBot
         /// <param name="botName">Короткое имя бота @testBot</param>
         public BotHelper(string botName)
         {
-            this.botName = botName;
+            this.botName = (botName.StartsWith("@", StringComparison.Ordinal) && botName.Length > 1) ?
+                botName.Substring(1) : botName;
             lastMessageTime = new Dictionary<int, DateTime>();
         }
 
@@ -59,8 +60,7 @@ namespace TelegramBot
         /// <param name="args">Команды.</param>
         public bool CheckCommand(string text, params string[] args)
         {
-            string cmdText = (text.StartsWith("/", StringComparison.Ordinal) && text.Length > 1) ?
-                text.Substring(1) : text;
+            var cmdText = text;
 
             if (cmdText.Contains(" "))
             {

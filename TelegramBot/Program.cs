@@ -7,20 +7,23 @@ namespace TelegramBot
 {
     class Program
     {
-        static NyanBot bot = new NyanBot("373376906:AAGXeTC9z33E6tH6-cRv2Sml0DnaviY67So");
+        static NyanBot bot = new NyanBot("373376906:AAGaK8bbkmZ_LI9SP_LyLrtRhitieDiXiW8");
+
+        static BotHelper bh = new BotHelper("BaaakaBot");
+
         static Random random = new Random();
-        static readonly Dictionary<int, int> lastMessageTimeDb = new Dictionary<int, int>();
+
         static DateTime startTime;
 
         static void Main(string[] args)
         {
-            //bot.OnMessage += Bot_OnMessage;
-            //startTime = DateTime.Now;
-            //bot.Start();
+            bot.OnMessage += Bot_OnMessage;
+            startTime = DateTime.Now;
+            bot.Start();
 
-            SimpleBot maBot = new SimpleBot();
-            maBot.updateMessage += MaBot_updateMessage;
-            maBot.StartBot();
+            //SimpleBot maBot = new SimpleBot();
+            //maBot.updateMessage += MaBot_updateMessage;
+            //maBot.StartBot();
         }
 
         static void Bot_OnMessage(TelegramMessageEventArgs args)
@@ -33,33 +36,33 @@ namespace TelegramBot
             string text = args.Message.Text;
             Console.WriteLine(text);
 
-            if (CheckCommand(text, "/roll", "ролл", "roll"))
+            if (bh.CheckCommand(text, "/roll", "ролл", "roll"))
             {
-                if (IsCommandAllowed(args.From.Id, args.Message.Date))
+                if (bh.CheckTime(args.From.Id))
                 {
                     bot.SendMessage(args.Message.Chat.Id, random.Next(100).ToString(), args.Message.MessageId);
                 }
             }
 
-            if (CheckCommand(text, "рулетка"))
+            if (bh.CheckCommand(text, "рулетка"))
             {
-                if (IsCommandAllowed(args.From.Id, args.Message.Date))
+                if (bh.CheckTime(args.From.Id))
                 {
                     bot.SendPhoto(args.Message.Chat.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
                 }
             }
 
-            if (CheckCommand(text, "o_o", "o.o", "о_о"))
+            if (bh.CheckCommand(text, "o_o", "o.o", "о_о"))
             {
-                if (IsCommandAllowed(args.From.Id, args.Message.Date))
+                if (bh.CheckTime(args.From.Id))
                 {
                     bot.SendSticker(args.Message.Chat.Id, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", args.Message.MessageId);
                 }
             }
 
-            if (CheckCommand(text, "аптайм", "/uptime", "uptime"))
+            if (bh.CheckCommand(text, "аптайм", "/uptime", "uptime"))
             {
-                if (IsCommandAllowed(args.From.Id, args.Message.Date))
+                if (bh.CheckTime(args.From.Id))
                 {
                     var uptime = DateTime.Now - startTime;
 
@@ -67,39 +70,12 @@ namespace TelegramBot
                 }
             }
 
-            //if (FileDownloader.IsFileLink(text))
-            //{
-            //    FileDownloader.DownloadFile(text.Trim());
-            //}
-        }
-
-        static bool CheckCommand(string text, params string[] args)
-        {
-            foreach (var s in args)
+            if (bh.CheckCommand(text, "аргументы"))
             {
-                if (s.StartsWith(text, StringComparison.Ordinal))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+                var result = bh.GetCommandArgs(text);
 
-        static bool IsCommandAllowed(int userId, int timestamp)
-        {
-            if (!lastMessageTimeDb.ContainsKey(userId))
-            {
-                lastMessageTimeDb.Add(userId, timestamp);
-                return true;
+                bot.SendMessage(args.Message.Chat.Id, "{" + $"{String.Join(";", result)}" + "}");
             }
-
-            if ((timestamp - lastMessageTimeDb[userId]) < 10)
-            {
-                return false;
-            }
-
-            lastMessageTimeDb[userId] = timestamp;
-            return true;
         }
 
 		private static void MaBot_updateMessage(string message)
