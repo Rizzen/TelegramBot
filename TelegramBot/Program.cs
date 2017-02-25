@@ -13,6 +13,8 @@ namespace TelegramBot
 
         static Random random = new Random();
 
+        static MathParser mathParser = new MathParser();
+
         static DateTime startTime;
 
         static void Main(string[] args)
@@ -66,8 +68,18 @@ namespace TelegramBot
                 {
                     var uptime = DateTime.Now - startTime;
 
-                    bot.SendMessage(args.Message.Chat.Id, uptime.ToString("g"));
+                    bot.SendMessage(args.Message.Chat.Id, uptime.ToString("c"));
                 }
+            }
+
+            if (bh.CheckCommand(text, "img"))
+            {
+                var a = bh.GetCommandArgs(text);
+                if (a.Length < 1)
+                {
+                    return;
+                }
+                bot.SendPhoto(args.Message.Chat.Id, a[0], "", args.Message.MessageId);
             }
 
             if (bh.CheckCommand(text, "аргументы"))
@@ -75,6 +87,32 @@ namespace TelegramBot
                 var result = bh.GetCommandArgs(text);
 
                 bot.SendMessage(args.Message.Chat.Id, "{" + $"{String.Join(";", result)}" + "}");
+            }
+
+            if (bh.CheckCommand(text, "!"))
+            {
+                if (bh.CheckTime(args.From.Id, 3))
+                {
+                    MathParser parser = new MathParser();
+                    try
+                    {
+                        var result = mathParser.Evaluate(String.Join(" ", bh.GetCommandArgs(text)));
+                        bot.SendMessage(args.Message.Chat.Id, result.ToString(), args.Message.MessageId);
+                    }
+                    catch (ParserException e)
+                    {
+                        bot.SendMessage(args.Message.Chat.Id, e.Message, args.Message.MessageId);
+                    }
+                }
+            }
+
+            if (bh.CheckCommand(text, "reset", "/reset", "ресет", "сброс"))
+            {
+                if (bh.CheckTime(args.From.Id, 20))
+                {
+                    mathParser = new MathParser();
+                    bot.SendMessage(args.Message.Chat.Id, "Математический парсер сброшен.");
+                }
             }
         }
 

@@ -90,6 +90,7 @@
     <Compile Include="JoeBot.cs" />
     <Compile Include="NyaBot.cs" />
     <Compile Include="BotHelper.cs" />
+    <Compile Include="MathParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
