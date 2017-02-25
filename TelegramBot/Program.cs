@@ -42,7 +42,18 @@ namespace TelegramBot
             {
                 if (bh.CheckTime(args.From.Id))
                 {
-                    bot.SendMessage(args.Message.Chat.Id, random.Next(100).ToString(), args.Message.MessageId);
+                    int max = 100;
+                    var a = bh.GetCommandArgs(text);
+                    if (a.Length > 0)
+                    {
+                        int o;
+                        if (Int32.TryParse(a[0], out o))
+                        {
+                            max = Math.Abs(o);
+                        }
+                    }
+                    int result = random.Next(max + 1);
+                    bot.SendMessage(args.Message.Chat.Id, result.ToString(), args.Message.MessageId);
                 }
             }
 

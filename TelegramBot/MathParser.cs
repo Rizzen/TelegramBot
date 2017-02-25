@@ -80,7 +80,14 @@ namespace TelegramBot
                 {
                     GetToken();
                     EvalExp2(out result);
-                    vars[varIdx] = result;
+                    try
+                    {
+                        vars[varIdx] = result;
+                    }
+                    catch
+                    {
+                        SyntaxErr(Errors.SYNTAX);
+                    }
                     return;
                 }
             }
