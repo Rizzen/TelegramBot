@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TelegramBot.NyaBot;
 
 namespace TelegramBot
 {
     class Program
     {
-        static NyanBot bot = new NyanBot("TOKEN");
+        static NyanBot bot = new NyanBot("");
 
         static BotHelper bh = new BotHelper("BaaakaBot");
 
@@ -26,81 +27,81 @@ namespace TelegramBot
             //maBot.StartBot();
         }
 
-        static void Bot_OnMessage(TelegramMessageEventArgs args)
+        static void Bot_OnMessage(TelegramMessageEventArgs a)
         {
-            if (args.Message.Text == null)
+            if (a.Message.Text == null)
             {
                 return;
             }
 
-            string text = args.Message.Text;
+            string text = a.Message.Text;
             Console.WriteLine(text);
 
             if (bh.CheckCommand(text, "/roll", "ролл", "roll"))
             {
-                if (bh.CheckTime(args.From.Id))
+                if (bh.CheckTime(a.From.Id))
                 {
                     int max = 100;
-                    var a = bh.GetCommandArgs(text);
-                    if (a.Length > 0)
+                    var ar = bh.GetCommandArgs(text);
+                    if (ar.Length > 0)
                     {
                         int o;
-                        if (Int32.TryParse(a[0], out o))
+                        if (Int32.TryParse(ar[0], out o))
                         {
                             max = Math.Abs(o);
                         }
                     }
                     int result = random.Next(max + 1);
-                    bot.SendMessage(args.Message.Chat.Id, result.ToString(), args.Message.MessageId);
+                    bot.SendMessage(a.ChatId, result.ToString(), a.MessageId);
                 }
             }
 
             if (bh.CheckCommand(text, "рулетка"))
             {
-                if (bh.CheckTime(args.From.Id))
+                if (bh.CheckTime(a.From.Id))
                 {
-                    bot.SendPhoto(args.Message.Chat.Id, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: args.Message.MessageId);
+                    bot.SendPhoto(a.ChatId, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: a.MessageId);
                 }
             }
 
             if (bh.CheckCommand(text, "o_o", "o.o", "о_о"))
             {
-                if (bh.CheckTime(args.From.Id))
+                if (bh.CheckTime(a.From.Id))
                 {
-                    bot.SendSticker(args.Message.Chat.Id, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", args.Message.MessageId);
+                    bot.SendSticker(a.ChatId, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", a.MessageId);
                 }
             }
 
             if (bh.CheckCommand(text, "аптайм", "/uptime", "uptime"))
             {
-                if (bh.CheckTime(args.From.Id))
+                if (bh.CheckTime(a.From.Id))
                 {
                     var uptime = DateTime.Now - startTime;
 
-                    bot.SendMessage(args.Message.Chat.Id, uptime.ToString("c"));
+                    bot.SendMessage(a.ChatId, uptime.ToString("c"));
                 }
             }
 
             if (bh.CheckCommand(text, "img"))
             {
-                var a = bh.GetCommandArgs(text);
-                if (a.Length < 1)
+                var ar = bh.GetCommandArgs(text);
+                if (ar.Length < 1)
                 {
                     return;
                 }
-                bot.SendPhoto(args.Message.Chat.Id, a[0], "", args.Message.MessageId);
+                bot.SendPhoto(a.ChatId, ar[0], "", a.MessageId);
             }
 
             if (bh.CheckCommand(text, "аргументы"))
             {
                 var result = bh.GetCommandArgs(text);
 
-                bot.SendMessage(args.Message.Chat.Id, "{" + $"{String.Join(";", result)}" + "}");
+                bot.SendMessage(a.ChatId, "{" + $"{String.Join(";", result)}" + "}");
             }
 
             if (bh.CheckCommand(text, "!"))
             {
-                if (bh.CheckTime(args.From.Id, 3))
+                if (bh.CheckTime(a.From.Id, 3))
                 {
                     string result = String.Empty;
                     using (var table = new System.Data.DataTable())
@@ -108,11 +109,11 @@ namespace TelegramBot
                         try
                         {
                             result = table.Compute(String.Join(" ", bh.GetCommandArgs(text)), String.Empty).ToString();
-                            bot.SendMessage(args.Message.Chat.Id, result, args.Message.MessageId);
+                            bot.SendMessage(a.ChatId, result, a.MessageId);
                         }
                         catch
                         {
-                            bot.SendMessage(args.Message.Chat.Id, "Ошибка!", args.Message.MessageId);
+                            bot.SendMessage(a.ChatId, "Ошибка!", a.MessageId);
                         }
                     }
                 }
