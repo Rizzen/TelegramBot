@@ -5,7 +5,7 @@
 
 using System;
 using System.Net;
-
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TelegramBot.API_Classes;
 
@@ -55,6 +55,23 @@ namespace TelegramBot.NyaBot
 			}
 		}
 
+        public async Task SendMessageAsync(long chatId, string text, int replayToMessageId = 0)
+        {
+            if (text.Length < 1)
+            {
+                return;
+            }
+
+            try
+            {
+                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}&reply_to_message_id={replayToMessageId}");
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
 		public void SendPhoto(long chatId, string url, string caption = "", int replayToMessageId = 0)
 		{
 			try
@@ -67,6 +84,18 @@ namespace TelegramBot.NyaBot
 			}
 		}
 
+        public async Task SendPhotoAsync(long chatId, string url, string caption = "", int replayToMessageId = 0)
+        {
+            try
+            {
+                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendPhoto?chat_id={chatId}&photo={url}&caption={caption}&reply_to_message_id={replayToMessageId}");
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
 		public void SendSticker(long chatId, string sticker, int replayToMessageId = 0)
 		{
 			try
@@ -78,6 +107,18 @@ namespace TelegramBot.NyaBot
 				Console.WriteLine(e);
 			}
 		}
+
+        public async Task SendStickerAsync(long chatId, string sticker, int replayToMessageId = 0)
+        {
+            try
+            {
+                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendSticker?chat_id={chatId}&sticker={sticker}&reply_to_message_id={replayToMessageId}");
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
 		private void UpdatesThread()
 		{
