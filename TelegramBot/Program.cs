@@ -7,13 +7,11 @@ namespace TelegramBot
 {
     class Program
     {
-        static NyanBot bot = new NyanBot("373376906:AAGaK8bbkmZ_LI9SP_LyLrtRhitieDiXiW8");
+        static NyanBot bot = new NyanBot("TOKEN");
 
         static BotHelper bh = new BotHelper("BaaakaBot");
 
         static Random random = new Random();
-
-        static MathParser mathParser = new MathParser();
 
         static DateTime startTime;
 
@@ -104,25 +102,19 @@ namespace TelegramBot
             {
                 if (bh.CheckTime(args.From.Id, 3))
                 {
-                    MathParser parser = new MathParser();
-                    try
+                    string result = String.Empty;
+                    using (var table = new System.Data.DataTable())
                     {
-                        var result = mathParser.Evaluate(String.Join(" ", bh.GetCommandArgs(text)));
-                        bot.SendMessage(args.Message.Chat.Id, result.ToString(), args.Message.MessageId);
+                        try
+                        {
+                            result = table.Compute(String.Join(" ", bh.GetCommandArgs(text)), String.Empty).ToString();
+                            bot.SendMessage(args.Message.Chat.Id, result, args.Message.MessageId);
+                        }
+                        catch
+                        {
+                            bot.SendMessage(args.Message.Chat.Id, "Ошибка!", args.Message.MessageId);
+                        }
                     }
-                    catch (ParserException e)
-                    {
-                        bot.SendMessage(args.Message.Chat.Id, e.Message, args.Message.MessageId);
-                    }
-                }
-            }
-
-            if (bh.CheckCommand(text, "reset", "/reset", "ресет", "сброс"))
-            {
-                if (bh.CheckTime(args.From.Id, 20))
-                {
-                    mathParser = new MathParser();
-                    bot.SendMessage(args.Message.Chat.Id, "Математический парсер сброшен.");
                 }
             }
         }
