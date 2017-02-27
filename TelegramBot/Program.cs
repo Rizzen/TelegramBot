@@ -1,14 +1,14 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using TelegramBot.NyaBot;
+using TelegramBot.NyaBot.Args;
 
 namespace TelegramBot
 {
     class Program
     {
-        static NyanBot bot = new NyanBot("");
+        static NyanBot bot = new NyanBot("TOKEN");
 
         static BotHelper bh = new BotHelper("BaaakaBot");
 
