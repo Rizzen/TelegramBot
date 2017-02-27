@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Text;
 
 using TelegramBot.NyaBot;
 using TelegramBot.NyaBot.Args;
+using Newtonsoft.Json;
 
 namespace TelegramBot
 {
@@ -117,6 +119,20 @@ namespace TelegramBot
                         }
                     }
                 }
+            }
+
+            if (bh.CheckCommand(text, "сосач", "2ch", @"/2ch", "двач") && bh.CheckTime(a.From.Id))
+            {
+                var arg = "b";
+                var ar = bh.GetCommandArgs(text);
+                if (ar.Length > 0)
+                {
+                    arg = ar[0].Replace("/", "").Replace(".", "").Replace(";", "");
+                }
+
+                var sosach = new Sosach();
+                var list = sosach.GetThreadsList(arg);
+                bot.SendMessage(a.ChatId, (list.Length > 0) ? list : "Ошибка!");
             }
         }
 

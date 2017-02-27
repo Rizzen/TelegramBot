@@ -96,6 +96,7 @@
     <Compile Include="NyaBot\Types\StickerToSend.cs" />
     <Compile Include="NyaBot\BotApiClient.cs" />
     <Compile Include="NyaBot\NyaBot.cs" />
+    <Compile Include="Sosach.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
