@@ -97,6 +97,7 @@
     <Compile Include="NyaBot\BotApiClient.cs" />
     <Compile Include="NyaBot\NyaBot.cs" />
     <Compile Include="Sosach.cs" />
+    <Compile Include="NyaBot\Types\ChatAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

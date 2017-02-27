@@ -134,6 +134,11 @@ namespace TelegramBot
                 var list = sosach.GetThreadsList(arg);
                 bot.SendMessage(a.ChatId, (list.Length > 0) ? list : "Ошибка!");
             }
+
+            if (bh.CheckCommand(text, "тест"))
+            {
+                bot.SendChatAction(a.ChatId, NyaBot.Types.ChatAction.UploadPhoto);
+            }
         }
 
 		private static void MaBot_updateMessage(string message)

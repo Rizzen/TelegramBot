@@ -73,6 +73,35 @@ namespace TelegramBot.NyaBot
             api.SendRequest("sendSticker", stickerw);
         }
 
+        internal void SendChatAction(long chatId, ChatAction action)
+        {
+            string actionString = String.Empty;
+
+            switch (action)
+            {
+                case ChatAction.Typing:
+                    actionString = "typing";
+                    break;
+                case ChatAction.UploadPhoto:
+                    actionString = "upload_photo";
+                    break;
+                case ChatAction.UploadAudio:
+                    actionString = "upload_audio";
+                    break;
+                case ChatAction.UploadDocument:
+                    actionString = "upload_document";
+                    break;
+                case ChatAction.UploadVideo:
+                    actionString = "upload_video";
+                    break;
+                case ChatAction.FindLocation:
+                    actionString = "find_location";
+                    break;
+            }
+
+            api.DownloadString($"sendChatAction?chat_id={chatId.ToString()}&action={actionString}");
+        }
+
         private void UpdatesThread()
         {
             while (isRun)
