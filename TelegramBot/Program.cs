@@ -39,6 +39,7 @@ namespace TelegramBot
             string text = a.Message.Text;
             Console.WriteLine(text);
 
+            // демонстрация команды с аргументами
             if (bh.CheckCommand(text, "/roll", "ролл", "roll"))
             {
                 if (bh.CheckTime(a.From.Id))
@@ -54,23 +55,25 @@ namespace TelegramBot
                         }
                     }
                     int result = random.Next(max + 1);
-                    bot.SendMessage(a.ChatId, result.ToString(), a.MessageId);
+                    bot.SendMessage(a.ChatId, result.ToString(), replyToMessageId: a.MessageId);
                 }
             }
 
+            // демонстрация отправки изображения
             if (bh.CheckCommand(text, "рулетка"))
             {
                 if (bh.CheckTime(a.From.Id))
                 {
-                    bot.SendPhoto(a.ChatId, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replayToMessageId: a.MessageId);
+                    bot.SendPhoto(a.ChatId, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replyToMessageId: a.MessageId);
                 }
             }
 
-            if (bh.CheckCommand(text, "o_o", "o.o", "о_о"))
+            // демонстрация отправки стикера
+            if (bh.CheckCommand(text, "o_o", "o.o", "о_о", "о.о"))
             {
                 if (bh.CheckTime(a.From.Id))
                 {
-                    bot.SendSticker(a.ChatId, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", a.MessageId);
+                    bot.SendSticker(a.ChatId, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", replyToMessageId:a.MessageId);
                 }
             }
 
@@ -91,9 +94,10 @@ namespace TelegramBot
                 {
                     return;
                 }
-                bot.SendPhoto(a.ChatId, ar[0], "", a.MessageId);
+                bot.SendPhoto(a.ChatId, ar[0], "", replyToMessageId:a.MessageId);
             }
 
+            // демонстрация получения списка аргументов
             if (bh.CheckCommand(text, "аргументы"))
             {
                 var result = bh.GetCommandArgs(text);
@@ -101,6 +105,7 @@ namespace TelegramBot
                 bot.SendMessage(a.ChatId, "{" + $"{String.Join(";", result)}" + "}");
             }
 
+            // калькулятор
             if (bh.CheckCommand(text, "!"))
             {
                 if (bh.CheckTime(a.From.Id, 3))
@@ -111,14 +116,69 @@ namespace TelegramBot
                         try
                         {
                             result = table.Compute(String.Join(" ", bh.GetCommandArgs(text)), String.Empty).ToString();
-                            bot.SendMessage(a.ChatId, result, a.MessageId);
+                            bot.SendMessage(a.ChatId, result, replyToMessageId:a.MessageId);
                         }
                         catch
                         {
-                            bot.SendMessage(a.ChatId, "Ошибка!", a.MessageId);
+                            bot.SendMessage(a.ChatId, "Ошибка!", replyToMessageId: a.MessageId);
                         }
                     }
                 }
+            }
+
+            // демонстрация клавиатуры
+            if (bh.CheckCommand(text, "клава"))
+            {
+                var kb = new API_Classes.ReplyKeyboardMarkup
+                {
+                    Keyboard = new[]
+                    {
+                        // ряд 1
+                        new []
+                        {
+                            new API_Classes.KeyboardButton
+                            {
+                                Text = "ролл"
+                            },
+                            new API_Classes.KeyboardButton
+                            {
+                                Text = "рулетка"
+                            }
+                        },
+                        // ряд 2
+                        new []
+                        {
+                            new API_Classes.KeyboardButton
+                            {
+                                Text = "аптайм"
+                            },
+                            new API_Classes.KeyboardButton
+                            {
+                                Text = "сосач"
+                            }
+                        },
+                        //ряд 3
+                        new []
+                        {
+                            new API_Classes.KeyboardButton
+                            {
+                                Text = "скрыть"
+                            }
+                        }
+                    }
+                };
+
+                bot.SendMessage(a.ChatId, "Выбирай!", replyMarkup: kb);
+            }
+
+            // демонстрация скрытия клавиатуры
+            if (bh.CheckCommand(text, "скрыть"))
+            {
+                var kb = new API_Classes.ReplyKeyboardRemove
+                {
+                    RemoveKeyboard = true
+                };
+                bot.SendMessage(a.ChatId, "ок", replyMarkup: kb);
             }
 
             if (bh.CheckCommand(text, "сосач", "2ch", @"/2ch", "двач") && bh.CheckTime(a.From.Id))
@@ -135,9 +195,15 @@ namespace TelegramBot
                 bot.SendMessage(a.ChatId, (list.Length > 0) ? list : "Ошибка!");
             }
 
+            // демонстрация отправки действия бота
             if (bh.CheckCommand(text, "тест"))
             {
                 bot.SendChatAction(a.ChatId, NyaBot.Types.ChatAction.UploadPhoto);
+            }
+
+            if (bh.CheckCommand(text, "ь"))
+            {
+                bot.SendMessage(a.ChatId, "http://tsya.ru");
             }
         }
 

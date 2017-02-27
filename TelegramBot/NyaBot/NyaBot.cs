@@ -36,38 +36,48 @@ namespace TelegramBot.NyaBot
 
         public bool IsRun => isRun;
 
-        public void SendMessage(long chatId, string text, int replayToMessageId = 0)
+        public void SendMessage(long chatId, string text, bool disableWebPagePreview = false,
+                                bool disableNotification = false, int replyToMessageId = 0, object replyMarkup = null)
         {
             var message = new MessageToSend
             {
                 ChatId = chatId,
                 Text = text,
-                ReplayToMessageId = replayToMessageId
+                DisableWebPagePreview = disableWebPagePreview,
+                DisableNotification = disableNotification,
+                ReplayToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
             api.SendRequest("sendMessage", message);
         }
 
-        public void SendPhoto(long chatId, string url, string caption = "", int replayToMessageId = 0)
+        public void SendPhoto(long chatId, string photo, string caption = null, bool disableNotification = false,
+                              int replyToMessageId = 0, object replyMarkup = null)
         {
-            var photo = new PhotoToSend
+            var photow = new PhotoToSend
             {
                 ChatId = chatId,
-                PhotoUrl = url,
+                Photo = photo,
                 Caption = caption,
-                ReplayToMessageId = replayToMessageId
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
-            api.SendRequest("sendPhoto", photo);
+            api.SendRequest("sendPhoto", photow);
 		}
 
-        public void SendSticker(long chatId, string sticker, int replayToMessageId = 0)
+        public void SendSticker(long chatId, string sticker, bool disableNotification = false,
+                                int replyToMessageId = 0, object replyMarkup = null)
         {
             var stickerw = new StickerToSend
             {
                 ChatId = chatId,
                 Sticker = sticker,
-                ReplayToMessageId = replayToMessageId
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
             api.SendRequest("sendSticker", stickerw);
@@ -145,15 +155,14 @@ namespace TelegramBot.NyaBot
                     return new Update[0];
                 }
             }
-            catch (WebException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                return new Update[0];
-            }
-            catch (JsonException e)
-            {
-                Console.WriteLine(e);
-                return new Update[0];
+                if (ex is WebException || ex is JsonException)
+                {
+                    Console.WriteLine(ex);
+                    return new Update[0];
+                }
+                throw;
             }
         }
 

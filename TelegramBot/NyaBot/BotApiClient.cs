@@ -23,7 +23,7 @@ namespace TelegramBot.NyaBot
 
             try
             {
-                var jsonText = JsonConvert.SerializeObject(o);
+                var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
                 var webRequest = (HttpWebRequest)WebRequest.Create($"{BASE_API_ADDRESS}{token}/{methodName}");
                 webRequest.ContentType = "application/json";
@@ -36,7 +36,7 @@ namespace TelegramBot.NyaBot
 
                 response = (HttpWebResponse)webRequest.GetResponse();
                 // добавить сюда получение ответа, если он нужен
-                response.Close();
+                response?.Close();
             }
             catch (Exception e)
             {
