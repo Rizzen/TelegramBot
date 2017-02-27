@@ -5,6 +5,7 @@
 
 using System;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TelegramBot.API_Classes;
@@ -13,16 +14,13 @@ namespace TelegramBot.NyaBot
 {
     public class NyanBot
     {
-        private const string BASE_API_ADDRESS = @"https://api.telegram.org/bot";
-
-        WebClient client = new WebClient();
-        private string token = String.Empty;
         private bool isRun = false;
         private int updateOffset = 0;
+        private BotApiClient api = null;
 
         public NyanBot(string token)
         {
-            this.token = token;
+            api = new BotApiClient(token);
         }
 
         public void Start()
@@ -40,84 +38,39 @@ namespace TelegramBot.NyaBot
 
         public void SendMessage(long chatId, string text, int replayToMessageId = 0)
         {
-            if (text.Length < 1)
+            var message = new MessageToSend
             {
-                return;
-            }
+                ChatId = chatId,
+                Text = text,
+                ReplayToMessageId = replayToMessageId
+            };
 
-            try
-            {
-                client.DownloadString($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}&reply_to_message_id={replayToMessageId}");
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        public async Task SendMessageAsync(long chatId, string text, int replayToMessageId = 0)
-        {
-            if (text.Length < 1)
-            {
-                return;
-            }
-
-            try
-            {
-                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendMessage?chat_id={chatId}&text={text}&reply_to_message_id={replayToMessageId}");
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
+            api.SendRequest("sendMessage", message);
         }
 
         public void SendPhoto(long chatId, string url, string caption = "", int replayToMessageId = 0)
         {
-            try
+            var photo = new PhotoToSend
             {
-                client.DownloadString($"{BASE_API_ADDRESS}{token}/sendPhoto?chat_id={chatId}&photo={url}&caption={caption}&reply_to_message_id={replayToMessageId}");
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
-		}
+                ChatId = chatId,
+                PhotoUrl = url,
+                Caption = caption,
+                ReplayToMessageId = replayToMessageId
+            };
 
-        public async Task SendPhotoAsync(long chatId, string url, string caption = "", int replayToMessageId = 0)
-        {
-            try
-            {
-                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendPhoto?chat_id={chatId}&photo={url}&caption={caption}&reply_to_message_id={replayToMessageId}");
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
-        }
+            api.SendRequest("sendPhoto", photo);
+		}
 
         public void SendSticker(long chatId, string sticker, int replayToMessageId = 0)
         {
-            try
+            var stickerw = new StickerToSend
             {
-                client.DownloadString($"{BASE_API_ADDRESS}{token}/sendSticker?chat_id={chatId}&sticker={sticker}&reply_to_message_id={replayToMessageId}");
-            }
-			catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
-        }
+                ChatId = chatId,
+                Sticker = sticker,
+                ReplayToMessageId = replayToMessageId
+            };
 
-        public async Task SendStickerAsync(long chatId, string sticker, int replayToMessageId = 0)
-        {
-            try
-            {
-                await client.DownloadStringTaskAsync($"{BASE_API_ADDRESS}{token}/sendSticker?chat_id={chatId}&sticker={sticker}&reply_to_message_id={replayToMessageId}");
-            }
-            catch (WebException e)
-            {
-                Console.WriteLine(e);
-            }
+            api.SendRequest("sendSticker", stickerw);
         }
 
         private void UpdatesThread()
@@ -152,7 +105,7 @@ namespace TelegramBot.NyaBot
         {
             try
             {
-                var jsonText = client.DownloadString($"{BASE_API_ADDRESS}{token}/getUpdates?offset={updateOffset}");
+                var jsonText = api.DownloadString($"getUpdates?offset={updateOffset}");
                 var response = JsonConvert.DeserializeObject<Response>(jsonText);
                 if (response.Success)
                 {
@@ -175,8 +128,122 @@ namespace TelegramBot.NyaBot
             }
         }
 
+        private string EscapeSpecialCharacters(string text)
+        {
+            var result = text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+            return result;
+        }
+
 		internal event TelegramMessageHandler OnMessage;
 	}
+
+    internal class MessageToSend
+    {
+        [JsonProperty("chat_id")]
+        public long ChatId { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
+        [JsonProperty("reply_to_message_id")]
+        public int ReplayToMessageId { get; set; }
+    }
+
+    internal class PhotoToSend
+    {
+        [JsonProperty("chat_id")]
+        public long ChatId { get; set; }
+
+        [JsonProperty("photo")]
+        public string PhotoUrl { get; set; }
+
+        [JsonProperty("caption")]
+        public string Caption { get; set; }
+
+        [JsonProperty("reply_to_message_id")]
+        public int ReplayToMessageId { get; set; }
+    }
+
+    internal class StickerToSend
+    {
+        [JsonProperty("chat_id")]
+        public long ChatId { get; set; }
+
+        [JsonProperty("sticker")]
+        public string Sticker { get; set; }
+
+        [JsonProperty("reply_to_message_id")]
+        public int ReplayToMessageId { get; set; } 
+    }
+
+    internal class BotApiClient
+    {
+        const string BASE_API_ADDRESS = @"https://api.telegram.org/bot";
+
+        private string token;
+
+        public BotApiClient(string token)
+        {
+            this.token = token;
+        }
+
+        public void SendRequest(string methodName, object o)
+        {
+            HttpWebResponse response = null;
+            StreamWriter streamWriter = null;
+
+            try
+            {
+                var jsonText = JsonConvert.SerializeObject(o);
+
+                var webRequest = (HttpWebRequest)WebRequest.Create($"{BASE_API_ADDRESS}{token}/{methodName}");
+                webRequest.ContentType = "application/json";
+                webRequest.Method = "POST";
+
+                using (streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(jsonText);
+                }
+
+                response = (HttpWebResponse)webRequest.GetResponse();
+                // добавить сюда получение ответа, если он нужен
+                response.Close();
+            }
+            catch (Exception e)
+            {
+                streamWriter?.Dispose();
+                response?.Dispose();
+                Console.WriteLine(e);
+            }
+        }
+
+        public string DownloadString(string method)
+        {
+            HttpWebResponse response = null;
+            StreamReader streamReader = null;
+            string result = String.Empty;
+
+            try
+            {
+                var webRequest = (HttpWebRequest)WebRequest.Create($"{BASE_API_ADDRESS}{token}/{method}");
+                response = (HttpWebResponse)webRequest.GetResponse();
+
+                using (streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            response?.Dispose();
+            streamReader?.Dispose();
+
+            return result;
+        }
+    }
 
 	// Handlers
     internal delegate void TelegramMessageHandler(TelegramMessageEventArgs a);
