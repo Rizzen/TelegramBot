@@ -33,6 +33,8 @@ namespace TelegramBot
 
         static void Bot_OnMessage(TelegramMessageEventArgs a)
         {
+            // проверка: текстовое ли сообщеине. В дальнейшем нужно определять его тип ещё 
+            // во время парсинга в классе бота
             if (a.Message.Text == null)
             {
                 return;
