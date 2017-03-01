@@ -21,6 +21,7 @@ namespace TelegramBot
 
         static void Main(string[] args)
         {
+        	Logger.Init(true, false);
             bot.OnMessage += Bot_OnMessage;
             startTime = DateTime.Now;
             bot.Start();

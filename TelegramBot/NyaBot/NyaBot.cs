@@ -112,6 +112,7 @@ namespace TelegramBot.NyaBot
 
         private void UpdatesThread()
         {
+            Logger.LogMessage("Бот запущен.");
             while (isRun)
             {
                 var updates = GetUpdates();

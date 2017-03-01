@@ -98,6 +98,7 @@
     <Compile Include="NyaBot\NyaBot.cs" />
     <Compile Include="Sosach.cs" />
     <Compile Include="NyaBot\Types\ChatAction.cs" />
+    <Compile Include="Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
