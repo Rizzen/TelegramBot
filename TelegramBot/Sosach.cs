@@ -41,6 +41,24 @@ namespace TelegramBot
 
             return result;
         }
+
+        public static bool CheckBoardName(string boardName)
+        {
+            foreach (var c in boardName)
+            {
+                if (!Char.IsLetter(c))
+                {
+                    return false;
+                }
+            }
+            // хз, какая максимальная длина должна быть, потому что я не сосачер
+            if (boardName.Length > 4 || boardName.Length < 1)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     internal class SosachBoard
