@@ -42,7 +42,7 @@ namespace TelegramBot
             }
 
             string text = a.Message.Text;
-            Console.WriteLine(text);
+            Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
 
             // демонстрация команды с аргументами
             if (bh.CheckCommand(text, "/roll", "ролл", "roll") && bh.CheckTime(a.From.Id))

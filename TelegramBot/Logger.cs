@@ -73,26 +73,26 @@ namespace TelegramBot
                 case LogMessageType.Message:
                     Console.ForegroundColor = ConsoleColor.Gray;
                     msgType = "Message:";
-                    fileName = "Log_" + DateTime.Now.ToShortDateString();
+                    fileName = "Log_" + DateTime.Today.ToString(@"yyyy-MM-dd");
                     break;
                 case LogMessageType.Warning:
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     msgType = "Warning:";
-                    fileName = "Log_" + DateTime.Now.ToShortDateString();
+                    fileName = "Log_" + DateTime.Today.ToString(@"yyyy-MM-dd");
                     break;
                 case LogMessageType.Error:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     msgType = "Error:";
-                    fileName = "Errors_" + DateTime.Now.ToShortDateString();
+                    fileName = "Errors_" + DateTime.Today.ToString(@"yyyy-MM-dd");
                     break;
                 case LogMessageType.Fatal:
                     Console.ForegroundColor = ConsoleColor.Red;
                     msgType = "Fatal error:";
-                    fileName = "Errors_" + DateTime.Now.ToShortDateString();
+                    fileName = "Errors_" + DateTime.Today.ToString(@"yyyy-MM-dd");
                     break;
             }
 
-            var msg = $"[{DateTime.Now.ToString(@"dd\\.MM\\.yy HH\\:mm\\:ss\")} {msgType}{Environment.NewLine}{obj}{Environment.NewLine}";
+            var msg = $"[{DateTime.Now.ToString(@"HH\:mm\:ss")}] {msgType}{Environment.NewLine}{obj}{Environment.NewLine}";
             if (_logToConsole)
             {
                 Console.Write(msg);

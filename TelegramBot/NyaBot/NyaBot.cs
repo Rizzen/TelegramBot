@@ -156,9 +156,10 @@ namespace TelegramBot.NyaBot
             }
             catch (Exception ex)
             {
+                isRun = false;
                 if (ex is WebException || ex is JsonException)
                 {
-                    Console.WriteLine(ex);
+                    Logger.LogFatal(ex);
                     return new Update[0];
                 }
                 throw;

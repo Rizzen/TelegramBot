@@ -35,7 +35,7 @@ namespace TelegramBot
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Logger.LogError(e);
                 }
             }
 

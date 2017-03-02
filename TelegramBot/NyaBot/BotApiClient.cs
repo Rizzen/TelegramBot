@@ -43,7 +43,7 @@ namespace TelegramBot.NyaBot
             {
                 streamWriter?.Dispose();
                 response?.Dispose();
-                Console.WriteLine(e);
+                Logger.LogError(e);
             }
         }
 
@@ -66,7 +66,7 @@ namespace TelegramBot.NyaBot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.LogError(e);
             }
 
             response?.Dispose();
