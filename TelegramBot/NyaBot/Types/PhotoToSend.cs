@@ -1,12 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TelegramBot.NyaBot.Types
 {
     internal class PhotoToSend
     {
         [JsonProperty("chat_id")]
-        public long ChatId { get; set; }
+        public string ChatId { get; set; }
 
         [JsonProperty("photo")]
         public string Photo { get; set; }
