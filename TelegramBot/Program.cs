@@ -23,6 +23,7 @@ namespace TelegramBot
         {
         	Logger.Init(true, false);
             bot.OnMessage += Bot_OnMessage;
+            bot.OnCallbackQuery += Bot_OnCallbackQuery;
             startTime = DateTime.Now;
             bot.Start();
 
@@ -171,6 +172,28 @@ namespace TelegramBot
                 bot.SendMessage(a.ChatId, "Выбирай!", replyMarkup: kb);
             }
 
+            // демонстрация инлайн кнопок
+            if (bh.CheckCommand(text, "инлайн"))
+            {
+                var kb = new API_Classes.InlineKeyboardMarkup
+                {
+                    InlineKeyboard = new[]
+                    {
+                        // ряд 1
+                        new []
+                        {
+                            new API_Classes.InlineKeyboardButton
+                            {
+                                Text = "0",
+                                CallbackData = "0"
+                            }
+                        }
+                    }
+                };
+
+                bot.SendMessage(a.ChatId, "мяумур", replyMarkup: kb);
+            }
+
             // демонстрация скрытия клавиатуры
             if (bh.CheckCommand(text, "скрыть"))
             {
@@ -215,8 +238,38 @@ namespace TelegramBot
             }
         }
 
+        static void Bot_OnCallbackQuery(CallbackQueryEventArgs a)
+        {
+            if (a.CallbackQuery.Data == null)
+            {
+                return;
+            }
+            int n;
+            if (!Int32.TryParse(a.CallbackQuery.Data, out n))
+            {
+                return;
+            }
+
+            var kb = new API_Classes.InlineKeyboardMarkup
+            {
+                InlineKeyboard = new[]
+                {
+                    new[]
+                    {
+                        new API_Classes.InlineKeyboardButton
+                        {
+                            Text = (n + 1).ToString(),
+                            CallbackData = (n + 1).ToString()
+                        }
+                    }
+                }
+            };
+
+            bot.EditMessageReplyMarkup(a.CallbackQuery.Message.Chat.Id, a.CallbackQuery.Message.MessageId, replyMarkup: kb);
+        }
+
         // ещё один метод, который нахуй тут не нужен, но всё ещё тут
-		private static void MaBot_updateMessage(string message)
+        private static void MaBot_updateMessage(string message)
         {
             Console.Write("Message received\n");
 
