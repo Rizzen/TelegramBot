@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TelegramBot.API_Classes;
 
@@ -18,7 +18,6 @@ namespace TelegramBot.NyaBot
 
         internal NyanBot(string token)
         {
-            //создаем бот клиент с указанным токеном
             api = new BotApiClient(token);
         }
 
@@ -51,6 +50,22 @@ namespace TelegramBot.NyaBot
             api.SendRequest("sendMessage", message);
         }
 
+        internal async Task SendMessageAsync(string chatId, string text, bool disableWebPagePreview = false,
+                                bool disableNotification = false, int replyToMessageId = 0, object replyMarkup = null)
+        {
+            var message = new MessageToSend
+            {
+                ChatId = chatId,
+                Text = text,
+                DisableWebPagePreview = disableWebPagePreview,
+                DisableNotification = disableNotification,
+                ReplayToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            };
+
+            await api.SendRequestAsync("sendMessage", message);
+        }
+
         internal void EditMessageText(string chatId, string text, int messageId = 0, string inlineMessageId = null,
                              bool disableWebPagePreview = false, object replyMarkup = null)
         {
@@ -67,6 +82,22 @@ namespace TelegramBot.NyaBot
             api.SendRequest("editMessageText", edit);
         }
 
+        internal async Task EditMessageTextAsync(string chatId, string text, int messageId = 0, string inlineMessageId = null,
+                             bool disableWebPagePreview = false, object replyMarkup = null)
+        {
+            var edit = new EditMessageData
+            {
+                ChatId = chatId,
+                Text = text,
+                MessageId = messageId,
+                InlineMessageId = inlineMessageId,
+                DisableWebPagePreview = disableWebPagePreview,
+                ReplyMarkup = replyMarkup
+            };
+
+            await api.SendRequestAsync("editMessageText", edit);
+        }
+
         internal void EditMessageReplyMarkup(string chatId = null, int messageId = 0, string inlineMessageId = null,
                                            InlineKeyboardMarkup replyMarkup = null)
         {
@@ -79,6 +110,20 @@ namespace TelegramBot.NyaBot
             };
 
             api.SendRequest("editMessageReplyMarkup", edit);
+        }
+
+        internal async Task EditMessageReplyMarkupAsync(string chatId = null, int messageId = 0, string inlineMessageId = null,
+                                           InlineKeyboardMarkup replyMarkup = null)
+        {
+            var edit = new EditMarkupData
+            {
+                ChatId = chatId,
+                MessageId = messageId,
+                InlineMessageId = inlineMessageId,
+                ReplyMarkup = replyMarkup
+            };
+
+            await api.SendRequestAsync("editMessageReplyMarkup", edit);
         }
 
         internal void SendPhoto(string chatId, string photo, string caption = null, bool disableNotification = false,
@@ -97,6 +142,22 @@ namespace TelegramBot.NyaBot
             api.SendRequest("sendPhoto", photow);
 		}
 
+        internal async Task SendPhotoAsync(string chatId, string photo, string caption = null, bool disableNotification = false,
+                      int replyToMessageId = 0, object replyMarkup = null)
+        {
+            var photow = new PhotoToSend
+            {
+                ChatId = chatId,
+                Photo = photo,
+                Caption = caption,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            };
+
+            await api.SendRequestAsync("sendPhoto", photow);
+        }
+
         internal void SendSticker(string chatId, string sticker, bool disableNotification = false,
                                 int replyToMessageId = 0, object replyMarkup = null)
         {
@@ -110,6 +171,21 @@ namespace TelegramBot.NyaBot
             };
 
             api.SendRequest("sendSticker", stickerw);
+        }
+
+        internal async Task SendStickerAsync(string chatId, string sticker, bool disableNotification = false,
+                        int replyToMessageId = 0, object replyMarkup = null)
+        {
+            var stickerw = new StickerToSend
+            {
+                ChatId = chatId,
+                Sticker = sticker,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            };
+
+            await api.SendRequestAsync("sendSticker", stickerw);
         }
 
         internal void SendChatAction(string chatId, ChatAction action)
@@ -147,6 +223,42 @@ namespace TelegramBot.NyaBot
             api.SendRequest("sendChatAction", actionw);
         }
 
+        internal async Task SendChatActionAsync(string chatId, ChatAction action)
+        {
+            string actionString = String.Empty;
+
+            switch (action)
+            {
+                case ChatAction.Typing:
+                    actionString = "typing";
+                    break;
+                case ChatAction.UploadPhoto:
+                    actionString = "upload_photo";
+                    break;
+                case ChatAction.UploadAudio:
+                    actionString = "upload_audio";
+                    break;
+                case ChatAction.UploadDocument:
+                    actionString = "upload_document";
+                    break;
+                case ChatAction.UploadVideo:
+                    actionString = "upload_video";
+                    break;
+                case ChatAction.FindLocation:
+                    actionString = "find_location";
+                    break;
+            }
+
+            var actionw = new ChatActionToSend
+            {
+                ChatId = chatId,
+                Action = actionString
+            };
+
+            await api.SendRequestAsync("sendChatAction", actionw);
+        }
+
+        // normal versions
         internal void SendMessage(long chatId, string text, bool disableWebPagePreview = false,
                                 bool disableNotification = false, int replyToMessageId = 0, object replyMarkup = null) =>
         SendMessage(chatId.ToString(), text, disableWebPagePreview, disableNotification, replyToMessageId, replyMarkup);
@@ -169,6 +281,31 @@ namespace TelegramBot.NyaBot
 
         internal void SendChatAction(long chatId, ChatAction action) =>
         SendChatAction(chatId.ToString(), action);
+
+        //async versions
+        internal async Task SendMessageAsync(long chatId, string text, bool disableWebPagePreview = false,
+                                bool disableNotification = false, int replyToMessageId = 0, object replyMarkup = null) =>
+        await SendMessageAsync(chatId.ToString(), text, disableWebPagePreview, disableNotification, replyToMessageId, replyMarkup);
+
+        internal async Task EditMessageTextAsync(long chatId, string text, int messageId = 0, string inlineMessageId = null,
+                             bool disableWebPagePreview = false, object replyMarkup = null) =>
+        await EditMessageTextAsync(chatId.ToString(), text, messageId, inlineMessageId, disableWebPagePreview, replyMarkup);
+
+        internal async Task EditMessageReplyMarkupAsync(long chatId = 0, int messageId = 0, string inlineMessageId = null,
+                                           InlineKeyboardMarkup replyMarkup = null) =>
+        await EditMessageReplyMarkupAsync(chatId.ToString(), messageId, inlineMessageId, replyMarkup);
+
+        internal async Task SendPhotoAsync(long chatId, string photo, string caption = null, bool disableNotification = false,
+                              int replyToMessageId = 0, object replyMarkup = null) =>
+        await SendPhotoAsync(chatId.ToString(), photo, caption, disableNotification, replyToMessageId, replyMarkup);
+
+        internal async Task SendStickerAsync(long chatId, string sticker, bool disableNotification = false,
+                                int replyToMessageId = 0, object replyMarkup = null) =>
+        await SendStickerAsync(chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
+
+        internal async Task SendChatActionAsync(long chatId, ChatAction action) =>
+        await SendChatActionAsync(chatId.ToString(), action);
+        // end
 
         private void UpdatesThread()
         {

@@ -61,6 +61,7 @@ namespace TelegramBot.NyaBot
             try
             {
                 var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
                 var request = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{methodName}");
                 request.ContentType = "application/json";
                 request.Method = "POST";
