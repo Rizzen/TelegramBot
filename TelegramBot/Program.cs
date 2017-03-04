@@ -7,30 +7,25 @@ namespace TelegramBot
 {
     class Program
     {
-        // сюда нужно вставить токен. Свой я больше не буду распространять, потому что этим 
-        // можно воспользоваться для бана моего аккаунта
-        static NyanBot bot = new NyanBot("TOKEN");
-
-        // хелпер с ником моего бота
-        static BotHelper bh = new BotHelper("BaaakaBot");
-
-        // глобальный рандом
-        static Random random = new Random();
-
+        static NyanBot bot = null;
+        static BotHelper botHelper = null;
+        static Random random = null;
         static DateTime startTime;
 
         static void Main(string[] args)
         {
         	Logger.Init(true, false);
+
+            bot = new NyanBot("TOKEN");
+            botHelper = new BotHelper("BaaakaBot");
+
+            random = new Random();
+
             bot.OnMessage += Bot_OnMessage;
             bot.OnCallbackQuery += Bot_OnCallbackQuery;
+
             startTime = DateTime.Now;
             bot.Start();
-
-            // Какая-то хуйня, которая осталась от прошлых ботов. Не буду удалять, вдруг кому-то нужно.
-            //SimpleBot maBot = new SimpleBot();
-            //maBot.updateMessage += MaBot_updateMessage;
-            //maBot.StartBot();
         }
 
         static void Bot_OnMessage(TelegramMessageEventArgs a)
@@ -46,13 +41,13 @@ namespace TelegramBot
             Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
 
             // демонстрация команды с аргументами
-            if (bh.CheckCommand(text, "/roll", "ролл", "roll") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "/roll", "ролл", "roll") && botHelper.CheckTime(a.From.Id))
             {
                 // ставим стандартное максимальное значение
                 int maxValue = 100;
 
                 //получаем список аргументов
-                var ar = bh.GetCommandArgs(text);
+                var ar = botHelper.GetCommandArgs(text);
 
                 // пытаемся разобрать новое значение из первого аргумента, если он есть
                 if (ar.Length > 0)
@@ -70,19 +65,19 @@ namespace TelegramBot
             }
 
             // демонстрация отправки изображения
-            if (bh.CheckCommand(text, "рулетка") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "рулетка") && botHelper.CheckTime(a.From.Id))
             {
                 bot.SendPhoto(a.ChatId, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replyToMessageId: a.MessageId);
             }
 
             // демонстрация отправки стикера
-            if (bh.CheckCommand(text, "o_o", "o.o", "о_о", "о.о") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "o_o", "o.o", "о_о", "о.о") && botHelper.CheckTime(a.From.Id))
             {
                 // магическая строка - это id стикера
                 bot.SendSticker(a.ChatId, "CAADBAADxgIAAlI5kwbR0EZ_zGfzwQI", replyToMessageId: a.MessageId);
             }
 
-            if (bh.CheckCommand(text, "аптайм", "/uptime", "uptime") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "аптайм", "/uptime", "uptime") && botHelper.CheckTime(a.From.Id))
             {
                 var uptime = DateTime.Now - startTime;
 
@@ -90,9 +85,9 @@ namespace TelegramBot
             }
 
             // команда, которая выводит изображение, которое находится в первом аргументе
-            if (bh.CheckCommand(text, "img") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "img") && botHelper.CheckTime(a.From.Id))
             {
-                var ar = bh.GetCommandArgs(text);
+                var ar = botHelper.GetCommandArgs(text);
                 if (ar.Length < 1)
                 {
                     return;
@@ -101,22 +96,22 @@ namespace TelegramBot
             }
 
             // демонстрация получения списка аргументов
-            if (bh.CheckCommand(text, "аргументы") && bh.CheckTime(a.From.Id, 3))
+            if (botHelper.CheckCommand(text, "аргументы") && botHelper.CheckTime(a.From.Id, 3))
             {
-                var result = bh.GetCommandArgs(text);
+                var result = botHelper.GetCommandArgs(text);
 
                 bot.SendMessage(a.ChatId, "{" + $"{String.Join(";", result)}" + "}");
             }
 
             // калькулятор
-            if (bh.CheckCommand(text, "!") && bh.CheckTime(a.From.Id, 3))
+            if (botHelper.CheckCommand(text, "!") && botHelper.CheckTime(a.From.Id, 3))
             {
                 string result = String.Empty;
                 using (var table = new System.Data.DataTable())
                 {
                     try
                     {
-                        result = table.Compute(String.Join(" ", bh.GetCommandArgs(text)), String.Empty).ToString();
+                        result = table.Compute(String.Join(" ", botHelper.GetCommandArgs(text)), String.Empty).ToString();
                         bot.SendMessage(a.ChatId, result, replyToMessageId: a.MessageId);
                     }
                     catch
@@ -127,7 +122,7 @@ namespace TelegramBot
             }
 
             // демонстрация клавиатуры
-            if (bh.CheckCommand(text, "клава"))
+            if (botHelper.CheckCommand(text, "клава"))
             {
                 var kb = new API_Classes.ReplyKeyboardMarkup
                 {
@@ -173,7 +168,7 @@ namespace TelegramBot
             }
 
             // демонстрация инлайн кнопок
-            if (bh.CheckCommand(text, "инлайн"))
+            if (botHelper.CheckCommand(text, "инлайн"))
             {
                 var kb = new API_Classes.InlineKeyboardMarkup
                 {
@@ -195,7 +190,7 @@ namespace TelegramBot
             }
 
             // демонстрация скрытия клавиатуры
-            if (bh.CheckCommand(text, "скрыть"))
+            if (botHelper.CheckCommand(text, "скрыть"))
             {
                 var kb = new API_Classes.ReplyKeyboardRemove
                 {
@@ -204,10 +199,10 @@ namespace TelegramBot
                 bot.SendMessage(a.ChatId, "ок", replyMarkup: kb);
             }
 
-            if (bh.CheckCommand(text, "сосач", "2ch", @"/2ch", "двач") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "сосач", "2ch", @"/2ch", "двач") && botHelper.CheckTime(a.From.Id))
             {
                 var arg = "b";
-                var ar = bh.GetCommandArgs(text);
+                var ar = botHelper.GetCommandArgs(text);
                 if (ar.Length > 0)
                 {
                     // костыльные замены, чтобы не делать запросы на совсем хуйню вместо раздела
@@ -226,13 +221,13 @@ namespace TelegramBot
             }
 
             // демонстрация отправки действия бота
-            if (bh.CheckCommand(text, "тест") && bh.CheckTime(a.From.Id, 100))
+            if (botHelper.CheckCommand(text, "тест") && botHelper.CheckTime(a.From.Id, 100))
             {
                 bot.SendChatAction(a.ChatId, NyaBot.Types.ChatAction.UploadPhoto);
             }
 
             // для даунов
-            if (bh.CheckCommand(text, "ь") && bh.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "ь") && botHelper.CheckTime(a.From.Id))
             {
                 bot.SendMessage(a.ChatId, "http://tsya.ru");
             }
@@ -266,18 +261,6 @@ namespace TelegramBot
             };
 
             bot.EditMessageReplyMarkup(a.CallbackQuery.Message.Chat.Id, a.CallbackQuery.Message.MessageId, replyMarkup: kb);
-        }
-
-        // ещё один метод, который нахуй тут не нужен, но всё ещё тут
-        private static void MaBot_updateMessage(string message)
-        {
-            Console.Write("Message received\n");
-
-            FileDownloader downloaderMaBot = new FileDownloader();
-            if(downloaderMaBot.IsFileLink(message))
-            {
-                downloaderMaBot.DownloadFile(message);
-            }
         }
     }
 }
