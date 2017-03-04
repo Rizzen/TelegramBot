@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -105,6 +105,8 @@
     <Compile Include="NyaBot\Types\EditMarkupData.cs" />
     <Compile Include="NyaBot\Args\CallbackQueryEventArgs.cs" />
     <Compile Include="NyaBot\Handlers\CallbackQueryHandler.cs" />
+    <Compile Include="NyaBot\Types\UpdatesRequest.cs" />
+    <Compile Include="NyaBot\Types\ChatActionToSend.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

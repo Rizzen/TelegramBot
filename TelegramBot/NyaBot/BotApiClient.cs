@@ -16,11 +16,12 @@ namespace TelegramBot.NyaBot
             this.token = token;
         }
 
-        // в дальнейшем нужно перевести всё на этот метод
-        public void SendRequest(string methodName, object o)
+        public string SendRequest(string methodName, object o)
         {
             HttpWebResponse response = null;
             StreamWriter streamWriter = null;
+            StreamReader streamReader = null;
+            string result = String.Empty;
 
             try
             {
@@ -36,29 +37,6 @@ namespace TelegramBot.NyaBot
                 }
 
                 response = (HttpWebResponse)webRequest.GetResponse();
-                // добавить сюда получение ответа, если он нужен
-                response?.Close();
-            }
-            catch (Exception e)
-            {
-                streamWriter?.Dispose();
-                response?.Dispose();
-                Logger.LogError(e);
-            }
-        }
-
-        // TODO: заменить все вызовы этого метода на json-аналоги и убрать его
-        public string DownloadString(string method)
-        {
-            HttpWebResponse response = null;
-            StreamReader streamReader = null;
-            string result = String.Empty;
-
-            try
-            {
-                var webRequest = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{method}");
-                response = (HttpWebResponse)webRequest.GetResponse();
-
                 using (streamReader = new StreamReader(response.GetResponseStream()))
                 {
                     result = streamReader.ReadToEnd();
@@ -68,7 +46,7 @@ namespace TelegramBot.NyaBot
             {
                 Logger.LogError(e);
             }
-
+            streamWriter?.Dispose();
             response?.Dispose();
             streamReader?.Dispose();
 

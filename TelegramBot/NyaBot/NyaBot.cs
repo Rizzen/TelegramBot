@@ -138,7 +138,13 @@ namespace TelegramBot.NyaBot
                     break;
             }
 
-            api.DownloadString($"sendChatAction?chat_id={chatId}&action={actionString}");
+            var actionw = new ChatActionToSend
+            {
+                ChatId = chatId,
+                Action = actionString
+            };
+
+            api.SendRequest("sendChatAction", actionw);
         }
 
         internal void SendMessage(long chatId, string text, bool disableWebPagePreview = false,
@@ -216,7 +222,12 @@ namespace TelegramBot.NyaBot
         {
             try
             {
-                var jsonText = api.DownloadString($"getUpdates?offset={updateOffset}");
+                var request = new UpdatesRequest
+                {
+                    Offset = updateOffset
+                };
+
+                var jsonText = api.SendRequest("getUpdates", request);
                 var response = JsonConvert.DeserializeObject<Response>(jsonText);
                 if (response.Success)
                 {
