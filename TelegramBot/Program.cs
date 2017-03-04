@@ -112,42 +112,11 @@ namespace TelegramBot
             {
                 var kb = new API_Classes.ReplyKeyboardMarkup
                 {
-                    // клавиатура выглядит как массив строк из кнопок, внутри которых массив кнопок: keyboard[строки], строка[кнопки]
-                    Keyboard = new[]
-                    {
-                        // ряд 1
-                        new []
-                        {
-                            new API_Classes.KeyboardButton
-                            {
-                                Text = "ролл"
-                            },
-                            new API_Classes.KeyboardButton
-                            {
-                                Text = "рулетка"
-                            }
-                        },
-                        // ряд 2
-                        new []
-                        {
-                            new API_Classes.KeyboardButton
-                            {
-                                Text = "аптайм"
-                            },
-                            new API_Classes.KeyboardButton
-                            {
-                                Text = "сосач"
-                            }
-                        },
-                        //ряд 3
-                        new []
-                        {
-                            new API_Classes.KeyboardButton
-                            {
-                                Text = "скрыть"
-                            }
-                        }
-                    }
+                    // клавиатура выглядит как массив строк из кнопок, внутри которых массив кнопок: keyboard[строки], строка[кнопки],
+                    // но если это сложно, то можно просто использовать билдер клавиатуры из вспомогательного класса
+                    Keyboard = BotHelper.BuildKeyboard(BotHelper.BuildButtonsRow("ролл", "рулетка"),
+                                                       BotHelper.BuildButtonsRow("аптайм", "сосач"),
+                                                       BotHelper.BuildButtonsRow("скрыть"))
                 };
 
                 bot.SendMessage(a.ChatId, "Выбирай!", replyMarkup: kb);

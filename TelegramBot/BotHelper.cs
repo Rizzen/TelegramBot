@@ -107,5 +107,41 @@ namespace TelegramBot
 
             return result;
         }
+
+        /// <summary>
+        /// Возвращает клавиатуру из указанных рядов кнопок.
+        /// </summary>
+        /// <returns>Клавиатура.</returns>
+        /// <param name="ButtonRows">Ряды из кнопок.</param>
+        internal static API_Classes.KeyboardButton[][] BuildKeyboard(params API_Classes.KeyboardButton[][] ButtonRows)
+        {
+            var result = new API_Classes.KeyboardButton[ButtonRows.Length][];
+            for (int i = 0; i < ButtonRows.Length; i++)
+            {
+                result[i] = ButtonRows[i];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Возвращает кнопки с указанными заголовками.
+        /// </summary>
+        /// <returns>Кнопки для клавиатуры.</returns>
+        /// <param name="Captions">Заголовки кнопок.</param>
+        internal static API_Classes.KeyboardButton[] BuildButtonsRow(params string[] Captions)
+        {
+            var result = new API_Classes.KeyboardButton[Captions.Length];
+
+            for (int i = 0; i < Captions.Length; i++)
+            {
+                result[i] = new API_Classes.KeyboardButton
+                {
+                    Text = Captions[i]
+                };
+            }
+
+            return result;
+        }
     }
 }
