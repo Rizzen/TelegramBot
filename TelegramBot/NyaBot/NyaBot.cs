@@ -20,6 +20,7 @@ namespace TelegramBot.NyaBot
 
         public NyanBot(string token)
         {
+            //создаем бот клиент с указанным токеном
             api = new BotApiClient(token);
         }
 
