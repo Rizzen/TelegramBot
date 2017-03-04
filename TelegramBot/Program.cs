@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using TelegramBot.NyaBot;
 using TelegramBot.NyaBot.Args;
@@ -28,7 +29,7 @@ namespace TelegramBot
             bot.Start();
         }
 
-        static void Bot_OnMessage(TelegramMessageEventArgs a)
+        static async void Bot_OnMessage(TelegramMessageEventArgs a)
         {
             // проверка: текстовое ли сообщеине. В дальнейшем нужно определять его тип ещё 
             // во время парсинга в классе бота
@@ -181,6 +182,12 @@ namespace TelegramBot
             if (botHelper.CheckCommand(text, "ь") && botHelper.CheckTime(a.From.Id))
             {
                 bot.SendMessage(a.ChatId, "http://tsya.ru");
+            }
+
+            // демо асинхронности
+            if (botHelper.CheckCommand(text, "асинк", "async") && botHelper.CheckTime(a.From.Id))
+            {
+                await bot.SendMessageAsync(a.ChatId, "Это сообщение отправлено асинхронно!", replyToMessageId: a.MessageId);
             }
         }
 
