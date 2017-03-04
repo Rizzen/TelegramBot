@@ -11,6 +11,6 @@ namespace TelegramBot.API_Classes
         /// Array of button rows, each represented by an Array of InlineKeyboardButton objects
         /// </summary>
         [JsonProperty("inline_keyboard")]
-        internal InlineKeyboardButton[] InlineKeyboard { get; set; }
+        internal InlineKeyboardButton[][] InlineKeyboard { get; set; }
     }
 }

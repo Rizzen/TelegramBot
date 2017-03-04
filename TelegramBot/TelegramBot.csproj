@@ -98,6 +98,13 @@
     <Compile Include="NyaBot\NyaBot.cs" />
     <Compile Include="Sosach.cs" />
     <Compile Include="NyaBot\Types\ChatAction.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="NyaBot\Args\InlineQueryEventArgs.cs" />
+    <Compile Include="NyaBot\Handlers\InlineQueryHandler.cs" />
+    <Compile Include="NyaBot\Types\EditMessageData.cs" />
+    <Compile Include="NyaBot\Types\EditMarkupData.cs" />
+    <Compile Include="NyaBot\Args\CallbackQueryEventArgs.cs" />
+    <Compile Include="NyaBot\Handlers\CallbackQueryHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

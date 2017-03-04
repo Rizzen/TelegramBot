@@ -7,15 +7,16 @@ namespace TelegramBot.NyaBot
 {
     internal class BotApiClient
     {
-        const string BASE_API_ADDRESS = @"https://api.telegram.org/bot";
+        const string baseApiAddress = @"https://api.telegram.org/bot";
 
-        private string token;
+        private readonly string token;
 
         public BotApiClient(string token)
         {
             this.token = token;
         }
 
+        // в дальнейшем нужно перевести всё на этот метод
         public void SendRequest(string methodName, object o)
         {
             HttpWebResponse response = null;
@@ -25,7 +26,7 @@ namespace TelegramBot.NyaBot
             {
                 var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
-                var webRequest = (HttpWebRequest)WebRequest.Create($"{BASE_API_ADDRESS}{token}/{methodName}");
+                var webRequest = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{methodName}");
                 webRequest.ContentType = "application/json";
                 webRequest.Method = "POST";
 
@@ -42,10 +43,11 @@ namespace TelegramBot.NyaBot
             {
                 streamWriter?.Dispose();
                 response?.Dispose();
-                Console.WriteLine(e);
+                Logger.LogError(e);
             }
         }
 
+        // TODO: заменить все вызовы этого метода на json-аналоги и убрать его
         public string DownloadString(string method)
         {
             HttpWebResponse response = null;
@@ -54,7 +56,7 @@ namespace TelegramBot.NyaBot
 
             try
             {
-                var webRequest = (HttpWebRequest)WebRequest.Create($"{BASE_API_ADDRESS}{token}/{method}");
+                var webRequest = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{method}");
                 response = (HttpWebResponse)webRequest.GetResponse();
 
                 using (streamReader = new StreamReader(response.GetResponseStream()))
@@ -64,7 +66,7 @@ namespace TelegramBot.NyaBot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.LogError(e);
             }
 
             response?.Dispose();

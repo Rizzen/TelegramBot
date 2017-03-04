@@ -1,12 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TelegramBot.NyaBot.Types
 {
     internal class StickerToSend
     {
         [JsonProperty("chat_id")]
-        public long ChatId { get; set; }
+        public string ChatId { get; set; }
 
         [JsonProperty("sticker")]
         public string Sticker { get; set; }
