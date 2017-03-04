@@ -43,31 +43,27 @@ namespace TelegramBot
             // демонстрация команды с аргументами
             if (botHelper.CheckCommand(text, "/roll", "ролл", "roll") && botHelper.CheckTime(a.From.Id))
             {
-                // ставим стандартное максимальное значение
                 int maxValue = 100;
+                var msgArgs = botHelper.GetCommandArgs(text);
 
-                //получаем список аргументов
-                var ar = botHelper.GetCommandArgs(text);
-
-                // пытаемся разобрать новое значение из первого аргумента, если он есть
-                if (ar.Length > 0)
+                if (msgArgs.Length > 0)
                 {
                     int o;
-                    if (Int32.TryParse(ar[0], out o))
+                    if (Int32.TryParse(msgArgs[0], out o))
                     {
-                        // число приводим к абсолютному виду, мало ли, что пидор мог ввести
                         maxValue = Math.Abs(o);
                     }
                 }
-                // тут всё ясно, думаю
-                var result = random.Next(maxValue + 1).ToString();
+
+                string result = random.Next(++maxValue).ToString();
+
                 bot.SendMessage(a.ChatId, result, replyToMessageId: a.MessageId);
             }
 
             // демонстрация отправки изображения
-            if (botHelper.CheckCommand(text, "рулетка") && botHelper.CheckTime(a.From.Id))
+            if (botHelper.CheckCommand(text, "картинка") && botHelper.CheckTime(a.From.Id))
             {
-                bot.SendPhoto(a.ChatId, @"https://2ch.hk/b/arch/2016-07-15/src/131892994/14686119832660.jpg", replyToMessageId: a.MessageId);
+                bot.SendPhoto(a.ChatId, @"https://telegram.org/img/t_logo.png", replyToMessageId: a.MessageId);
             }
 
             // демонстрация отправки стикера
@@ -81,37 +77,27 @@ namespace TelegramBot
             {
                 var uptime = DateTime.Now - startTime;
 
-                bot.SendMessage(a.ChatId, uptime.ToString("c"));
-            }
-
-            // команда, которая выводит изображение, которое находится в первом аргументе
-            if (botHelper.CheckCommand(text, "img") && botHelper.CheckTime(a.From.Id))
-            {
-                var ar = botHelper.GetCommandArgs(text);
-                if (ar.Length < 1)
-                {
-                    return;
-                }
-                bot.SendPhoto(a.ChatId, ar[0], "", replyToMessageId:a.MessageId);
+                bot.SendMessage(a.ChatId, uptime.ToString(@"HH\:mm\:ss"));
             }
 
             // демонстрация получения списка аргументов
-            if (botHelper.CheckCommand(text, "аргументы") && botHelper.CheckTime(a.From.Id, 3))
+            if (botHelper.CheckCommand(text, "аргументы") && botHelper.CheckTime(a.From.Id))
             {
-                var result = botHelper.GetCommandArgs(text);
+                var msgArgs = botHelper.GetCommandArgs(text);
 
-                bot.SendMessage(a.ChatId, "{" + $"{String.Join(";", result)}" + "}");
+                string result = String.Join(";", msgArgs);
+
+                bot.SendMessage(a.ChatId, "{" + result + "}");
             }
 
             // калькулятор
             if (botHelper.CheckCommand(text, "!") && botHelper.CheckTime(a.From.Id, 3))
             {
-                string result = String.Empty;
                 using (var table = new System.Data.DataTable())
                 {
                     try
                     {
-                        result = table.Compute(String.Join(" ", botHelper.GetCommandArgs(text)), String.Empty).ToString();
+                        string result = table.Compute(String.Join(" ", botHelper.GetCommandArgs(text)), String.Empty).ToString();
                         bot.SendMessage(a.ChatId, result, replyToMessageId: a.MessageId);
                     }
                     catch
@@ -205,10 +191,6 @@ namespace TelegramBot
                 var ar = botHelper.GetCommandArgs(text);
                 if (ar.Length > 0)
                 {
-                    // костыльные замены, чтобы не делать запросы на совсем хуйню вместо раздела
-                    //arg = ar[0].Replace("/", "").Replace(".", "").Replace(";", "");
-
-                    // пофикшено статическим методом
                     if (Sosach.CheckBoardName(ar[0]))
                     {
                         arg = ar[0];
@@ -221,7 +203,7 @@ namespace TelegramBot
             }
 
             // демонстрация отправки действия бота
-            if (botHelper.CheckCommand(text, "тест") && botHelper.CheckTime(a.From.Id, 100))
+            if (botHelper.CheckCommand(text, "действие") && botHelper.CheckTime(a.From.Id, 100))
             {
                 bot.SendChatAction(a.ChatId, NyaBot.Types.ChatAction.UploadPhoto);
             }
