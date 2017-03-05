@@ -17,7 +17,7 @@ namespace TelegramBot.NyaBot
             this.token = token;
         }
 
-        public string SendRequest(string methodName, object o)
+        public string SendRequest(string methodName, object o = null)
         {
             StreamWriter streamWriter = null;
             StreamReader streamReader = null;
@@ -31,6 +31,7 @@ namespace TelegramBot.NyaBot
                 if (o != null)
                 {
                     var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+
                     webRequest.ContentType = "application/json";
                     using (streamWriter = new StreamWriter(webRequest.GetRequestStream()))
                     {
@@ -54,7 +55,7 @@ namespace TelegramBot.NyaBot
             return result;
         }
 
-        public async Task<string> SendRequestAsync(string methodName, object o)
+        public async Task<string> SendRequestAsync(string methodName, object o = null)
         {
             StreamWriter streamWriter = null;
             StreamReader streamReader = null;
