@@ -25,15 +25,17 @@ namespace TelegramBot.NyaBot
 
             try
             {
-                var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-
                 var webRequest = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{methodName}");
-                webRequest.ContentType = "application/json";
                 webRequest.Method = "POST";
 
-                using (streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+                if (o != null)
                 {
-                    streamWriter.Write(jsonText);
+                    var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    webRequest.ContentType = "application/json";
+                    using (streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+                    {
+                        streamWriter.Write(jsonText);
+                    }
                 }
 
                 var response = (HttpWebResponse)webRequest.GetResponse();
@@ -60,16 +62,18 @@ namespace TelegramBot.NyaBot
 
             try
             {
-                var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-
                 var request = (HttpWebRequest)WebRequest.Create($"{baseApiAddress}{token}/{methodName}");
-                request.ContentType = "application/json";
                 request.Method = "POST";
 
-                var requestStream = await request.GetRequestStreamAsync();
-                using (streamWriter = new StreamWriter(requestStream))
+                if (o != null)
                 {
-                    await streamWriter.WriteAsync(jsonText);
+                    var jsonText = JsonConvert.SerializeObject(o, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                    request.ContentType = "application/json";
+                    var requestStream = await request.GetRequestStreamAsync();
+                    using (streamWriter = new StreamWriter(requestStream))
+                    {
+                        await streamWriter.WriteAsync(jsonText);
+                    }
                 }
 
                 var response = await request.GetResponseAsync() as HttpWebResponse;
