@@ -107,6 +107,7 @@
     <Compile Include="NyaBot\Handlers\CallbackQueryHandler.cs" />
     <Compile Include="NyaBot\Types\UpdatesRequest.cs" />
     <Compile Include="NyaBot\Types\ChatActionToSend.cs" />
+    <Compile Include="API Classes\ApiResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
