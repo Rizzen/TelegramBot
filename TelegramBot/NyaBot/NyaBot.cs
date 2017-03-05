@@ -34,6 +34,38 @@ namespace TelegramBot.NyaBot
 
         internal bool IsRun => isRun;
 
+        internal User GetMe()
+        {
+            var json = api.SendRequest("getMe");
+            try
+            {
+                var result = JsonConvert.DeserializeObject<ApiResponse<User>>(json);
+                if (result.Ok) return result.ResultObject;
+                else return null;
+            }
+            catch (JsonException e)
+            {
+                Logger.LogError(e);
+                return null;
+            }
+        }
+
+        internal async Task<User> GetMeAsync()
+        {
+            var json = await api.SendRequestAsync("getMe");
+            try
+            {
+                var result = JsonConvert.DeserializeObject<ApiResponse<User>>(json);
+                if (result.Ok) return result.ResultObject;
+                else return null;
+            }
+            catch (JsonException e)
+            {
+                Logger.LogError(e);
+                return null;
+            }
+        }
+
         internal void SendMessage(string chatId, string text, bool disableWebPagePreview = false,
                                 bool disableNotification = false, int replyToMessageId = 0, object replyMarkup = null)
         {

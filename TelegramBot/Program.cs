@@ -189,6 +189,26 @@ namespace TelegramBot
             {
                 await bot.SendMessageAsync(a.ChatId, "Это сообщение отправлено асинхронно!", replyToMessageId: a.MessageId);
             }
+
+            if (botHelper.CheckCommand(text, "getme") && botHelper.CheckTime(a.From.Id))
+            {
+                var me = bot.GetMe();
+                if (me == null)
+                {
+                    bot.SendMessage(a.ChatId, "Ошибка!");
+                }
+                else
+                {
+                    string firstName = me.FirstName ?? "";
+                    string lastName = me.LastName ?? "";
+                    string userName = me.Username ?? "";
+                    var id = me.Id.ToString();
+                    var result = String.Format("FirstName: {1}{0}LastName: {2}{0}UserName: {3}{0}Id: {4}", Environment.NewLine, firstName,
+                                                  lastName, userName, id);
+
+                    bot.SendMessage(a.ChatId, result);
+                }
+            }
         }
 
         static void Bot_OnCallbackQuery(CallbackQueryEventArgs a)
