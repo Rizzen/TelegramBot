@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,13 +46,74 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API Classes\GameFolder\Animation.cs" />
+    <Compile Include="API Classes\Audio.cs" />
+    <Compile Include="API Classes\GameFolder\CallbackGame.cs" />
+    <Compile Include="API Classes\CallbackQuery.cs" />
+    <Compile Include="API Classes\Chat.cs" />
+    <Compile Include="API Classes\ChatMember.cs" />
+    <Compile Include="API Classes\Contact.cs" />
+    <Compile Include="API Classes\Document.cs" />
+    <Compile Include="API Classes\File.cs" />
+    <Compile Include="API Classes\ForceReply.cs" />
+    <Compile Include="API Classes\GameFolder\Game.cs" />
+    <Compile Include="API Classes\Inline mode\ChosenInlineResult.cs" />
+    <Compile Include="API Classes\Inline mode\InlineQuery.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputContactMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputLocationMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputTextMessageContent.cs" />
+    <Compile Include="API Classes\Inline mode\InputMessageContents\InputVenueMessageContent.cs" />
+    <Compile Include="API Classes\InlineKeyboardButton.cs" />
+    <Compile Include="API Classes\InlineKeyboardMarkup.cs" />
+    <Compile Include="API Classes\KeyboardButton.cs" />
+    <Compile Include="API Classes\Location.cs" />
+    <Compile Include="API Classes\Message.cs" />
+    <Compile Include="API Classes\MessageEntity.cs" />
+    <Compile Include="API Classes\PhotoSize.cs" />
+    <Compile Include="API Classes\ReplyKeyboardMarkup.cs" />
+    <Compile Include="API Classes\ReplyKeyboardRemove.cs" />
+    <Compile Include="API Classes\Response.cs" />
+    <Compile Include="API Classes\ResponseParameters.cs" />
+    <Compile Include="API Classes\Sticker.cs" />
+    <Compile Include="API Classes\Update.cs" />
+    <Compile Include="API Classes\User.cs" />
+    <Compile Include="API Classes\UserProfilePhotos.cs" />
+    <Compile Include="API Classes\Venue.cs" />
+    <Compile Include="API Classes\Video.cs" />
+    <Compile Include="API Classes\Voice.cs" />
+    <Compile Include="FileDownloader.cs" />
+    <Compile Include="IlluminatiBot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />
+    <Compile Include="JoeBot.cs" />
+    <Compile Include="BotHelper.cs" />
+    <Compile Include="NyaBot\Args\TelegramMessageEventArgs.cs" />
+    <Compile Include="NyaBot\Handlers\TelegramMessageHandler.cs" />
+    <Compile Include="NyaBot\Types\MessageToSend.cs" />
+    <Compile Include="NyaBot\Types\PhotoToSend.cs" />
+    <Compile Include="NyaBot\Types\StickerToSend.cs" />
+    <Compile Include="NyaBot\BotApiClient.cs" />
+    <Compile Include="NyaBot\NyaBot.cs" />
+    <Compile Include="Sosach.cs" />
+    <Compile Include="NyaBot\Types\ChatAction.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="NyaBot\Args\InlineQueryEventArgs.cs" />
+    <Compile Include="NyaBot\Handlers\InlineQueryHandler.cs" />
+    <Compile Include="NyaBot\Types\EditMessageData.cs" />
+    <Compile Include="NyaBot\Types\EditMarkupData.cs" />
+    <Compile Include="NyaBot\Args\CallbackQueryEventArgs.cs" />
+    <Compile Include="NyaBot\Handlers\CallbackQueryHandler.cs" />
+    <Compile Include="NyaBot\Types\UpdatesRequest.cs" />
+    <Compile Include="NyaBot\Types\ChatActionToSend.cs" />
+    <Compile Include="API Classes\ApiResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
