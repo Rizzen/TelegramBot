@@ -80,7 +80,7 @@ namespace TelegramBot
 
                 try
                 {
-                    bot.SendMessage(a.ChatId, uptime.ToString(@"HH\:mm\:ss"));
+                    bot.SendMessage(a.ChatId, uptime.ToString(@"hh\:mm\:ss"));
                 }
                 catch(FormatException ex)
                 {
