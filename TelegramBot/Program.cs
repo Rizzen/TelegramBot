@@ -17,8 +17,8 @@ namespace TelegramBot
         {
         	Logger.Init(true, false);
 
-            bot = new NyanBot("TOKEN");
-            botHelper = new BotHelper("BaaakaBot");
+            bot = new NyanBot("375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ");
+            botHelper = new BotHelper("375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ");
 
             random = new Random();
 
@@ -78,7 +78,14 @@ namespace TelegramBot
             {
                 var uptime = DateTime.Now - startTime;
 
-                bot.SendMessage(a.ChatId, uptime.ToString(@"HH\:mm\:ss"));
+                try
+                {
+                    bot.SendMessage(a.ChatId, uptime.ToString(@"HH\:mm\:ss"));
+                }
+                catch(FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             // демонстрация получения списка аргументов
