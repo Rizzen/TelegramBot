@@ -264,8 +264,7 @@ namespace TelegramBot
             {
                 await bot.SendMessageAsync(REDIRECT_TO, text);
                 Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
-                Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
-                Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
+                
             }
         }
     }
