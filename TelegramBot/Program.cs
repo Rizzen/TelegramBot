@@ -254,11 +254,15 @@ namespace TelegramBot
         //Redirect message method
         static async void ForwardMessadeToChat(TelegramMessageEventArgs a)
         {
+            const string USER = null;
+            const long REDIRECT_TO = -1001092030067;
+            const long REDIRECT_FROM = 128055968;
+
             string text = a.Message.Text;
            // Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
-            if (a.From.Username == "RizzenHlaalu" && a.ChatId == 128055968)
+            if (a.From.Username == USER && a.ChatId == REDIRECT_FROM)
             {
-                await bot.SendMessageAsync(-1001092030067, text);
+                await bot.SendMessageAsync(REDIRECT_TO, text);
                 Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
             }
         }
