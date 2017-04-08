@@ -17,11 +17,14 @@ namespace TelegramBot
         {
         	Logger.Init(true, false);
 
-            bot = new NyanBot("TOKEN");
-            botHelper = new BotHelper("BaaakaBot");
+            // 375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ - старый ID 
+
+            bot = new NyanBot("356066984:AAH9NAb1WL54Sk4yoY05s6t2A-cJacrbt6c");
+            botHelper = new BotHelper("356066984:AAH9NAb1WL54Sk4yoY05s6t2A-cJacrbt6c");
 
             random = new Random();
 
+            bot.OnMessage += ForwardMessadeToChat;
             bot.OnMessage += Bot_OnMessage;
             bot.OnCallbackQuery += Bot_OnCallbackQuery;
 
@@ -39,7 +42,7 @@ namespace TelegramBot
             }
 
             string text = a.Message.Text;
-            Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
+            Logger.LogMessage($"from Chat {a.ChatId} {a.From.Username ?? a.From.Id.ToString()}: {text}");
 
             // демонстрация команды с аргументами
             if (botHelper.CheckCommand(text, "/roll", "ролл", "roll") && botHelper.CheckTime(a.From.Id))
@@ -78,7 +81,14 @@ namespace TelegramBot
             {
                 var uptime = DateTime.Now - startTime;
 
-                bot.SendMessage(a.ChatId, uptime.ToString(@"HH\:mm\:ss"));
+                try
+                {
+                    bot.SendMessage(a.ChatId, uptime.ToString(@"hh\:mm\:ss"));
+                }
+                catch(FormatException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             // демонстрация получения списка аргументов
@@ -239,6 +249,24 @@ namespace TelegramBot
             };
 
             bot.EditMessageReplyMarkup(a.CallbackQuery.Message.Chat.Id, a.CallbackQuery.Message.MessageId, replyMarkup: kb);
+        }
+
+        //Redirect message method
+        static async void ForwardMessadeToChat(TelegramMessageEventArgs a)
+        {
+            const string USER = null;
+            const long REDIRECT_TO = -1001092030067;
+            const long REDIRECT_FROM = 128055968;
+
+            string text = a.Message.Text;
+           // Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
+            if (a.From.Username == USER && a.ChatId == REDIRECT_FROM)
+            {
+
+
+                await bot.SendMessageAsync(REDIRECT_TO, text);
+                Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
+            }
         }
     }
 }
