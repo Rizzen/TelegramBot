@@ -262,6 +262,9 @@ namespace TelegramBot
            // Logger.LogMessage($"{a.From.Username ?? a.From.Id.ToString()}: {text}");
             if (a.From.Username == USER && a.ChatId == REDIRECT_FROM)
             {
+
+
+
                 await bot.SendMessageAsync(REDIRECT_TO, text);
                 Logger.LogMessage($"Redirected from {a.From.Username} to -1001092030067 Chat");
             }
