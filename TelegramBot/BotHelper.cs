@@ -34,7 +34,7 @@ namespace TelegramBot
         /// <returns><c>true</c>, если команда разрашена, <c>false</c> если команда запрещена.</returns>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="timeInSecs">Время в секундах.</param>
-        public bool CheckTime(int userId, int timeInSecs = 10)
+        public bool CheckTime(int userId, int timeInSecs = 0)
         {
             if (!lastMessageTime.ContainsKey(userId))
             {
