@@ -7,8 +7,8 @@ namespace TelegramBot
 {
     class SimpleBot
     {
-        const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
-        const string URI = @"https://api.telegram.org/bot";
+        const string TOKEN      = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
+        const string URI        = @"https://api.telegram.org/bot";
         const string GETUPDATES = @"/getUpdates";
 
         private int _updateId = 0;
