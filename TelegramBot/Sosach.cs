@@ -1,53 +1,50 @@
 ﻿using System;
 using System.Text;
 using Newtonsoft.Json;
+using Ninject;
+using TelegramBot.Logging;
 
 namespace TelegramBot
 {
     public class Sosach
     {
-        string GetUrl(string boardName = "b")
-        {
-            return $"https://2ch.hk/{boardName}/catalog.json";
-        }
+        [Inject]
+        public ILogger Logger { get; set; }
 
         public string GetThreadsList(string boardName = "b")
         {
-            string url = GetUrl(boardName);
+            string url = $"https://2ch.hk/{boardName}/catalog.json";
             var result = String.Empty;
-            try
-            {
-                var board = GetBoardDeserialized(boardName);
-                var builder = new StringBuilder();
-                builder.AppendLine("Доска: " + board.BoardName + Environment.NewLine);
 
-                for (int i = 0; i < 5; i++)
-                {
-                    var thread = board.Threads[i];
-
-                    builder.AppendLine("Тема: " + ((thread.Comment.Length < 300) ? thread.Comment : thread.Subject));
-                    builder.AppendLine("Количество постов: " + board.Threads[i].PostsCount + Environment.NewLine);
-                }
-
-                result = builder.ToString();
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e);
-            }
-
-        return result;
-        }
-
-        SosachBoard GetBoardDeserialized(string boardName)
-        {
             using (var client = new System.Net.WebClient())
             {
-                client.Encoding = Encoding.UTF8;
-                var jsonText = client.DownloadString(GetUrl(boardName));
-                var board = JsonConvert.DeserializeObject<SosachBoard>(jsonText);
-                return board;
+                try
+                {
+                    client.Encoding = Encoding.UTF8;
+                    var jsonText = client.DownloadString(url);
+
+                    var board = JsonConvert.DeserializeObject<SosachBoard>(jsonText);
+
+                    var builder = new StringBuilder();
+                    builder.AppendLine("Доска: " + board.BoardName + Environment.NewLine);
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var thread = board.Threads[i];
+
+                        builder.AppendLine("Тема: " + ((thread.Comment.Length < 300) ? thread.Comment : thread.Subject));
+                        builder.AppendLine("Количество постов: " + board.Threads[i].PostsCount + Environment.NewLine);
+                    }
+
+                    result = builder.ToString();
+                }
+                catch (Exception e)
+                {
+                    Logger.Log(LogLevel.Error, e);
+                }
             }
+
+            return result;
         }
 
         public static bool CheckBoardName(string boardName)
@@ -88,8 +85,5 @@ namespace TelegramBot
 
         [JsonProperty("posts_count")]
         public int PostsCount { get; set; }
-
-        [JsonProperty("task")]
-        public int Post { get; set; } 
     }
 }

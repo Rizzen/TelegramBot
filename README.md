@@ -6,16 +6,10 @@ See dev branch
 ## Demo
 
 ```C#
-static void Main()
+static void Main(string[] args)
 {
-    Demo();
-    while (Console.ReadLine != "stop") { }
+    var bot = Kernel.Get<IBot>();
+    Task.WaitAll(bot.Start());
 }
 
-static async void Demo()
-{
-    var bot = new NyaBot("ApiToken");
-    var me = await bot.GetMeAsync();
-    Console.WriteLine($"FirstName: {me.FirstName}");
-}
 ```

@@ -7,14 +7,15 @@
 
 using System;
 using System.Collections.Generic;
+using TelegramBot.API.Models;
 
 namespace TelegramBot
 {
     public class BotHelper
     {
-        readonly string botName;
+        readonly string _botName;
 
-        Dictionary<int, DateTime> lastMessageTime;
+        Dictionary<int, DateTime> _lastMessageTime;
 
 
         /// <summary>
@@ -23,9 +24,9 @@ namespace TelegramBot
         /// <param name="botName">Короткое имя бота @testBot</param>
         public BotHelper(string botName)
         {
-            this.botName = (botName.StartsWith("@", StringComparison.Ordinal) && botName.Length > 1) ?
+            this._botName = (botName.StartsWith("@", StringComparison.Ordinal) && botName.Length > 1) ?
                 botName.Substring(1) : botName;
-            lastMessageTime = new Dictionary<int, DateTime>();
+            _lastMessageTime = new Dictionary<int, DateTime>();
         }
 
         /// <summary>
@@ -34,18 +35,18 @@ namespace TelegramBot
         /// <returns><c>true</c>, если команда разрашена, <c>false</c> если команда запрещена.</returns>
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="timeInSecs">Время в секундах.</param>
-        public bool CheckTime(int userId, int timeInSecs = 0)
+        public bool CheckTime(int userId, int timeInSecs = 10)
         {
-            if (!lastMessageTime.ContainsKey(userId))
+            if (!_lastMessageTime.ContainsKey(userId))
             {
-                lastMessageTime.Add(userId, DateTime.Now);
+                _lastMessageTime.Add(userId, DateTime.Now);
                 return true;
             }
 
             var updateTime = DateTime.Now;
-            if ((updateTime - lastMessageTime[userId]).TotalSeconds >= timeInSecs)
+            if ((updateTime - _lastMessageTime[userId]).TotalSeconds >= timeInSecs)
             {
-                lastMessageTime[userId] = updateTime;
+                _lastMessageTime[userId] = updateTime;
                 return true;
             }
 
@@ -71,7 +72,7 @@ namespace TelegramBot
             if (cmdText.Contains("@"))
             {
                 var split = cmdText.Split('@');
-                if (!String.Equals(split[1] ?? "", botName, StringComparison.OrdinalIgnoreCase))
+                if (!String.Equals(split[1] ?? "", _botName, StringComparison.OrdinalIgnoreCase))
                 {
                     return false;
                 }
@@ -112,13 +113,13 @@ namespace TelegramBot
         /// Возвращает клавиатуру из указанных рядов кнопок.
         /// </summary>
         /// <returns>Клавиатура.</returns>
-        /// <param name="ButtonRows">Ряды из кнопок.</param>
-        internal static API_Classes.KeyboardButton[][] BuildKeyboard(params API_Classes.KeyboardButton[][] ButtonRows)
+        /// <param name="buttonRows">Ряды из кнопок.</param>
+        internal static KeyboardButton[][] BuildKeyboard(params KeyboardButton[][] buttonRows)
         {
-            var result = new API_Classes.KeyboardButton[ButtonRows.Length][];
-            for (int i = 0; i < ButtonRows.Length; i++)
+            var result = new KeyboardButton[buttonRows.Length][];
+            for (int i = 0; i < buttonRows.Length; i++)
             {
-                result[i] = ButtonRows[i];
+                result[i] = buttonRows[i];
             }
 
             return result;
@@ -128,16 +129,16 @@ namespace TelegramBot
         /// Возвращает кнопки с указанными заголовками.
         /// </summary>
         /// <returns>Кнопки для клавиатуры.</returns>
-        /// <param name="Captions">Заголовки кнопок.</param>
-        internal static API_Classes.KeyboardButton[] BuildButtonsRow(params string[] Captions)
+        /// <param name="captions">Заголовки кнопок.</param>
+        internal static KeyboardButton[] BuildButtonsRow(params string[] captions)
         {
-            var result = new API_Classes.KeyboardButton[Captions.Length];
+            var result = new KeyboardButton[captions.Length];
 
-            for (int i = 0; i < Captions.Length; i++)
+            for (int i = 0; i < captions.Length; i++)
             {
-                result[i] = new API_Classes.KeyboardButton
+                result[i] = new KeyboardButton
                 {
-                    Text = Captions[i]
+                    Text = captions[i]
                 };
             }
 

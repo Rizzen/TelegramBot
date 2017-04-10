@@ -3,14 +3,14 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading;
-using TelegramBot.API_Classes;
+using TelegramBot.API.Models;
 
 namespace TelegramBot
 {
     public class JoeBot
     {
-        const string URI = @"https://api.telegram.org/bot";
-        const string TOKEN = @"338653456:AAG1qOkwffo7YGkYdNNlF5d2MH-U09Wqoro";
+        const string Uri = @"https://api.telegram.org/bot";
+        const string Token = @"338653456:AAG1qOkwffo7YGkYdNNlF5d2MH-U09Wqoro";
         const string GET_UPDATES = @"/getUpdates";
         const string SEND_MESSAGE = @"/sendMessage";
 
@@ -44,7 +44,7 @@ namespace TelegramBot
         private void GetUpdates()
         {
             var reqParams = _offset > 0 ? $"?timeout=1&offset={_offset}" : "?timeout=1";
-            var webReq = WebRequest.Create($"{URI}{TOKEN}{GET_UPDATES}{reqParams}");
+            var webReq = WebRequest.Create($"{Uri}{Token}{GET_UPDATES}{reqParams}");
             webReq.Timeout = 3000;
             Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
             var webResp = webReq.GetResponse();
@@ -93,7 +93,7 @@ namespace TelegramBot
             if (_offset > 0)
             {
                 var reqParams = _offset > 0 ? $"?timeout=1&offset={_offset}" : "?timeout=1";
-                var webReq = WebRequest.Create($"{URI}{TOKEN}{GET_UPDATES}{reqParams}");
+                var webReq = WebRequest.Create($"{Uri}{Token}{GET_UPDATES}{reqParams}");
                 Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
                 var webResp = webReq.GetResponse();
                 var response = ParseRequest(webResp);
@@ -144,7 +144,7 @@ namespace TelegramBot
         {
             try
             {
-                var webReq = WebRequest.Create($"{URI}{TOKEN}{SEND_MESSAGE}?chat_id={chat}&text={text}");
+                var webReq = WebRequest.Create($"{Uri}{Token}{SEND_MESSAGE}?chat_id={chat}&text={text}");
                 webReq.Timeout = 3000;
                 webReq.Method = "POST";
                 Console.WriteLine($"Request {webReq.RequestUri.ToString()} sent");
