@@ -5,7 +5,7 @@ namespace TelegramBot.API
     /// <summary>
     /// This object represents a message.
     /// </summary>
-    public class Message
+    internal class Message
     {
 
         /// <summary>

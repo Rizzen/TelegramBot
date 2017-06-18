@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API
 {
-    public class User
+    internal class User
     {
         /// <summary>
         /// Unique identifier for this user or bot

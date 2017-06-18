@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API.Payments
 {
-    class OrderInfo
+    internal class OrderInfo
     {
         /// <summary>
         /// Optional. User name

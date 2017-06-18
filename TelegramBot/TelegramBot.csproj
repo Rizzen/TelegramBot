@@ -47,8 +47,13 @@
   <ItemGroup>
     <Compile Include="API\Chat.cs" />
     <Compile Include="API\Message.cs" />
+    <Compile Include="API\Payments\Invoice.cs" />
+    <Compile Include="API\Payments\LabeledPrice.cs" />
     <Compile Include="API\Payments\OrderInfo.cs" />
+    <Compile Include="API\Payments\PreCheckoutQuery.cs" />
     <Compile Include="API\Payments\ShippingAddress.cs" />
+    <Compile Include="API\Payments\ShippingOption.cs" />
+    <Compile Include="API\Payments\ShippingQuery.cs" />
     <Compile Include="API\Payments\SuccessfulPayment.cs" />
     <Compile Include="API\User.cs" />
     <Compile Include="Program.cs" />

@@ -2,7 +2,7 @@
 
 namespace TelegramBot.API.Payments
 {
-    class ShippingAddress
+    internal class ShippingAddress
     {
         /// <summary>
         /// ISO 3166-1 alpha-2 country code
