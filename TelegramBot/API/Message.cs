@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using TelegramBot.API.Payments
 
 namespace TelegramBot.API
 {
@@ -214,5 +215,16 @@ namespace TelegramBot.API
         [JsonProperty("pinned_message")]
         internal Message PinnedMessage { get; set; }
 
+        /// <summary>
+        /// Optional. Message is an invoice for a payment, information about the invoice.
+        /// </summary>
+        [JsonProperty("invoice")]
+        internal Invoice Invoice { get; set; }
+
+        /// <summary>
+        /// Optional. Message is a service message about a successful payment, information about the payment. 
+        /// </summary>
+        [JsonProperty("successful_payment")]
+        internal SuccessfulPayment SuccessfulPayment { get; set; }
     }
 }
