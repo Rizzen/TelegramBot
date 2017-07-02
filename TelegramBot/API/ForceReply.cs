@@ -12,7 +12,7 @@ namespace TelegramBot.API
         /// Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
         /// </summary>
         [JsonProperty("force_reply")]
-        internal bool ForceReply { get; set; }
+        internal bool forceReply { get; set; }
 
         /// <summary>
         /// Optional. Use this parameter if you want to force reply from specific users only. 

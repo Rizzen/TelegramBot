@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using TelegramBot.API.Payments
+using TelegramBot.API.Payments;
 
 namespace TelegramBot.API
 {

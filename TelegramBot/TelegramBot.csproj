@@ -80,8 +80,10 @@
     <Compile Include="API\PhotoSize.cs" />
     <Compile Include="API\ReplyKeyboardMarkup.cs" />
     <Compile Include="API\ReplyKeyboardRemove.cs" />
+    <Compile Include="API\Responce.cs" />
     <Compile Include="API\ResponseParameters.cs" />
     <Compile Include="API\Sticker.cs" />
+    <Compile Include="API\Update.cs" />
     <Compile Include="API\User.cs" />
     <Compile Include="API\UserProfilePhotos.cs" />
     <Compile Include="API\Venue.cs" />
