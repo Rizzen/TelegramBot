@@ -8,52 +8,77 @@ using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.API;
 using Newtonsoft.Json;
+using Ninject;
 
 namespace TelegramBot
 {
-    class SimpleBot
+    [Obsolete]
+    internal class SimpleBot
     {
         const string TOKEN = @"437367398:AAEE6VZNK7LOEBcyJiKpR2_o6LMGGUSTyV8";
         const string URI = @"https://api.telegram.org/bot";
         const string GETUPDATES = @"/getUpdates";
 
+        private ApiClient _apiClient;
+
         private int _updateId = 0;
 
-        public void StartBot()
+        public SimpleBot()
+        {
+            _apiClient = new ApiClient(TOKEN);
+        }
+
+        public Task StartBot()
         {
             while (true)
             {
+                Task.Delay(1000);
                 GetUpdates();
-                Thread.Sleep(1000);
+                
             }
         }
 
 
         public void GetUpdates ()
         {
-            Console.WriteLine($"Update #{_updateId}");
-            var request = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={_updateId + 1}");
+            var request = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={_updateId+1}");
             var resp = (HttpWebResponse)request.GetResponse();
 
             var sReader = new StreamReader(resp.GetResponseStream());
 
-            string responsedJson = sReader.ReadToEnd();
-            
+            var responsedJson = sReader.ReadToEnd();
+
             try
             {
                 var currentUpdate = JsonConvert.DeserializeObject<Responce>(responsedJson);
-                string messageText = null;
-                foreach (var current in currentUpdate.Updates)
+                //for test
+                if (currentUpdate.Updates.Any())
                 {
-                    _updateId = current.UpdateId;
-                    messageText = current.Message.Text;
-                    Console.WriteLine(messageText);
+                    Console.WriteLine($"Update #{_updateId}");
+                
+                    foreach (var current in currentUpdate.Updates)
+                    {
+                        _updateId = current.UpdateId;
+                        string messageText;
+                        messageText = current.Message != null
+                            ? current.Message.Text
+                            : current.EditedMessage.Text;
+                        Console.WriteLine(messageText);
+                    }
                 }
-            }
+        }
             catch (Exception e)
             {
                 Console.WriteLine($"Update Failed {e.Message}");
             }
+        }
+
+        public async Task GetUpdatesAsynс()
+        {
+            await Task.Run(() =>
+            {
+                GetUpdates();
+            });
         }
     }
 }

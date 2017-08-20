@@ -64,7 +64,7 @@ namespace TelegramBot.API
         internal int EditDate { get; set; }
 
         /// <summary>
-        /// Optional.For text messages, the actual UTF-8 text of the message, 0-4096 characters.
+        /// Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters.
         /// </summary>
         [JsonProperty("text")]
         internal string Text { get; set; }

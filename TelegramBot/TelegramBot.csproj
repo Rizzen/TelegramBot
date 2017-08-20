@@ -35,6 +35,12 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Animation.cs" />
+    <Compile Include="API\ApiClient.cs" />
     <Compile Include="API\Audio.cs" />
     <Compile Include="API\CallbackGame.cs" />
     <Compile Include="API\CallbackQuery.cs" />
@@ -90,9 +97,14 @@
     <Compile Include="API\Video.cs" />
     <Compile Include="API\VideoNote.cs" />
     <Compile Include="API\Voice.cs" />
+    <Compile Include="Bot\BotImpl.cs" />
+    <Compile Include="Bot\IBot.cs" />
+    <Compile Include="Bot\Types\UpdatesRequest.cs" />
+    <Compile Include="Bot\Updates\UpdateProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />
+    <Compile Include="Utils\NewtonsoftJsonSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
