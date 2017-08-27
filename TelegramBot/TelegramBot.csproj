@@ -101,6 +101,10 @@
     <Compile Include="Bot\IBot.cs" />
     <Compile Include="Bot\Types\UpdatesRequest.cs" />
     <Compile Include="Bot\Updates\UpdateProvider.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogLevelExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />

@@ -15,13 +15,13 @@ namespace TelegramBot.API
     /// <summary>Providing API requests</summary>
     public class ApiClient
     {
-        private readonly string baseApiAdress = "https://api.telegram.org/bot";
+        private const string BaseApiAdress = "https://api.telegram.org/bot";
 
         private readonly IRestClient _client;
 
         public ApiClient(string token)
         {
-            _client = new RestClient($"{baseApiAdress}{token}");
+            _client = new RestClient($"{BaseApiAdress}{token}");
         }
 
         /// <summary> Calling specified method</summary>
@@ -38,7 +38,7 @@ namespace TelegramBot.API
             return Post<TResult>(request);
         }
 
-       /// <summary> Providing POST request throw RESTSharp </summary>
+       /// <summary> Providing POST request using RESTSharp </summary>
         private async Task<TResult> Post<TResult>(IRestRequest request)
         {
             var responce = await _client.ExecutePostTaskAsync(request);

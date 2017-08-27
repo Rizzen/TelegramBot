@@ -9,7 +9,7 @@ using RestSharp.Serializers;
 
 namespace TelegramBot.Utils
 {
-    /// <summary> ISerializer baseb on Newtonsoft.Json </summary>
+    /// <summary> ISerializer based on Newtonsoft.Json </summary>
     public class NewtonsoftJsonSerializer: ISerializer
     {
         private readonly Newtonsoft.Json.JsonSerializer _serializer;

@@ -19,7 +19,6 @@ namespace TelegramBot
             Task.WaitAll(bot.Start());
             //var simpleBot = new SimpleBot();
             //simpleBot.StartBot();
-
         }
 
     }
