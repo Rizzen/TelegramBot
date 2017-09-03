@@ -7,9 +7,9 @@ See dev branch
 
 ```C#
 static void Main()
-    {
-        var api = new ApiClient("437367398:AAEE6VZNK7LOEBcyJiKpR2_o6LMGGUSTyV8");
-        var bot = new BotImpl(api, new UpdateProvider(api));
-        Task.WaitAll(bot.Start());
-    }
+{
+    var api = new ApiClient("YOURBOTKEY");
+    var bot = new BotImpl(api, new UpdateProvider(api));
+    Task.WaitAll(bot.Start());
+}
 ```
