@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TelegramBot.API;
+using TelegramBot.API.Args;
 using TelegramBot.Bot.Updates;
 using TelegramBot.Logging;
+
 
 namespace TelegramBot.Bot
 {
@@ -30,7 +32,6 @@ namespace TelegramBot.Bot
         {
             IsRunning = true;
             await UpdateRoutine();
-            //Console.ReadLine();
         }
 
         public void Stop()
@@ -58,10 +59,17 @@ namespace TelegramBot.Bot
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    ProcessException(e);
                 }
             }
+        }
+
+        //private async Task ProcessMessage ()
+        
+        private void ProcessException(Exception ex)
+        {
+            IsRunning = false;
+            _logger?.Log(LogLevel.Fatal, ex.Message);
         }
     }
 }
