@@ -20,6 +20,7 @@ namespace TelegramBot.Bot.Replies
                 Keyboard = buttons
             };
         }
+
         public TResult AcceptVisitor<TArgs, TResult>(IReplyVisitor<TArgs, TResult> visitor, TArgs args)
         {
             return visitor.VisitButtons(this, args);

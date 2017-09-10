@@ -33,8 +33,6 @@ namespace TelegramBot
                 var myVar = (ConsoleLogger)kernel.Get(type);
                 Console.WriteLine(myVar.ToString());
             }*/
-
-
             Console.ReadLine();
         }
 

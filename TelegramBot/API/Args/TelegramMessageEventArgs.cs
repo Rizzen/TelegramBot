@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TelegramBot.API;
 
 namespace TelegramBot.API.Args
 {
-    internal class TelegramMessageEventArgs: EventArgs
+    public class TelegramMessageEventArgs: EventArgs
     {
         public long ChatId { get; set; }
         public int MessageId { get; set; }

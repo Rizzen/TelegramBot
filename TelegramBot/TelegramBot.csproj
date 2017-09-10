@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="API\Animation.cs" />
     <Compile Include="API\ApiClient.cs" />
+    <Compile Include="API\Args\TelegramMessageEventArgs.cs" />
     <Compile Include="API\Audio.cs" />
     <Compile Include="API\CallbackGame.cs" />
     <Compile Include="API\CallbackQuery.cs" />
@@ -98,7 +99,19 @@
     <Compile Include="API\VideoNote.cs" />
     <Compile Include="API\Voice.cs" />
     <Compile Include="Bot\BotImpl.cs" />
+    <Compile Include="Bot\Commands\Command.cs" />
+    <Compile Include="Bot\Commands\CommandInvoker.cs" />
+    <Compile Include="Bot\Commands\ICommandInvoker.cs" />
     <Compile Include="Bot\IBot.cs" />
+    <Compile Include="Bot\Replies\ButtonsReply.cs" />
+    <Compile Include="Bot\Replies\DocumentReply.cs" />
+    <Compile Include="Bot\Replies\ImageReply.cs" />
+    <Compile Include="Bot\Replies\IReply.cs" />
+    <Compile Include="Bot\Replies\IReplySender.cs" />
+    <Compile Include="Bot\Replies\IReplyVisitor.cs" />
+    <Compile Include="Bot\Replies\ReplySender.cs" />
+    <Compile Include="Bot\Replies\TextReply.cs" />
+    <Compile Include="Bot\Replies\VideoReply.cs" />
     <Compile Include="Bot\Types\UpdatesRequest.cs" />
     <Compile Include="Bot\Updates\UpdateProvider.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
