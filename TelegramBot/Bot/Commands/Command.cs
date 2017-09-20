@@ -18,6 +18,6 @@ namespace TelegramBot.Bot.Commands
             //There can be placed special invoke logic
             IEnumerable<IReply> result = await OnInvoke(args);
             return result;
-        } 
+        }
     }
 }
