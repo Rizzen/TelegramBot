@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ninject;
-using Ninject.Syntax;
 using TelegramBot.API;
 using TelegramBot.Bot;
 using TelegramBot.Bot.Updates;
@@ -33,6 +32,7 @@ namespace TelegramBot
                 var myVar = (ConsoleLogger)kernel.Get(type);
                 Console.WriteLine(myVar.ToString());
             }*/
+            
             Console.ReadLine();
         }
 

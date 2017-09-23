@@ -20,7 +20,9 @@ namespace TelegramBot.Bot
         private readonly IReplySender _replySender;
 
         private readonly ILogger _logger;
-             
+        private ApiClient api;
+        private UpdateProvider updateProvider;
+
         public BotImpl(ApiClient api, UpdateProvider updateProvider, ICommandInvoker invoker, IReplySender replySender)
         {
             _api = api;

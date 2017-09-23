@@ -37,8 +37,8 @@ namespace TelegramBot.Bot.Commands
         private static IEnumerable<Command> GetCommands(IResolutionRoot kernel)
         {
             var types = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => typeof(Command).IsAssignableFrom(t) && !t.IsAbstract);
+                                .GetTypes()
+                                .Where(t => typeof(Command).IsAssignableFrom(t) && !t.IsAbstract);
             foreach (var commandType in types)
             {
                 yield return (Command) kernel.Get(commandType);

@@ -24,27 +24,77 @@ namespace TelegramBot.API
             _client = new RestClient($"{BaseApiAdress}{token}");
         }
 
-        /// <summary> Calling specified method</summary>
+        /// <summary>Calling specified method</summary>
         public Task<TResult> SendRequestAsync<TResult>(string method, object obj = null)
         {
             var request = new RestRequest(method, Method.POST) {RequestFormat = DataFormat.Json};
             if (obj != null)
             {
                 request.AddHeader("Content-type", "application/json");
-                request.JsonSerializer = NewtonsoftJsonSerializer.Default;
                 request.AddBody(obj);
+                request.JsonSerializer = NewtonsoftJsonSerializer.Default;
             }
             
             return Post<TResult>(request);
         }
 
-       /// <summary> Providing POST request using RESTSharp </summary>
+        /// <summary>Sending Photo</summary>
+        public Task<TResult> SendPhoto<TResult>(long chatId, byte[] imageBytes, string caption = null)
+        {
+            var request = new RestRequest("sendPhoto")
+            {
+                RequestFormat = DataFormat.Json,
+                Method = Method.POST
+            }
+            .AddHeader("Content-Type", "multipart/form-data")
+            .AddParameter("chat_id", chatId)
+            .AddFile("photo", imageBytes, "imageFile");
+
+            if (caption != null)
+            {
+                request.AddParameter("caption", caption);
+            }
+
+            return Post<TResult>(request);
+        }
+
+        /// <summary>Sending Video</summary>
+        public Task<TResult> SendVideo<TResult>(long chatId, byte[] videoBytes)
+        {
+            var request = new RestRequest("sendVideo")
+            {
+                RequestFormat = DataFormat.Json,
+                Method = Method.POST
+            }
+            .AddHeader("Content-Type", "multipart/form-data")
+            .AddParameter("chat_id", chatId)
+            .AddFile("video", videoBytes, "videoFile");
+
+            return Post<TResult>(request);
+        }
+
+        /// <summary>Sendind Document</summary>
+        public Task<TResult> SendDocument<TResult>(long chatId, byte[] docBytes)
+        {
+            var request = new RestRequest("sendVideo")
+            {
+                RequestFormat = DataFormat.Json,
+                Method = Method.POST
+            }
+            .AddHeader("Content-Type", "multipart/form-data")
+            .AddParameter("chat_id", chatId)
+            .AddFile("document", docBytes, "file");
+            //TODO add ext method "AddIfNotNull" and add here other optional params from Document Class
+
+            return Post<TResult>(request);
+        }
+
+        /// <summary> Providing POST request using RESTSharp </summary>
         private async Task<TResult> Post<TResult>(IRestRequest request)
         {
             var responce = await _client.ExecutePostTaskAsync(request);
 
-            var result = JsonConvert.DeserializeObject<TResult>(responce.Content);
-            return result;
+            return JsonConvert.DeserializeObject<TResult>(responce.Content);
         }
     }
 }
