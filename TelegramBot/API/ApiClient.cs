@@ -22,17 +22,19 @@ namespace TelegramBot.API
         public ApiClient(string token)
         {
             _client = new RestClient($"{BaseApiAdress}{token}");
+            
         }
 
         /// <summary>Calling specified method</summary>
         public Task<TResult> SendRequestAsync<TResult>(string method, object obj = null)
         {
             var request = new RestRequest(method, Method.POST) {RequestFormat = DataFormat.Json};
+
             if (obj != null)
             {
+                request.JsonSerializer = NewtonsoftJsonSerializer.Default;
                 request.AddHeader("Content-type", "application/json");
                 request.AddBody(obj);
-                request.JsonSerializer = NewtonsoftJsonSerializer.Default;
             }
             
             return Post<TResult>(request);

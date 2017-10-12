@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Ninject;
 using TelegramBot.API;
 using TelegramBot.Bot;
+using TelegramBot.Bot.Commands;
+using TelegramBot.Bot.Replies;
 using TelegramBot.Bot.Updates;
 using TelegramBot.Logging;
 
@@ -18,7 +20,7 @@ namespace TelegramBot
         static void Main()
         {
             var api = new ApiClient("437367398:AAEE6VZNK7LOEBcyJiKpR2_o6LMGGUSTyV8");
-            var bot = new BotImpl(api, new UpdateProvider(api));
+            var bot = new BotImpl(api, new UpdateProvider(api), new CommandInvoker(new StandardKernel()), new ReplySender(api));
             Task.WaitAll(bot.Start());
             //var simpleBot = new SimpleBot();
             //simpleBot.StartBot();
