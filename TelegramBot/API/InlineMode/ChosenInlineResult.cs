@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using TelegramBot.API.Types;
 
 namespace TelegramBot.API.InlineMode
 {

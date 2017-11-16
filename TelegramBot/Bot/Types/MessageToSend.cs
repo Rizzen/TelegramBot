@@ -10,7 +10,7 @@ namespace TelegramBot.Bot.Types
     internal class MessageToSend
     {
         [JsonProperty("chat_id")]
-        public string ChatId { get; set; }
+        public long ChatId { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

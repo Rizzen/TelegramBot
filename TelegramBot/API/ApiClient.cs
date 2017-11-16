@@ -8,11 +8,13 @@ using System.Net.Http;
 using RestSharp;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using TelegramBot.API.Types;
 using TelegramBot.Utils;
+using MessageToSend = TelegramBot.Bot.Types.MessageToSend;
 
 namespace TelegramBot.API
 {
-    /// <summary>Providing API requests</summary>
+    /// <summary>Provides requests through API</summary>
     public class ApiClient
     {
         private const string BaseApiAdress = "https://api.telegram.org/bot";
@@ -22,10 +24,20 @@ namespace TelegramBot.API
         public ApiClient(string token)
         {
             _client = new RestClient($"{BaseApiAdress}{token}");
-            
         }
 
-        /// <summary>Calling specified method</summary>
+
+        public Task<TResult> SendMessageAsync<TResult>(string message, long chatId)
+        {
+            var messageToSend = new MessageToSend
+            {
+                ChatId = chatId,
+                Text = message
+            };
+            return SendRequestAsync<TResult>("sendMessage", messageToSend);
+        }
+
+        /// <summary>Calls specified method</summary>
         public Task<TResult> SendRequestAsync<TResult>(string method, object obj = null)
         {
             var request = new RestRequest(method, Method.POST) {RequestFormat = DataFormat.Json};
@@ -40,7 +52,7 @@ namespace TelegramBot.API
             return Post<TResult>(request);
         }
 
-        /// <summary>Sending Photo</summary>
+        /// <summary>Sends Photo</summary>
         public Task<TResult> SendPhoto<TResult>(long chatId, byte[] imageBytes, string caption = null)
         {
             var request = new RestRequest("sendPhoto")
@@ -60,7 +72,7 @@ namespace TelegramBot.API
             return Post<TResult>(request);
         }
 
-        /// <summary>Sending Video</summary>
+        /// <summary>Sends Video</summary>
         public Task<TResult> SendVideo<TResult>(long chatId, byte[] videoBytes)
         {
             var request = new RestRequest("sendVideo")
@@ -75,7 +87,7 @@ namespace TelegramBot.API
             return Post<TResult>(request);
         }
 
-        /// <summary>Sendind Document</summary>
+        /// <summary>Sends Document</summary>
         public Task<TResult> SendDocument<TResult>(long chatId, byte[] docBytes)
         {
             var request = new RestRequest("sendVideo")
@@ -91,12 +103,23 @@ namespace TelegramBot.API
             return Post<TResult>(request);
         }
 
+        public Task<bool> SetWebHook(string uri = "", int maxConnections = 40)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "uri", uri},
+                { "max_connections", maxConnections}
+            };
+
+            return SendRequestAsync<bool>("setWebhook", parameters);
+        }
+
         /// <summary> Providing POST request using RESTSharp </summary>
         private async Task<TResult> Post<TResult>(IRestRequest request)
         {
             var responce = await _client.ExecutePostTaskAsync(request);
 
-            return JsonConvert.DeserializeObject<TResult>(responce.Content);
+            return JsonConvert.DeserializeObject<ApiResponce<TResult>>(responce.Content).ResultObject;
         }
     }
 }

@@ -24,9 +24,9 @@ namespace TelegramBot.Bot.Replies
 
         public Task VisitText(TextReply reply, long chatId)
         {
-            return _client.SendRequestAsync<object>("send_message", new MessageToSend
+            return _client.SendRequestAsync<object>("sendMessage", new MessageToSend
             {
-                ChatId = chatId.ToString(),
+                ChatId = chatId,
                 DisableNotification = false,
                 DisableWebPagePreview = false,
                 ReplyToMessageId = 0,
@@ -48,7 +48,7 @@ namespace TelegramBot.Bot.Replies
         {
             return _client.SendRequestAsync<object>("sendMessage", new MessageToSend
             {
-                ChatId = chatId.ToString(),
+                ChatId = chatId,
                 DisableNotification = false,
                 DisableWebPagePreview = false,
                 ReplyToMessageId = 0,

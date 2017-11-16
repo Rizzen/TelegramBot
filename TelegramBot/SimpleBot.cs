@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using TelegramBot.API;
 using Newtonsoft.Json;
+using TelegramBot.API.Types;
 
 namespace TelegramBot
 {

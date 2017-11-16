@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TelegramBot.API;
+using TelegramBot.API.Types;
 
 namespace TelegramBot.API.Args
 {

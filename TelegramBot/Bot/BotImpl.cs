@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TelegramBot.API;
 using TelegramBot.API.Args;
+using TelegramBot.API.Types;
 using TelegramBot.Bot.Commands;
 using TelegramBot.Bot.Replies;
 using TelegramBot.Bot.Updates;
@@ -20,8 +21,6 @@ namespace TelegramBot.Bot
         private readonly IReplySender _replySender;
 
         private readonly ILogger _logger;
-        private ApiClient api;
-        private UpdateProvider updateProvider;
 
         public BotImpl(ApiClient api, UpdateProvider updateProvider, ICommandInvoker invoker, IReplySender replySender)
         {
@@ -32,6 +31,13 @@ namespace TelegramBot.Bot
 
             //это должно инжектиться
             _logger = new ConsoleLogger();
+        }
+
+        public async void SendMessage(string message, long chatId)
+        {
+            var m = await _api.SendMessageAsync<Message>(message, chatId);
+
+            Console.WriteLine(m?.Text);
         }
 
         public async Task Start()
@@ -60,7 +66,10 @@ namespace TelegramBot.Bot
                     foreach (var update in updates)
                     {
                         if (update.Message != null)
-                            _logger.Log(LogLevel.Message, update.Message.Text);
+                        {
+                            var str = $"{update.Message.From.Id}: {update.Message.Text}";
+                            _logger.Log(LogLevel.Message, str);
+                        }
                     }
                 }
                 catch (Exception e)
