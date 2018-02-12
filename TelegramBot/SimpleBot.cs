@@ -1,56 +1,82 @@
 ﻿using System;
-using System.IO;
+using System.Linq;
 using System.Net;
-using TelegramBot.API_Classes;
+using System.IO;
+using System.Threading.Tasks;
+using TelegramBot.API;
+using Newtonsoft.Json;
+using TelegramBot.API.Types;
 
 namespace TelegramBot
 {
-    class SimpleBot
+    [Obsolete]
+    internal class SimpleBot
     {
-        const string TOKEN = @"375416144:AAHDLsJ_0MOow-u_LbwdWqRvfB4uyRByryQ";
+        const string TOKEN = @"437367398:AAEE6VZNK7LOEBcyJiKpR2_o6LMGGUSTyV8";
         const string URI = @"https://api.telegram.org/bot";
         const string GETUPDATES = @"/getUpdates";
 
+        private ApiClient _apiClient;
+
         private int _updateId = 0;
 
-        public void StartBot()
+        public SimpleBot()
+        {
+            _apiClient = new ApiClient(TOKEN);
+        }
+
+        public Task StartBot()
         {
             while (true)
             {
+                Task.Delay(1000);
                 GetUpdates();
-                System.Threading.Thread.Sleep(1000);
+                
             }
         }
 
-        void GetUpdates()
+
+        public void GetUpdates ()
         {
-            Console.WriteLine($"Обновление: {_updateId}");
-            var req = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={(_updateId + 1)}");
-            var resp = (HttpWebResponse)req.GetResponse();
+            var request = (HttpWebRequest)WebRequest.Create($"{URI}{TOKEN}{GETUPDATES}?offset={_updateId+1}");
+            var resp = (HttpWebResponse)request.GetResponse();
 
-            using (var sReader = new StreamReader(resp.GetResponseStream()))
+            var sReader = new StreamReader(resp.GetResponseStream());
+
+            var responsedJson = sReader.ReadToEnd();
+
+            try
             {
-                string responsedJson = sReader.ReadToEnd();
-
-                try
+                var currentUpdate = JsonConvert.DeserializeObject<Responce>(responsedJson);
+                //for test
+                if (currentUpdate.Updates.Any())
                 {
-                    var currentUpdate = Newtonsoft.Json.JsonConvert.DeserializeObject<Response>(responsedJson);
-                    string messageText = null;
+                    Console.WriteLine($"Update #{_updateId}");
+                
                     foreach (var current in currentUpdate.Updates)
                     {
                         _updateId = current.UpdateId;
-                        messageText = current.Message.Text;
-                        updateMessage(messageText); // Our sexy delegate
+                        string messageText;
+                        messageText = current.Message != null
+                            ? current.Message.Text
+                            : current.EditedMessage.Text;
+                        Console.WriteLine(messageText);
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Fail||{e.Message}");
-                }
+        }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Update Failed {e.Message}");
             }
         }
 
-        public event ControlMessages updateMessage;
+        public async Task GetUpdatesAsynс()
+        {
+            await Task.Run(() =>
+            {
+                GetUpdates();
+            });
+        }
     }
     internal delegate void ControlMessages(string message );
 }

@@ -8,9 +8,25 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TelegramBot</RootNamespace>
     <AssemblyName>TelegramBot</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,12 +49,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>packages\Ninject.4.0.0-beta-0134\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.1.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.106.1.0-alpha0038\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,74 +84,93 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API Classes\GameFolder\Animation.cs" />
-    <Compile Include="API Classes\Audio.cs" />
-    <Compile Include="API Classes\GameFolder\CallbackGame.cs" />
-    <Compile Include="API Classes\CallbackQuery.cs" />
-    <Compile Include="API Classes\Chat.cs" />
-    <Compile Include="API Classes\ChatMember.cs" />
-    <Compile Include="API Classes\Contact.cs" />
-    <Compile Include="API Classes\Document.cs" />
-    <Compile Include="API Classes\File.cs" />
-    <Compile Include="API Classes\ForceReply.cs" />
-    <Compile Include="API Classes\GameFolder\Game.cs" />
-    <Compile Include="API Classes\Inline mode\ChosenInlineResult.cs" />
-    <Compile Include="API Classes\Inline mode\InlineQuery.cs" />
-    <Compile Include="API Classes\Inline mode\InputMessageContents\InputContactMessageContent.cs" />
-    <Compile Include="API Classes\Inline mode\InputMessageContents\InputLocationMessageContent.cs" />
-    <Compile Include="API Classes\Inline mode\InputMessageContents\InputMessageContent.cs" />
-    <Compile Include="API Classes\Inline mode\InputMessageContents\InputTextMessageContent.cs" />
-    <Compile Include="API Classes\Inline mode\InputMessageContents\InputVenueMessageContent.cs" />
-    <Compile Include="API Classes\InlineKeyboardButton.cs" />
-    <Compile Include="API Classes\InlineKeyboardMarkup.cs" />
-    <Compile Include="API Classes\KeyboardButton.cs" />
-    <Compile Include="API Classes\Location.cs" />
-    <Compile Include="API Classes\Message.cs" />
-    <Compile Include="API Classes\MessageEntity.cs" />
-    <Compile Include="API Classes\PhotoSize.cs" />
-    <Compile Include="API Classes\ReplyKeyboardMarkup.cs" />
-    <Compile Include="API Classes\ReplyKeyboardRemove.cs" />
-    <Compile Include="API Classes\Response.cs" />
-    <Compile Include="API Classes\ResponseParameters.cs" />
-    <Compile Include="API Classes\Sticker.cs" />
-    <Compile Include="API Classes\Update.cs" />
-    <Compile Include="API Classes\User.cs" />
-    <Compile Include="API Classes\UserProfilePhotos.cs" />
-    <Compile Include="API Classes\Venue.cs" />
-    <Compile Include="API Classes\Video.cs" />
-    <Compile Include="API Classes\Voice.cs" />
-    <Compile Include="FileDownloader.cs" />
-    <Compile Include="IlluminatiBot.cs" />
+    <Compile Include="API\Types\Animation.cs" />
+    <Compile Include="API\ApiClient.cs" />
+    <Compile Include="API\Args\TelegramMessageEventArgs.cs" />
+    <Compile Include="API\Types\ApiResponce.cs" />
+    <Compile Include="API\Types\Audio.cs" />
+    <Compile Include="API\Types\CallbackGame.cs" />
+    <Compile Include="API\Types\CallbackQuery.cs" />
+    <Compile Include="API\Types\Chat.cs" />
+    <Compile Include="API\Types\ChatMember.cs" />
+    <Compile Include="API\Types\Contact.cs" />
+    <Compile Include="API\Types\Document.cs" />
+    <Compile Include="API\Types\File.cs" />
+    <Compile Include="API\Types\ForceReply.cs" />
+    <Compile Include="API\Types\Game.cs" />
+    <Compile Include="API\Types\InlineKeyboardButton.cs" />
+    <Compile Include="API\Types\InlineKeyboardMarkup.cs" />
+    <Compile Include="API\InlineMode\ChosenInlineResult.cs" />
+    <Compile Include="API\InlineMode\InlineQuery.cs" />
+    <Compile Include="API\InlineMode\InputMessageContents\InputContactMessageContent.cs" />
+    <Compile Include="API\InlineMode\InputMessageContents\InputLocationMessageContent.cs" />
+    <Compile Include="API\InlineMode\InputMessageContents\InputMessageContent.cs" />
+    <Compile Include="API\InlineMode\InputMessageContents\InputTextMessageContent.cs" />
+    <Compile Include="API\InlineMode\InputMessageContents\InputVenueMessageContent.cs" />
+    <Compile Include="API\Types\KeyboardButton.cs" />
+    <Compile Include="API\Types\Location.cs" />
+    <Compile Include="API\Types\Message.cs" />
+    <Compile Include="API\Types\MessageEntity.cs" />
+    <Compile Include="API\Payments\Invoice.cs" />
+    <Compile Include="API\Payments\LabeledPrice.cs" />
+    <Compile Include="API\Payments\OrderInfo.cs" />
+    <Compile Include="API\Payments\PreCheckoutQuery.cs" />
+    <Compile Include="API\Payments\ShippingAddress.cs" />
+    <Compile Include="API\Payments\ShippingOption.cs" />
+    <Compile Include="API\Payments\ShippingQuery.cs" />
+    <Compile Include="API\Payments\SuccessfulPayment.cs" />
+    <Compile Include="API\Types\MessageToSend.cs" />
+    <Compile Include="API\Types\PhotoSize.cs" />
+    <Compile Include="API\Types\ReplyKeyboardMarkup.cs" />
+    <Compile Include="API\Types\ReplyKeyboardRemove.cs" />
+    <Compile Include="API\Types\Responce.cs" />
+    <Compile Include="API\Types\ResponseParameters.cs" />
+    <Compile Include="API\Types\Sticker.cs" />
+    <Compile Include="API\Types\Update.cs" />
+    <Compile Include="API\Types\User.cs" />
+    <Compile Include="API\Types\UserProfilePhotos.cs" />
+    <Compile Include="API\Types\Venue.cs" />
+    <Compile Include="API\Types\Video.cs" />
+    <Compile Include="API\Types\VideoNote.cs" />
+    <Compile Include="API\Types\Voice.cs" />
+    <Compile Include="API\WebHook\WebhookInfo.cs" />
+    <Compile Include="Bot\BotImpl.cs" />
+    <Compile Include="Bot\Commands\Command.cs" />
+    <Compile Include="Bot\Commands\CommandInvoker.cs" />
+    <Compile Include="Bot\Commands\ICommandInvoker.cs" />
+    <Compile Include="Bot\IBot.cs" />
+    <Compile Include="Bot\Replies\ButtonsReply.cs" />
+    <Compile Include="Bot\Replies\DocumentReply.cs" />
+    <Compile Include="Bot\Replies\ImageReply.cs" />
+    <Compile Include="Bot\Replies\IReply.cs" />
+    <Compile Include="Bot\Replies\IReplySender.cs" />
+    <Compile Include="Bot\Replies\IReplyVisitor.cs" />
+    <Compile Include="Bot\Replies\ReplySender.cs" />
+    <Compile Include="Bot\Replies\TextReply.cs" />
+    <Compile Include="Bot\Replies\VideoReply.cs" />
+    <Compile Include="Bot\Types\MessageToSend.cs" />
+    <Compile Include="Bot\Types\UpdatesRequest.cs" />
+    <Compile Include="Bot\Updates\UpdateProvider.cs" />
+    <Compile Include="Logging\ConsoleLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogLevelExtension.cs" />
+    <Compile Include="Logging\PrivateChatLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleBot.cs" />
-    <Compile Include="JoeBot.cs" />
-    <Compile Include="BotHelper.cs" />
-    <Compile Include="NyaBot\Args\TelegramMessageEventArgs.cs" />
-    <Compile Include="NyaBot\Handlers\TelegramMessageHandler.cs" />
-    <Compile Include="NyaBot\Types\MessageToSend.cs" />
-    <Compile Include="NyaBot\Types\PhotoToSend.cs" />
-    <Compile Include="NyaBot\Types\StickerToSend.cs" />
-    <Compile Include="NyaBot\BotApiClient.cs" />
-    <Compile Include="NyaBot\NyaBot.cs" />
-    <Compile Include="Sosach.cs" />
-    <Compile Include="NyaBot\Types\ChatAction.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="NyaBot\Args\InlineQueryEventArgs.cs" />
-    <Compile Include="NyaBot\Handlers\InlineQueryHandler.cs" />
-    <Compile Include="NyaBot\Types\EditMessageData.cs" />
-    <Compile Include="NyaBot\Types\EditMarkupData.cs" />
-    <Compile Include="NyaBot\Args\CallbackQueryEventArgs.cs" />
-    <Compile Include="NyaBot\Handlers\CallbackQueryHandler.cs" />
-    <Compile Include="NyaBot\Types\UpdatesRequest.cs" />
-    <Compile Include="NyaBot\Types\ChatActionToSend.cs" />
-    <Compile Include="API Classes\ApiResponse.cs" />
+    <Compile Include="Utils\NewtonsoftJsonSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

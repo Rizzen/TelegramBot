@@ -8,14 +8,7 @@ See dev branch
 ```C#
 static void Main()
 {
-    Demo();
-    while (Console.ReadLine != "stop") { }
+    var api = new ApiClient("YOURBOTKEY");
+    var bot = new BotImpl(api, new UpdateProvider(api));
+    Task.WaitAll(bot.Start());
 }
-
-static async void Demo()
-{
-    var bot = new NyaBot("ApiToken");
-    var me = await bot.GetMeAsync();
-    Console.WriteLine($"FirstName: {me.FirstName}");
-}
-```
